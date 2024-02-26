@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold;
+  }
+  h2 {
+    @apply text-2xl font-bold;
+  }
+  h3 {
+    @apply text-xl font-bold;
+  }
+  h4 {
+    @apply text-lg font-bold;
+  }
+  h5 {
+    @apply text-base;
+  }
+  a {
+    @apply text-blue-600 underline;
+  }
+  p {
+    @apply font-light;
+  }
+}
+
+@layer utilities {
+  .link {
+    @apply text-[#0C21C1] no-underline hover:underline font-medium;
+  }
+
+  .inputField {
+    @apply border-b-[1px] border-b-primary-grey font-medium text-[#000842] outline-0 pr-2 py-1 placeholder-[#000842]
+		transition-all focus:border-b-primary;
+  }
+
+  .primaryButton {
+    @apply py-2 px-4 hover:bg-primary-hover transition-all bg-primary text-white;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Monument-Regular";
+  src: url("./assets/MonumentExtended-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Monument-Bold";
+  src: url("./assets/MonumentExtended-Ultrabold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Gilory-Regular";
+  src: url("./assets/Gilroy-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Gilory-Semibold";
+  src: url("./assets/Gilroy-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gilory-Heavy";
+  src: url("./assets/Gilroy-ExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Tomorrow-light";
+  src: url("./assets/Tomorrow-Light.ttf") format("truetype");
+}
+
+.monument-regular {
+  font-family: "Monument-Regular";
+}
+
+.monument-bold {
+  font-family: "Monument-Bold";
+}
+
+.gilory-regular {
+  font-family: "Gilory-Regular";
+}
+
+.gilory-semibold {
+  font-family: "Gilory-Semibold";
+}
+
+.gilory-heavy {
+  font-family: "Gilory-Heavy";
+}
+
+.tomorrow-light {
+  font-family: "Tomorrow-light";
+}
+
+.bg-PrupleImg {
+  background-image: url("./assets/homepage/purple-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: +100;
+  position: absolute;
+}
+
+.bg-Vector1 {
+  background-image: url("./assets/homepage/vectors/vector1.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.bg-Vector2 {
+  background-image: url("./assets/homepage/vectors/vector2.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.bg-Hero {
+  background-image: url("./assets/homepage/vectors/hero.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .footer-logo {
+    bottom: 0;
+  }
+}
