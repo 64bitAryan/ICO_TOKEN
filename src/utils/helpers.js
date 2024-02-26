@@ -10,3 +10,7 @@ export const parseAndTruncate = (amount) => {
   const a = ethers.formatEther(amount.toString());
   return Math.trunc(a * 100) / 100;
 };
+
+export const log = (message) => {
+  console.log(`--${message}--`);
+};
