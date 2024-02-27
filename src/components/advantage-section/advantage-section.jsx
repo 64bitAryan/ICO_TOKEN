@@ -77,7 +77,7 @@ const AdvantageSection = () => {
         </SwiperSlide>
 
         <SwiperSlide>
-          <div className="card bg-purple-card w-fit mx-auto rounded-xl p-5 w-fit border border-[#4a386a] backdrop-blur-sm px-10">
+          <div className="card bg-purple-card w-fit mx-auto rounded-xl p-5 border border-[#4a386a] backdrop-blur-sm px-10">
             <p className="text-white text-center monument-regular text-[1rem] p-2">
               Long-term passive income
             </p>
