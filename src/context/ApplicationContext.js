@@ -9,7 +9,7 @@ import {
   staking_address,
   usdt_address,
 } from "../utils/constants";
-import { toWei, log } from "../utils/helpers";
+import { toWei, log, parseAndTruncate } from "../utils/helpers";
 
 export const ApplicationContext = createContext();
 
@@ -20,6 +20,8 @@ console.log(ethereum);
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [currentChain, setCurrentChain] = useState("");
+  const [usdtbalance, setUsdtBalance] = useState(0);
+
   let signer,
     tokenContract,
     affiliateContract,
@@ -31,6 +33,7 @@ export const ApplicationProvider = ({ children }) => {
     setChain();
     checkIfWalletIsConnected();
     handleContracts();
+    getUsdtTokenBalance();
   });
 
   ethereum.on("accountsChanged", () => {
@@ -83,6 +86,17 @@ export const ApplicationProvider = ({ children }) => {
       return tx.hash;
     } catch (err) {
       log("Unable to approve token");
+      console.log(err);
+    }
+  };
+
+  const getUsdtTokenBalance = async () => {
+    try {
+      if (!currentAccount || !usdtContract) return;
+      const balance = await usdtContract.balanceOf(currentAccount);
+      setUsdtBalance(parseAndTruncate(balance));
+    } catch (err) {
+      log("Unable to get usdt token balance");
       console.log(err);
     }
   };
@@ -271,6 +285,7 @@ export const ApplicationProvider = ({ children }) => {
       value={{
         currentAccount,
         currentChain,
+        usdtbalance,
         connectWallet,
         changeNetwork,
         approveToken,

@@ -5,7 +5,7 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { zeroAddress } from "../../utils/constants";
 
 const HeroSection = () => {
-  const { getEthToUsdtRate, buyTokenUsingEth, buyTokens } =
+  const { getEthToUsdtRate, buyTokenUsingEth, buyTokens, usdtbalance } =
     useContext(ApplicationContext);
   const [animateForm, setAnimateForm] = useState(false);
   const [buyCurrency, setBuyCurrency] = useState("ETH");
@@ -215,7 +215,7 @@ const HeroSection = () => {
             <div className="flex flex-row  justify-center items-center mt-5 mb-5 md:mt-0 md:mb-0">
               <div>
                 <p className="text-center  md:leading-[58px] text-white md:text-[1rem] gilory-regular">
-                  USD balance 0
+                  {`USD balance ${usdtbalance}`}
                 </p>
               </div>
             </div>
