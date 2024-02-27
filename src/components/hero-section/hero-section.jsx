@@ -5,14 +5,28 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { zeroAddress } from "../../utils/constants";
 
 const HeroSection = () => {
-  const { getEthToUsdtRate, buyTokenUsingEth, buyTokens, usdtbalance } =
-    useContext(ApplicationContext);
+  const {
+    getEthToUsdtRate,
+    buyTokenUsingEth,
+    buyTokens,
+    usdtbalance,
+    currentAccount,
+    connectWallet,
+  } = useContext(ApplicationContext);
   const [animateForm, setAnimateForm] = useState(false);
   const [buyCurrency, setBuyCurrency] = useState("ETH");
   const [buyValue, setBuyValue] = useState(0);
   const [outAmount, setOutAmount] = useState(0);
 
   const inputRef = useRef(null);
+
+  const truncateHex = (hex) => {
+    const prefix = hex.slice(0, 2);
+    const body = hex.slice(2, 4);
+    const suffix = hex.slice(-3);
+
+    return `${prefix}${body}...${suffix}`;
+  };
 
   const handleAnimateForm = () => {
     setAnimateForm(true);
@@ -91,6 +105,21 @@ const HeroSection = () => {
               from it! This opportunity is open to everyone for a very
               limitedtime!!!!
             </p>
+
+            <div className="flex flex-row mt-5 mb-5 w-full  md:w-[60%] mr-auto">
+              <button
+                onClick={() => {
+                  connectWallet();
+                }}
+                className="btn w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white "
+              >
+                <p className=" text-xl gilory-semibold ">
+                  {currentAccount !== ""
+                    ? truncateHex(currentAccount)
+                    : "Connect Wallet"}{" "}
+                </p>
+              </button>
+            </div>
 
             <div className="flex flex-row mt-5 mb-5 w-full  md:w-[60%] mr-auto">
               <button

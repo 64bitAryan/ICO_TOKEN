@@ -243,7 +243,9 @@ export const ApplicationProvider = ({ children }) => {
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert("Install Metamask");
-      const accounts = await ethereum.request({ method: "eth_requestAccount" });
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
       setCurrentAccount(accounts[0]);
     } catch (err) {
       console.log(err);
