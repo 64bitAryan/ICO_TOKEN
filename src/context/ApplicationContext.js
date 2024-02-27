@@ -9,7 +9,7 @@ import {
   staking_address,
   usdt_address,
 } from "../utils/constants";
-import { toWei, log, parseAndTruncate } from "../utils/helpers";
+import { toWei, log } from "../utils/helpers";
 
 export const ApplicationContext = createContext();
 
@@ -20,7 +20,6 @@ console.log(ethereum);
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [currentChain, setCurrentChain] = useState("");
-  const [usdtbalance, setUsdtBalance] = useState(0);
 
   let signer,
     tokenContract,
@@ -30,10 +29,7 @@ export const ApplicationProvider = ({ children }) => {
     usdtContract;
 
   useEffect(() => {
-    setChain();
     checkIfWalletIsConnected();
-    handleContracts();
-    getUsdtTokenBalance();
   });
 
   ethereum.on("accountsChanged", () => {
@@ -47,10 +43,22 @@ export const ApplicationProvider = ({ children }) => {
     setCurrentChain(await ethereum.networkVersion);
   });
 
+  const setChain = async () => {
+    if (!ethereum) return alert("Install Metamask");
+    try {
+      setCurrentChain(await ethereum.networkVersion);
+    } catch (err) {
+      console.log(err);
+      throw new Error("No ethereum object found");
+    }
+  };
+  setChain();
+
   /* Functions */
   const handleContracts = async () => {
     const currentProvider = new ethers.BrowserProvider(ethereum);
     await currentProvider.send("eth_requestAccounts", []);
+
     signer = await currentProvider.getSigner();
     tokenContract = new ethers.Contract(token_address, tokenAbi.abi, signer);
     crowdsaleContract = new ethers.Contract(
@@ -65,6 +73,7 @@ export const ApplicationProvider = ({ children }) => {
     );
     usdtContract = new ethers.Contract(usdt_address, tokenAbi.abi, signer);
   };
+  // handleContracts();
 
   // Token functions //
   const approveUsdt = async (usdtAmount, approveTo) => {
@@ -86,17 +95,6 @@ export const ApplicationProvider = ({ children }) => {
       return tx.hash;
     } catch (err) {
       log("Unable to approve token");
-      console.log(err);
-    }
-  };
-
-  const getUsdtTokenBalance = async () => {
-    try {
-      if (!currentAccount || !usdtContract) return;
-      const balance = await usdtContract.balanceOf(currentAccount);
-      setUsdtBalance(parseAndTruncate(balance));
-    } catch (err) {
-      log("Unable to get usdt token balance");
       console.log(err);
     }
   };
@@ -213,29 +211,19 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   // Wallet functions //
-  const setChain = async () => {
-    if (!ethereum) return alert("Install Metamask");
-    try {
-      setCurrentChain(await ethereum.networkVersion);
-    } catch (err) {
-      console.log(err);
-      throw new Error("No ethereum object found");
-    }
-  };
-
   const checkIfWalletIsConnected = async () => {
     try {
-      if (!ethereum) return alert("Please install Metamask");
+      if (!ethereum) return alert("Install Metamask");
 
       const accounts = await ethereum.request({ method: "eth_accounts" });
+      await handleContracts();
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
-        return true;
       } else {
-        console.log("No Account found");
-        return false;
+        console.log("No accounts found");
       }
     } catch (err) {
+      console.log("error connecting");
       console.log(err);
     }
   };
@@ -287,7 +275,6 @@ export const ApplicationProvider = ({ children }) => {
       value={{
         currentAccount,
         currentChain,
-        usdtbalance,
         connectWallet,
         changeNetwork,
         approveToken,

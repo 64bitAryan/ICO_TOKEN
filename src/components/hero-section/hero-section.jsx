@@ -9,7 +9,6 @@ const HeroSection = () => {
     getEthToUsdtRate,
     buyTokenUsingEth,
     buyTokens,
-    usdtbalance,
     currentAccount,
     connectWallet,
   } = useContext(ApplicationContext);
@@ -244,7 +243,7 @@ const HeroSection = () => {
             <div className="flex flex-row  justify-center items-center mt-5 mb-5 md:mt-0 md:mb-0">
               <div>
                 <p className="text-center  md:leading-[58px] text-white md:text-[1rem] gilory-regular">
-                  {`USD balance ${usdtbalance}`}
+                  {`USD balance 0`}
                 </p>
               </div>
             </div>
