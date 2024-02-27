@@ -9,6 +9,7 @@ import Logo from "../logo.png";
 import FingerPrint from "../icons/thumb.png";
 import Binance from "../icons/binance.png";
 import USDT from "../icons/usdt.png";
+import Ether from "../icons/ether.png";
 
 export {
   EmailIcon,
@@ -22,4 +23,5 @@ export {
   FingerPrint,
   Binance,
   USDT,
+  Ether,
 };

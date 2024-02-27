@@ -7,6 +7,7 @@ import {
   token_address,
   crowde_sale_address,
   staking_address,
+  usdt_address,
 } from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
 
@@ -23,7 +24,8 @@ export const ApplicationProvider = ({ children }) => {
     tokenContract,
     affiliateContract,
     stakingContract,
-    crowdsaleContract;
+    crowdsaleContract,
+    usdtContract;
 
   useEffect(() => {
     setChain();
@@ -47,20 +49,33 @@ export const ApplicationProvider = ({ children }) => {
     const currentProvider = new ethers.BrowserProvider(ethereum);
     await currentProvider.send("eth_requestAccounts", []);
     signer = await currentProvider.getSigner();
-    tokenContract = new ethers.Contract(tokenAbi.abi, token_address, signer);
+    tokenContract = new ethers.Contract(token_address, tokenAbi.abi, signer);
     crowdsaleContract = new ethers.Contract(
-      crowdeSaleAbi.abi,
       crowde_sale_address,
+      crowdeSaleAbi.abi,
       signer
     );
     stakingContract = new ethers.Contract(
-      stakingAbi.abi,
       staking_address,
+      stakingAbi.abi,
       signer
     );
+    usdtContract = new ethers.Contract(usdt_address, tokenAbi.abi, signer);
   };
 
   // Token functions //
+  const approveUsdt = async (usdtAmount, approveTo) => {
+    const amount = usdtAmount * 10 ** 6;
+    try {
+      const tx = await usdtContract.approve(approveTo, amount);
+      await tx.wait();
+      return tx.hash;
+    } catch (err) {
+      log("Unable to approve token");
+      console.log(err);
+    }
+  };
+
   const approveToken = async (tokenAmount, approveTo) => {
     const amount = toWei(tokenAmount);
     try {
@@ -127,13 +142,25 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   // CrowdeSale & Affiliate functions //
+  const buyTokenUsingEth = async (ethAmount) => {
+    console.log(ethAmount);
+    try {
+      const trx = await signer.sendTransaction({
+        to: crowde_sale_address,
+        value: toWei(ethAmount),
+      });
+      return trx.hash;
+    } catch (err) {
+      log("Unable to buy token using eth");
+      console.log(err);
+    }
+  };
 
   const buyTokens = async (usdtAmount, affiliateAddress) => {
+    await approveUsdt(usdtAmount, crowde_sale_address);
+    const amount = usdtAmount * 10 ** 6;
     try {
-      const trx = await crowdsaleContract.buyTokens(
-        usdtAmount,
-        affiliateAddress
-      );
+      const trx = await crowdsaleContract.buyTokens(amount, affiliateAddress);
       return trx.hash;
     } catch (err) {
       log("Unable to buy tokens");
@@ -228,6 +255,17 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
+  const getEthToUsdtRate = async () => {
+    try {
+      const resp = await fetch(
+        "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDT"
+      );
+      return resp.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -245,6 +283,9 @@ export const ApplicationProvider = ({ children }) => {
         registerAsAffiliate,
         withdrawCommission,
         getCustomerAffiliate,
+        getEthToUsdtRate,
+        approveUsdt,
+        buyTokenUsingEth,
       }}
     >
       {children}

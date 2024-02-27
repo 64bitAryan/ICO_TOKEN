@@ -1,15 +1,62 @@
-import { Binance, Logo, USDT } from "../../assets/auth";
-import { useState } from "react";
+import { Binance, Ether, Logo, USDT } from "../../assets/auth";
+import { useContext, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { ApplicationContext } from "../../context/ApplicationContext";
+import { zeroAddress } from "../../utils/constants";
 
 const HeroSection = () => {
+  const { getEthToUsdtRate, buyTokenUsingEth, buyTokens } =
+    useContext(ApplicationContext);
   const [animateForm, setAnimateForm] = useState(false);
+  const [buyCurrency, setBuyCurrency] = useState("ETH");
+  const [buyValue, setBuyValue] = useState(0);
+  const [outAmount, setOutAmount] = useState(0);
+
+  const inputRef = useRef(null);
 
   const handleAnimateForm = () => {
     setAnimateForm(true);
     setTimeout(() => {
       setAnimateForm(false);
     }, 1000);
+  };
+
+  const handleInputChange = async (event) => {
+    const val = event.target.value;
+    setBuyValue(val);
+    if (buyCurrency === "ETH") {
+      const resp = await getEthToUsdtRate();
+      const calcUsdt = val * resp.USDT;
+      setOutAmount(calcUsdt);
+    } else if (buyCurrency === "USDT") {
+      setOutAmount(val);
+    }
+  };
+
+  const handleCurrChange = async (value) => {
+    setBuyValue(value);
+    if (buyCurrency === "ETH") {
+      const resp = await getEthToUsdtRate();
+      const calcUsdt = value * resp.USDT;
+      setOutAmount(calcUsdt);
+    } else if (buyCurrency === "USDT") {
+      setOutAmount(value);
+    }
+  };
+
+  const handleBuyClick = async () => {
+    if (buyCurrency === "ETH") {
+      await buyTokenUsingEth(buyValue);
+      console.log("buy using ETH");
+    } else if (buyCurrency === "USDT") {
+      await buyTokens(buyValue, zeroAddress);
+      console.log("buy using USDT");
+    }
+  };
+
+  const handleCurrencySwap = (curr) => {
+    setBuyCurrency(curr);
+    handleCurrChange(inputRef.current.value);
   };
 
   return (
@@ -124,26 +171,39 @@ const HeroSection = () => {
               <div className="border border-b-white opacity-20 w-[30%]"></div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-5 justify-center w-[80%] mx-auto">
-              <div className="rounded-xl justify-center items-center gap-x-2 flex flex-row border-white border px-8 py-3 border-opacity-20">
+            <div className="flex flex-col md:flex-row gap-5 justify-center w-[80%] mx-auto ">
+              <div
+                className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
+                  buyCurrency === "ETH" ? "bg-white bg-opacity-25" : ""
+                }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
+                onClick={() => {
+                  handleCurrencySwap("ETH");
+                }}
+              >
+                <img src={Ether} width={20} height={20} alt="" />
+                <p className="text-white">Ether</p>
+              </div>
+
+              <div
+                className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
+                  buyCurrency === "BNB" ? "bg-white bg-opacity-25" : ""
+                }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
+                onClick={() => {
+                  handleCurrencySwap("BNB");
+                }}
+              >
                 <img src={Binance} width={20} height={20} alt="" />
                 <p className="text-white">Binance</p>
               </div>
 
-              <div className="rounded-xl justify-center items-center gap-x-2 flex flex-row border-white border px-8 py-3 border-opacity-20">
-                <img src={USDT} width={20} height={20} alt="" />
-                <div className="flex flex-col">
-                  <p className="text-white font-bold">USDT</p>
-                  <p className="text-[0.8rem] text-white">ERC20</p>
-                </div>
-              </div>
-
-              <div className="rounded-xl justify-center items-center gap-x-2 flex flex-row border-white border px-8 py-3 border-opacity-20">
-                <img src={Binance} width={20} height={20} alt="" />
-                <p className="text-white">Binance</p>
-              </div>
-
-              <div className="rounded-xl justify-center items-center gap-x-2 flex flex-row border-white border px-8 py-3 border-opacity-20">
+              <div
+                className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
+                  buyCurrency === "USDT" ? "bg-white bg-opacity-25" : ""
+                }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
+                onClick={() => {
+                  handleCurrencySwap("USDT");
+                }}
+              >
                 <img src={USDT} width={20} height={20} alt="" />
                 <div className="flex flex-col">
                   <p className="text-white font-bold">USDT</p>
@@ -165,11 +225,14 @@ const HeroSection = () => {
             <div className="flex flex-col md:flex-row w-[80%] gap-3 mx-auto justify-between pt-5">
               <div className="flex flex-col w-full">
                 <label className="text-left  md:leading-[58px] text-white md:text-[1rem] gilory-regular">
-                  Amount In USDT you pay
+                  {`Amount In ${buyCurrency} you pay`}
                 </label>
 
                 <input
-                  type="text"
+                  type="number"
+                  value={buyValue}
+                  ref={inputRef}
+                  onChange={handleInputChange}
                   className="border-white  text-white bg-transparent p-2 border-opacity-20 border rounded-lg"
                 />
               </div>
@@ -181,6 +244,7 @@ const HeroSection = () => {
 
                 <input
                   type="text"
+                  value={outAmount}
                   className="border-white text-white bg-transparent p-2 border-opacity-20 border rounded-lg"
                 />
               </div>
@@ -193,7 +257,10 @@ const HeroSection = () => {
               </p>
             </div>
 
-            <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
+            <div
+              className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
+              onClick={handleBuyClick}
+            >
               <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
                 <p className="uppercase text-xl ">Buy now </p>
               </button>
