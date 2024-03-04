@@ -1,91 +1,74 @@
-import { ethers } from "ethers";
+import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
 import { createContext, useEffect, useState } from "react";
+import { readContract } from "@wagmi/core";
 import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
-import stakingAbi from "../artifacts/contracts/StakingAndDivident.sol/StakingAndDivident.json";
 import crowdeSaleAbi from "../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
-import {
-  token_address,
-  crowde_sale_address,
-  staking_address,
-  usdt_address,
-} from "../utils/constants";
+import { crowde_sale_address, usdt_address } from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
+import { config } from "../config";
 
 export const ApplicationContext = createContext();
 
 const { ethereum } = window;
 
-console.log(ethereum);
-
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
-  const [currentChain, setCurrentChain] = useState("");
 
-  let signer,
-    tokenContract,
-    affiliateContract,
-    stakingContract,
-    crowdsaleContract,
-    usdtContract;
+  const { data: hash, isPending, writeContract } = useWriteContract();
+  const { data: trxHash, sendTransaction } = useSendTransaction();
+  const { address } = useAccount();
+
+  let tokenContract, affiliateContract, stakingContract;
 
   useEffect(() => {
-    checkIfWalletIsConnected();
-  });
+    setCurrentAccount(address);
+  }, [address]);
 
   ethereum.on("accountsChanged", () => {
     window.location.reload();
-    connectWallet();
-    handleContracts();
   });
 
   ethereum.on("networkChanged", async () => {
     window.location.reload();
-    setCurrentChain(await ethereum.networkVersion);
   });
 
-  const setChain = async () => {
-    if (!ethereum) return alert("Install Metamask");
-    try {
-      setCurrentChain(await ethereum.networkVersion);
-    } catch (err) {
-      console.log(err);
-      throw new Error("No ethereum object found");
-    }
-  };
-  setChain();
-
-  /* Functions */
-  const handleContracts = async () => {
-    const currentProvider = new ethers.BrowserProvider(ethereum);
-    await currentProvider.send("eth_requestAccounts", []);
-
-    signer = await currentProvider.getSigner();
-    tokenContract = new ethers.Contract(token_address, tokenAbi.abi, signer);
-    crowdsaleContract = new ethers.Contract(
-      crowde_sale_address,
-      crowdeSaleAbi.abi,
-      signer
-    );
-    stakingContract = new ethers.Contract(
-      staking_address,
-      stakingAbi.abi,
-      signer
-    );
-    usdtContract = new ethers.Contract(usdt_address, tokenAbi.abi, signer);
-  };
-  // handleContracts();
-
   // Token functions //
+
+  const getUserUsdtBalance = async () => {
+    const result = await readContract(config, {
+      address: usdt_address,
+      abi: tokenAbi.abi,
+      functionName: "balanceOf",
+      args: [currentAccount],
+    });
+    return result;
+  };
+
   const approveUsdt = async (usdtAmount, approveTo) => {
     const amount = usdtAmount * 10 ** 6;
+    const userBalance = await getUserUsdtBalance();
+    if (amount > userBalance) return alert("insufficient Usdt token amount");
     try {
-      const tx = await usdtContract.approve(approveTo, amount);
-      await tx.wait();
-      return tx.hash;
+      writeContract({
+        address: usdt_address,
+        abi: tokenAbi.abi,
+        functionName: "approve",
+        args: [approveTo, amount],
+      });
     } catch (err) {
       log("Unable to approve token");
       console.log(err);
     }
+  };
+
+  const getApprovedUsdtToken = async () => {
+    const result = await readContract(config, {
+      address: usdt_address,
+      abi: tokenAbi.abi,
+      functionName: "allowance",
+      args: [address, crowde_sale_address],
+    });
+    return result;
   };
 
   const approveToken = async (tokenAmount, approveTo) => {
@@ -155,13 +138,10 @@ export const ApplicationProvider = ({ children }) => {
 
   // CrowdeSale & Affiliate functions //
   const buyTokenUsingEth = async (ethAmount) => {
-    console.log(ethAmount);
+    const amount = toWei(ethAmount);
     try {
-      const trx = await signer.sendTransaction({
-        to: crowde_sale_address,
-        value: toWei(ethAmount),
-      });
-      return trx.hash;
+      sendTransaction({ to: crowde_sale_address, value: amount });
+      return trxHash;
     } catch (err) {
       log("Unable to buy token using eth");
       console.log(err);
@@ -169,11 +149,15 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const buyTokens = async (usdtAmount, affiliateAddress) => {
-    await approveUsdt(usdtAmount, crowde_sale_address);
     const amount = usdtAmount * 10 ** 6;
     try {
-      const trx = await crowdsaleContract.buyTokens(amount, affiliateAddress);
-      return trx.hash;
+      writeContract({
+        address: crowde_sale_address,
+        abi: crowdeSaleAbi.abi,
+        functionName: "buyTokens",
+        args: [amount, affiliateAddress],
+      });
+      return hash;
     } catch (err) {
       log("Unable to buy tokens");
       console.log(err);
@@ -210,55 +194,6 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
-  // Wallet functions //
-  const checkIfWalletIsConnected = async () => {
-    try {
-      if (!ethereum) return alert("Install Metamask");
-
-      const accounts = await ethereum.request({ method: "eth_accounts" });
-      await handleContracts();
-      if (accounts.length) {
-        setCurrentAccount(accounts[0]);
-      } else {
-        console.log("No accounts found");
-      }
-    } catch (err) {
-      console.log("error connecting");
-      console.log(err);
-    }
-  };
-
-  const connectWallet = async () => {
-    try {
-      if (!ethereum) return alert("Install Metamask");
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setCurrentAccount(accounts[0]);
-    } catch (err) {
-      console.log(err);
-      // throw new Error("No ethereum object found");
-    }
-  };
-
-  const changeNetwork = async (chainId) => {
-    if (!ethereum) return alert("Install Metamask");
-    try {
-      await ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: ethers.hexlify(chainId) }],
-      });
-      return 1;
-    } catch (err) {
-      if (err.code === 4902) {
-        console.log("User rejected network switch");
-      } else {
-        console.log("Error occurred while switching network: ", err);
-      }
-      return 0;
-    }
-  };
-
   const getEthToUsdtRate = async () => {
     try {
       const resp = await fetch(
@@ -274,9 +209,6 @@ export const ApplicationProvider = ({ children }) => {
     <ApplicationContext.Provider
       value={{
         currentAccount,
-        currentChain,
-        connectWallet,
-        changeNetwork,
         approveToken,
         stakeToken,
         unstakeTokens,
@@ -290,6 +222,7 @@ export const ApplicationProvider = ({ children }) => {
         getEthToUsdtRate,
         approveUsdt,
         buyTokenUsingEth,
+        getApprovedUsdtToken,
       }}
     >
       {children}

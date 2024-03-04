@@ -3,29 +3,26 @@ import { useContext, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { zeroAddress } from "../../utils/constants";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { crowde_sale_address } from "../../utils/constants";
 
 const HeroSection = () => {
   const {
     getEthToUsdtRate,
     buyTokenUsingEth,
     buyTokens,
+    approveUsdt,
+    getApprovedUsdtToken,
     currentAccount,
-    connectWallet,
   } = useContext(ApplicationContext);
   const [animateForm, setAnimateForm] = useState(false);
   const [buyCurrency, setBuyCurrency] = useState("ETH");
   const [buyValue, setBuyValue] = useState(0);
   const [outAmount, setOutAmount] = useState(0);
+  const [hasApprovedAmont, setHasApprovedAmount] = useState(false);
+  const [timer, setTimer] = useState(null);
 
   const inputRef = useRef(null);
-
-  const truncateHex = (hex) => {
-    const prefix = hex.slice(0, 2);
-    const body = hex.slice(2, 4);
-    const suffix = hex.slice(-3);
-
-    return `${prefix}${body}...${suffix}`;
-  };
 
   const handleAnimateForm = () => {
     setAnimateForm(true);
@@ -34,16 +31,36 @@ const HeroSection = () => {
     }, 1000);
   };
 
+  const getUserUsdtApprovedAmount = async () => {
+    const res = await getApprovedUsdtToken();
+    return res;
+  };
+
   const handleInputChange = async (event) => {
+    if (currentAccount === undefined) return;
+    console.log(`Current Account ${currentAccount}`);
     const val = event.target.value;
+    let useApprovedBal = 0;
+    let resp = 0;
     setBuyValue(val);
-    if (buyCurrency === "ETH") {
-      const resp = await getEthToUsdtRate();
-      const calcUsdt = val * resp.USDT;
-      setOutAmount(calcUsdt);
-    } else if (buyCurrency === "USDT") {
-      setOutAmount(val);
-    }
+
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(async () => {
+      useApprovedBal = await getUserUsdtApprovedAmount();
+      resp = await getEthToUsdtRate();
+      if (buyCurrency === "ETH") {
+        const calcUsdt = val * resp.USDT;
+        setOutAmount(calcUsdt);
+      } else if (buyCurrency === "USDT") {
+        setOutAmount(val);
+        /* global BigInt */
+        if (BigInt(val * 10 ** 6) <= useApprovedBal) setHasApprovedAmount(true);
+        else setHasApprovedAmount(false);
+      }
+    }, 500);
+
+    setTimer(newTimer);
   };
 
   const handleCurrChange = async (value) => {
@@ -62,7 +79,8 @@ const HeroSection = () => {
       await buyTokenUsingEth(buyValue);
       console.log("buy using ETH");
     } else if (buyCurrency === "USDT") {
-      await buyTokens(buyValue, zeroAddress);
+      if (hasApprovedAmont) await buyTokens(buyValue, zeroAddress);
+      else await approveUsdt(buyValue, crowde_sale_address);
       console.log("buy using USDT");
     }
   };
@@ -105,19 +123,10 @@ const HeroSection = () => {
               limitedtime!!!!
             </p>
 
-            <div className="flex flex-row mt-5 mb-5 w-full  md:w-[60%] mr-auto">
-              <button
-                onClick={() => {
-                  connectWallet();
-                }}
-                className="btn w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white "
-              >
-                <p className=" text-xl gilory-semibold ">
-                  {currentAccount !== ""
-                    ? truncateHex(currentAccount)
-                    : "Connect Wallet"}{" "}
-                </p>
-              </button>
+            <div className="flex flex-row mt-5 mb-5 w-full justify-center items-center md:w-[60%] mr-auto">
+              <p className=" text-xl gilory-semibold ">
+                <ConnectButton />
+              </p>
             </div>
 
             <div className="flex flex-row mt-5 mb-5 w-full  md:w-[60%] mr-auto">
@@ -290,7 +299,11 @@ const HeroSection = () => {
               onClick={handleBuyClick}
             >
               <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
-                <p className="uppercase text-xl ">Buy now </p>
+                {!hasApprovedAmont && buyCurrency === "USDT" ? (
+                  <p className="uppercase text-xl ">Approve USDT token</p>
+                ) : (
+                  <p className="uppercase text-xl ">Buy now </p>
+                )}
               </button>
             </div>
 
