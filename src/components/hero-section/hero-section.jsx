@@ -1,5 +1,5 @@
 import { Binance, Ether, Logo, USDT } from "../../assets/auth";
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { zeroAddress } from "../../utils/constants";
@@ -14,6 +14,7 @@ const HeroSection = () => {
     approveUsdt,
     getApprovedUsdtToken,
     currentAccount,
+    isConfirmed,
   } = useContext(ApplicationContext);
   const [animateForm, setAnimateForm] = useState(false);
   const [buyCurrency, setBuyCurrency] = useState("ETH");
@@ -23,6 +24,10 @@ const HeroSection = () => {
   const [timer, setTimer] = useState(null);
 
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isConfirmed) setHasApprovedAmount(true);
+  }, [isConfirmed]);
 
   const handleAnimateForm = () => {
     setAnimateForm(true);
@@ -36,13 +41,9 @@ const HeroSection = () => {
     return res;
   };
 
-  const handleInputChange = async (event) => {
-    if (currentAccount === undefined) return;
-    console.log(`Current Account ${currentAccount}`);
-    const val = event.target.value;
+  const debounceHandler = async (val) => {
     let useApprovedBal = 0;
     let resp = 0;
-    setBuyValue(val);
 
     clearTimeout(timer);
 
@@ -63,6 +64,13 @@ const HeroSection = () => {
     setTimer(newTimer);
   };
 
+  const handleInputChange = async (event) => {
+    if (currentAccount === undefined) return;
+    const val = event.target.value;
+    setBuyValue(val);
+    await debounceHandler(val);
+  };
+
   const handleCurrChange = async (value) => {
     setBuyValue(value);
     if (buyCurrency === "ETH") {
@@ -80,7 +88,7 @@ const HeroSection = () => {
       console.log("buy using ETH");
     } else if (buyCurrency === "USDT") {
       if (hasApprovedAmont) await buyTokens(buyValue, zeroAddress);
-      else await approveUsdt(buyValue, crowde_sale_address);
+      else await approveUsdt(crowde_sale_address);
       console.log("buy using USDT");
     }
   };

@@ -1,4 +1,5 @@
 import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
+import { ethers } from "ethers";
 import { createContext, useEffect, useState } from "react";
 import { readContract } from "@wagmi/core";
 import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
@@ -11,18 +12,35 @@ export const ApplicationContext = createContext();
 
 const { ethereum } = window;
 
+const provider = new ethers.BrowserProvider(ethereum);
+
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
-  const { data: hash, isPending, writeContract } = useWriteContract();
-  const { data: trxHash, sendTransaction } = useSendTransaction();
-  const { address } = useAccount();
+  let { data: hash, isPending, writeContract } = useWriteContract();
+  let { data: trxHash, sendTransaction } = useSendTransaction();
+  let { address } = useAccount();
 
   let tokenContract, affiliateContract, stakingContract;
 
   useEffect(() => {
     setCurrentAccount(address);
   }, [address]);
+
+  useEffect(() => {
+    waitForReceipt(hash);
+  }, [hash]);
+
+  async function waitForReceipt(txHash) {
+    try {
+      await provider.waitForTransaction(txHash);
+      setIsConfirmed(true);
+    } catch (error) {
+      console.error("Error:", error);
+      throw error; // Rethrow the error
+    }
+  }
 
   ethereum.on("accountsChanged", () => {
     window.location.reload();
@@ -34,6 +52,15 @@ export const ApplicationProvider = ({ children }) => {
 
   // Token functions //
 
+  const getTokenTotelSupply = async () => {
+    const result = await readContract(config, {
+      address: usdt_address,
+      abi: tokenAbi.abi,
+      functionName: "totalSupply",
+    });
+    return result;
+  };
+
   const getUserUsdtBalance = async () => {
     const result = await readContract(config, {
       address: usdt_address,
@@ -44,10 +71,9 @@ export const ApplicationProvider = ({ children }) => {
     return result;
   };
 
-  const approveUsdt = async (usdtAmount, approveTo) => {
-    const amount = usdtAmount * 10 ** 6;
-    const userBalance = await getUserUsdtBalance();
-    if (amount > userBalance) return alert("insufficient Usdt token amount");
+  const approveUsdt = async (approveTo) => {
+    setIsConfirmed(false);
+    const amount = await getTokenTotelSupply();
     try {
       writeContract({
         address: usdt_address,
@@ -150,6 +176,8 @@ export const ApplicationProvider = ({ children }) => {
 
   const buyTokens = async (usdtAmount, affiliateAddress) => {
     const amount = usdtAmount * 10 ** 6;
+    const userAmount = await getUserUsdtBalance();
+    if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
       writeContract({
         address: crowde_sale_address,
@@ -223,6 +251,8 @@ export const ApplicationProvider = ({ children }) => {
         approveUsdt,
         buyTokenUsingEth,
         getApprovedUsdtToken,
+        isConfirmed,
+        isPending,
       }}
     >
       {children}
