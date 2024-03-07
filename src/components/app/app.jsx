@@ -4,15 +4,22 @@ import { PrivateRoute } from "../privateRoute";
 import Styles from "./app.module.scss";
 import { Terms } from "../../pages/home/terms";
 import { Login } from "../../pages/home/login";
+import { Stake } from "../../pages/staking/stake";
+import { Affiliate } from "../../pages/affiliate/affiliate";
 
 function App() {
   return (
     <div>
       <Layout>
         <Routes>
-          <Route path="/" element={<PrivateRoute component={Home} />} />
+          <Route
+            path="/:address?"
+            element={<PrivateRoute component={Home} />}
+          />
           <Route path="/terms" element={<PrivateRoute component={Terms} />} />
           <Route path="/login" element={<PrivateRoute component={Login} />} />
+          <Route path="/stake" element={<Stake />} />
+          <Route path="/affiliate" element={<Affiliate />} />
         </Routes>
       </Layout>
     </div>

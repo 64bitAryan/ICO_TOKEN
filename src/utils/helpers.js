@@ -14,3 +14,22 @@ export const parseAndTruncate = (amount) => {
 export const log = (message) => {
   console.log(`--${message}--`);
 };
+
+export const isValidAddress = (address) => {
+  if (!address || typeof address !== "string") {
+    return false;
+  }
+
+  address = address.trim();
+
+  if (!address.startsWith("0x")) {
+    return false;
+  }
+
+  if (address.length !== 42) {
+    return false;
+  }
+
+  const hexRegex = /^0x[0-9a-fA-F]{40}$/;
+  return hexRegex.test(address);
+};

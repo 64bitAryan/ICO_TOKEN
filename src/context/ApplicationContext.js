@@ -1,10 +1,13 @@
 import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
-import { ethers } from "ethers";
 import { createContext, useEffect, useState } from "react";
 import { readContract } from "@wagmi/core";
 import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
-import crowdeSaleAbi from "../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
-import { crowde_sale_address, usdt_address } from "../utils/constants";
+import crowdeSaleAbi from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
+import {
+  crowde_sale_address,
+  usdt_address,
+  zeroAddress,
+} from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
 import { Buffer } from "buffer";
@@ -16,7 +19,6 @@ export const ApplicationContext = createContext();
 const { ethereum } = window;
 
 // const provider = new ethers.BrowserProvider(ethereum);
-let provider;
 
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -26,37 +28,24 @@ export const ApplicationProvider = ({ children }) => {
   let { data: trxHash, sendTransaction } = useSendTransaction();
   let { address } = useAccount();
 
-  let tokenContract, affiliateContract, stakingContract;
+  useEffect(() => {
+    if (!isPending) setIsConfirmed(true);
+  }, [isPending]);
+
+  let affiliateContract, stakingContract;
 
   useEffect(() => {
-    if (ethereum) {
-      provider = new ethers.BrowserProvider(ethereum);
-      ethereum.on("accountsChanged", () => {
-        window.location.reload();
-      });
-
-      ethereum.on("networkChanged", async () => {
-        window.location.reload();
-      });
-    }
     setCurrentAccount(address);
   }, [address]);
 
-  useEffect(() => {
-    if (ethereum) waitForReceipt(hash);
-  }, [hash]);
+  if (ethereum) {
+    ethereum.on("accountsChanged", () => {
+      window.location.reload();
+    });
 
-  async function waitForReceipt(txHash) {
-    try {
-      if (ethereum) {
-        provider = new ethers.BrowserProvider(ethereum);
-        await provider.waitForTransaction(txHash);
-        setIsConfirmed(true);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      throw error; // Rethrow the error
-    }
+    ethereum.on("networkChanged", async () => {
+      window.location.reload();
+    });
   }
 
   // Token functions //
@@ -96,6 +85,23 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
+  const buyTokenUsingEth = async (ethAmount, affiliateAddress) => {
+    const amount = toWei(ethAmount);
+    if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
+    try {
+      writeContract({
+        address: crowde_sale_address,
+        abi: crowdeSaleAbi.abi,
+        functionName: "buyTokensWithEth",
+        args: [affiliateAddress],
+        value: amount,
+      });
+    } catch (err) {
+      log("Unable to buy token using eth");
+      console.log(err);
+    }
+  };
+
   const getApprovedUsdtToken = async () => {
     const result = await readContract(config, {
       address: usdt_address,
@@ -106,38 +112,7 @@ export const ApplicationProvider = ({ children }) => {
     return result;
   };
 
-  const approveToken = async (tokenAmount, approveTo) => {
-    const amount = toWei(tokenAmount);
-    try {
-      const tx = await tokenContract.approve(approveTo, amount);
-      return tx.hash;
-    } catch (err) {
-      log("Unable to approve token");
-      console.log(err);
-    }
-  };
-
   // Staking & Divident functions //
-  const stakeToken = async (tokenAmount) => {
-    try {
-      const trx = await stakingContract.stake(toWei(tokenAmount));
-      return trx.hash;
-    } catch (err) {
-      log("Unable to stake token");
-      console.log(err);
-    }
-  };
-
-  const unstakeTokens = async (index) => {
-    try {
-      const trx = await stakingContract.unstake(index);
-      return trx.hash;
-    } catch (err) {
-      log("Unable to unstake token");
-      console.log(err);
-    }
-  };
-
   const getEstimatedReward = async (address, index) => {
     try {
       const reward = await stakingContract.calculateReward(address, index);
@@ -172,16 +147,6 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   // CrowdeSale & Affiliate functions //
-  const buyTokenUsingEth = async (ethAmount) => {
-    const amount = toWei(ethAmount);
-    try {
-      sendTransaction({ to: crowde_sale_address, value: amount });
-      return trxHash;
-    } catch (err) {
-      log("Unable to buy token using eth");
-      console.log(err);
-    }
-  };
 
   const buyTokens = async (usdtAmount, affiliateAddress) => {
     const amount = usdtAmount * 10 ** 6;
@@ -246,9 +211,6 @@ export const ApplicationProvider = ({ children }) => {
     <ApplicationContext.Provider
       value={{
         currentAccount,
-        approveToken,
-        stakeToken,
-        unstakeTokens,
         getEstimatedReward,
         claimDivident,
         getEstimatedDividentReward,

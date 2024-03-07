@@ -1,6 +1,6 @@
-export const token_address = "0x45abF920E3360bE42b48e83ec275f845Df93F329";
-export const crowde_sale_address = "0xfad6966936179Ea1E90d33DBd27B53b779c81BD2";
-export const staking_address = "0x8e6e73f9B2d005A93A1CFF1c611a7d4730Aba197";
+export const token_address = "0x8abDbEE435E0fe1A4164Cf0C242ebaC41c463605";
+export const crowde_sale_address = "0x1f1d36241AF2Def17c5D0E3aCb132D06071644E1";
+export const staking_address = "0xF3C98F3536bE53078032a7d1852C6a99394E3ccb";
 export const usdt_address = "0x3Bb0f16c334279E12548F8805a1674124fE4FC40";
 export const zeroAddress = "0x0000000000000000000000000000000000000000";
 // original addresses

@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { zeroAddress } from "../../utils/constants";
 import { crowde_sale_address } from "../../utils/constants";
+import { useParams } from "react-router-dom";
+import { isValidAddress } from "../../utils/helpers";
 
 const HeroSection = () => {
   const {
@@ -15,6 +17,7 @@ const HeroSection = () => {
     currentAccount,
     isConfirmed,
   } = useContext(ApplicationContext);
+  const { address } = useParams();
   const [animateForm, setAnimateForm] = useState(false);
   const [buyCurrency, setBuyCurrency] = useState("ETH");
   const [buyValue, setBuyValue] = useState(0);
@@ -82,11 +85,15 @@ const HeroSection = () => {
   };
 
   const handleBuyClick = async () => {
+    let affiliateAddress = zeroAddress;
+    if (address && isValidAddress(address)) {
+      affiliateAddress = address;
+    }
     if (buyCurrency === "ETH") {
-      await buyTokenUsingEth(buyValue);
+      await buyTokenUsingEth(buyValue, affiliateAddress);
       console.log("buy using ETH");
     } else if (buyCurrency === "USDT") {
-      if (hasApprovedAmont) await buyTokens(buyValue, zeroAddress);
+      if (hasApprovedAmont) await buyTokens(buyValue, affiliateAddress);
       else await approveUsdt(crowde_sale_address);
       console.log("buy using USDT");
     }
@@ -274,6 +281,7 @@ const HeroSection = () => {
 
                 <input
                   type="number"
+                  min={0}
                   value={buyValue}
                   ref={inputRef}
                   onChange={handleInputChange}
