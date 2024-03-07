@@ -3,7 +3,6 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { zeroAddress } from "../../utils/constants";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { crowde_sale_address } from "../../utils/constants";
 
 const HeroSection = () => {
@@ -133,7 +132,7 @@ const HeroSection = () => {
 
             <div className="flex flex-row mt-5 mb-5 w-full justify-center items-center md:w-[60%] mr-auto">
               <p className=" text-xl gilory-semibold ">
-                <ConnectButton />
+                <w3m-button />
               </p>
             </div>
 

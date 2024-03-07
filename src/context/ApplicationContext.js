@@ -7,12 +7,16 @@ import crowdeSaleAbi from "../artifacts/contracts/Crowdsale.sol/Crowdesale.json"
 import { crowde_sale_address, usdt_address } from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
+import { Buffer } from "buffer";
+
+window.Buffer = Buffer;
 
 export const ApplicationContext = createContext();
 
 const { ethereum } = window;
 
-const provider = new ethers.BrowserProvider(ethereum);
+// const provider = new ethers.BrowserProvider(ethereum);
+let provider;
 
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -25,30 +29,35 @@ export const ApplicationProvider = ({ children }) => {
   let tokenContract, affiliateContract, stakingContract;
 
   useEffect(() => {
+    if (ethereum) {
+      provider = new ethers.BrowserProvider(ethereum);
+      ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+
+      ethereum.on("networkChanged", async () => {
+        window.location.reload();
+      });
+    }
     setCurrentAccount(address);
   }, [address]);
 
   useEffect(() => {
-    waitForReceipt(hash);
+    if (ethereum) waitForReceipt(hash);
   }, [hash]);
 
   async function waitForReceipt(txHash) {
     try {
-      await provider.waitForTransaction(txHash);
-      setIsConfirmed(true);
+      if (ethereum) {
+        provider = new ethers.BrowserProvider(ethereum);
+        await provider.waitForTransaction(txHash);
+        setIsConfirmed(true);
+      }
     } catch (error) {
       console.error("Error:", error);
       throw error; // Rethrow the error
     }
   }
-
-  ethereum.on("accountsChanged", () => {
-    window.location.reload();
-  });
-
-  ethereum.on("networkChanged", async () => {
-    window.location.reload();
-  });
 
   // Token functions //
 

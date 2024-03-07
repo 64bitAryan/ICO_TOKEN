@@ -7,40 +7,35 @@ import store from "./store";
 import { App } from "./components/app";
 import { ApplicationProvider } from "./context/ApplicationContext";
 import reportWebVitals from "./reportWebVitals";
+import { config } from "./config";
+import { createWeb3Modal } from "@web3modal/wagmi/react";
 
-import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import { mainnet, polygon, sepolia } from "wagmi/chains";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-const config = getDefaultConfig({
-  appName: "RainbowKit demo",
-  projectId: "YOUR_PROJECT_ID",
-  chains: [
-    mainnet,
-    polygon,
-    sepolia,
-    ...(process.env.REACT_APP_ENABLE_TESTNETS === "true" ? [sepolia] : []),
-  ],
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
+const projectId = "4eb352e58e206ddcfa9ab440659f4b73";
+
+createWeb3Modal({
+  wagmiConfig: config,
+  projectId,
+  enableAnalytics: true,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const queryClient = new QueryClient();
-
 root.render(
   <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
-      <RainbowKitProvider>
-        <ApplicationProvider>
-          <Provider store={store}>
-            <Router>
-              <App />
-            </Router>
-          </Provider>
-        </ApplicationProvider>
-      </RainbowKitProvider>
+      <ApplicationProvider>
+        <Provider store={store}>
+          <Router>
+            <App />
+          </Router>
+        </Provider>
+      </ApplicationProvider>
     </QueryClientProvider>
   </WagmiProvider>
 );
