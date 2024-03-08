@@ -100,6 +100,7 @@ export const Affiliate = () => {
             type="text"
             onChange={handleInputChange}
             ref={inputRef}
+            placeholder="Enter wallet address"
             className="ml-6 border-white flex justify-center items-center  text-white bg-transparent p-2 border-opacity-20 border rounded-lg w-[90%]"
           />
           <button

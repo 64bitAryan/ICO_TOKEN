@@ -93,10 +93,13 @@ const HeroSection = () => {
       await buyTokenUsingEth(buyValue, affiliateAddress);
       console.log("buy using ETH");
     } else if (buyCurrency === "USDT") {
-      if (hasApprovedAmont) await buyTokens(buyValue, affiliateAddress);
-      else await approveUsdt(crowde_sale_address);
+      if (hasApprovedAmont){ await buyTokens(buyValue, affiliateAddress); }
+      else { await approveUsdt(crowde_sale_address); }
       console.log("buy using USDT");
-    }
+    } else if (buyCurrency === "BNB") {
+      await buyTokenUsingEth(buyValue, affiliateAddress);
+      console.log("buy using BNB");
+    } 
   };
 
   const handleCurrencySwap = (curr) => {

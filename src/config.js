@@ -1,5 +1,6 @@
 import { mainnet, sepolia, bsc, bscTestnet } from "wagmi/chains";
 import { http, createConfig } from "wagmi";
+import { createClient } from 'viem'
 import {
   walletConnect,
   injected,
@@ -18,9 +19,8 @@ const metadata = {
 
 const config = createConfig({
   chains: [mainnet, sepolia, bsc, bscTestnet],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
+  client({ chain }) {
+    return createClient({ chain, transport: http() })
   },
   connectors: [
     walletConnect({ projectId, metadata, showQrModal: false }),

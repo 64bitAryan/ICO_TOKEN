@@ -2,6 +2,7 @@ import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
 import { createContext, useEffect, useState } from "react";
 import { readContract, getChainId } from "@wagmi/core";
 import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
+import USDTToken from "../artifacts/contracts/usdtToken.sol/USDTtoken.json";
 import crowdeSaleAbi from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
 import { getAddress } from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
@@ -68,7 +69,7 @@ export const ApplicationProvider = ({ children }) => {
   const getTokenTotelSupply = async () => {
     const result = await readContract(config, {
       address: usdt_address,
-      abi: tokenAbi.abi,
+      abi: USDTToken.abi,
       functionName: "totalSupply",
     });
     return result;
@@ -77,7 +78,7 @@ export const ApplicationProvider = ({ children }) => {
   const getUserUsdtBalance = async () => {
     const result = await readContract(config, {
       address: usdt_address,
-      abi: tokenAbi.abi,
+      abi: USDTToken.abi,
       functionName: "balanceOf",
       args: [currentAccount],
     });
@@ -90,7 +91,7 @@ export const ApplicationProvider = ({ children }) => {
     try {
       writeContract({
         address: usdt_address,
-        abi: tokenAbi.abi,
+        abi: USDTToken.abi,
         functionName: "approve",
         args: [approveTo, amount],
       });
@@ -107,7 +108,7 @@ export const ApplicationProvider = ({ children }) => {
       writeContract({
         address: crowde_sale_address,
         abi: crowdeSaleAbi.abi,
-        functionName: "buyTokensWithEth",
+        functionName: "buyTokensWithBNB",
         args: [affiliateAddress],
         value: amount,
       });
@@ -120,7 +121,7 @@ export const ApplicationProvider = ({ children }) => {
   const getApprovedUsdtToken = async () => {
     const result = await readContract(config, {
       address: usdt_address,
-      abi: tokenAbi.abi,
+      abi: USDTToken.abi,
       functionName: "allowance",
       args: [address, crowde_sale_address],
     });
@@ -164,7 +165,7 @@ export const ApplicationProvider = ({ children }) => {
   // CrowdeSale & Affiliate functions //
 
   const buyTokens = async (usdtAmount, affiliateAddress) => {
-    const amount = usdtAmount * 10 ** 6;
+    const amount = usdtAmount * 10 ** 18;
     const userAmount = await getUserUsdtBalance();
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
