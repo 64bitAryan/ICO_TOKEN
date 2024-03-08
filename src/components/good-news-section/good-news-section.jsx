@@ -11,9 +11,9 @@ const GoodNewsSection = () => {
             </h1>
 
             <p className="text-white  md:mt-8 w-[80%] mx-auto text-center leading-[28px] gilory-regular md:text-[1.375rem]">
-              We have created this incrediblyefficient sales superintelligence!
-              Only 2 companies have been given theopportunity to test the system
-              live!
+              We have created this incredibly efficient sales super
+              intelligence! Only 2 companies have been given the opportunity to
+              test the system live!
             </p>
 
             <p className="text-white font-bold md:mt-2 w-[80%] mx-auto text-center leading-[28px] gilory-regular md:text-[1.375rem]">
@@ -23,7 +23,7 @@ const GoodNewsSection = () => {
         </div>
 
         <div className="image flex-grow md:w-[90%] relative  md:p-20 flex items-center justify-center">
-        <div>
+          <div>
             <ReactPlayer
               url="https://vimeo.com/918417492"
               height={750}
@@ -34,13 +34,13 @@ const GoodNewsSection = () => {
 
           <div className="absolute border border-white border-opacity-10 bg-white bg-opacity-10 rounded-lg md:p-10 backdrop-blur-lg h-fit md:max-w-[40rem] p-2 top-[100%] md:top-[70%]  md:left-0 md:bottom-0">
             <p className="text-white text-center tomorrow-light md:text-[1.125rem] text-[0.7rem]">
-              As mentioned above, companies are practicallybegging for it. But
-              they have to wait until the final development phase iscompleted!
+              As mentioned above, companies are practically begging for it. But
+              they have to wait until the final development phase is completed!
             </p>
 
             <p className="text-white mt-5 text-center tomorrow-light md:text-[1.125rem] text-[0.7rem]">
-              This will be a very short period! But untilthen, anyone can profit
-              from this incredible power!
+              This will be a very short period! But until then, anyone can
+              profit from this incredible power!
             </p>
           </div>
         </div>

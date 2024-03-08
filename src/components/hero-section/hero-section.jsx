@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { useParams } from "react-router-dom";
 import { isValidAddress } from "../../utils/helpers";
+import CountdownTimer from "./countdown";
 
 const HeroSection = () => {
   const {
@@ -27,6 +28,8 @@ const HeroSection = () => {
   const [timer, setTimer] = useState(null);
 
   const inputRef = useRef(null);
+
+  const targetDate = new Date("2024-12-12T00:00:00");
 
   useEffect(() => {
     if (isConfirmed) setHasApprovedAmount(true);
@@ -94,13 +97,16 @@ const HeroSection = () => {
       await buyTokenUsingEth(buyValue, affiliateAddress);
       console.log("buy using ETH");
     } else if (buyCurrency === "USDT") {
-      if (hasApprovedAmont){ await buyTokens(buyValue, affiliateAddress); }
-      else { await approveUsdt(crowde_sale_address); }
+      if (hasApprovedAmont) {
+        await buyTokens(buyValue, affiliateAddress);
+      } else {
+        await approveUsdt(crowde_sale_address);
+      }
       console.log("buy using USDT");
     } else if (buyCurrency === "BNB") {
       await buyTokenUsingBNB(buyValue, affiliateAddress);
       console.log("buy using BNB");
-    } 
+    }
   };
 
   const handleCurrencySwap = (curr) => {
@@ -131,21 +137,15 @@ const HeroSection = () => {
             </h1>
 
             <h1 class="text-center md:text-left md:leading-[58px] bg-gradient-to-r w-full  from-gradient-left to-gradient-right text-transparent bg-clip-text md:text-[3rem] monument-bold">
-              with the power of ai
+              with the power of AI
             </h1>
 
             <p className="text-white text-center md:text-left mt-5 md:w-[90%] mr-auto md:leading-[28px] gilory-regular  md:text-[1.375rem]">
-              We have created the most crucial tool forevery business, a
-              revenue-generating super intelligence, but now you too canprofit
-              from it! This opportunity is open to everyone for a very
-              limitedtime!!!!
+              We have created the most importnt tool for-every business, a
+              revenue-generating super intelligence, But now you can profit from
+              it too! This opportunity is open to everyone for a very limited
+              time!!!!
             </p>
-
-            <div className="flex flex-row mt-5 mb-5 w-full justify-center items-center md:w-[60%] mr-auto">
-              <p className=" text-xl gilory-semibold ">
-                <w3m-button />
-              </p>
-            </div>
 
             <div className="flex flex-row mt-5 mb-5 w-full  md:w-[60%] mr-auto">
               <button
@@ -174,34 +174,10 @@ const HeroSection = () => {
           >
             <div className="bg-gradient-to-r from-[#6F38C0] to-[#C289F4] rounded-tl-3xl rounded-tr-3xl pb-2">
               <p className="text-center  md:leading-[58px] text-white md:text-[1.3rem] pt-5 pb-5 monument-regular">
-                Purchase ICO Token
+                Purchase $AIB Token
               </p>
 
-              <div className="flex pl-0 pr-0 md:pl-10 md:pr-10 flex-col md:flex-row gap-5 justify-center">
-                <div className="rounded-lg md:rounded-3xl w-[90%] mx-auto border-white border px-10 py-2 border-opacity-20">
-                  <p className="text-center  md:leading-[58px] text-white md:text-[1.3rem] monument-regular">
-                    12d
-                  </p>
-                </div>
-
-                <div className="rounded-lg md:rounded-3xl w-[90%] mx-auto border-white border px-10 py-2 border-opacity-20">
-                  <p className="text-center  md:leading-[58px] text-white md:text-[1.3rem] monument-regular">
-                    12h
-                  </p>
-                </div>
-
-                <div className="rounded-lg md:rounded-3xl w-[90%] mx-auto border-white border px-10 py-2 border-opacity-20">
-                  <p className="text-center  md:leading-[58px] text-white md:text-[1.3rem] monument-regular">
-                    03m
-                  </p>
-                </div>
-
-                <div className="rounded-lg md:rounded-3xl w-[90%] mx-auto border-white border px-10 py-2 border-opacity-20">
-                  <p className="text-center  md:leading-[58px] text-white md:text-[1.3rem] monument-regular">
-                    59s
-                  </p>
-                </div>
-              </div>
+              <CountdownTimer targetDate={targetDate} />
 
               <div class="relative pt-1 w-[80%] mx-auto mt-5">
                 <div class="flex">
@@ -308,8 +284,8 @@ const HeroSection = () => {
 
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className="text-center  text-white md:text-[1rem] gilory-regular">
-                0.15 RTH is reserved for gas. The actual Amount used will depend
-                on the network
+                0.15 E TH is reserved for gas. The actual Amount used will
+                depend on the network
               </p>
             </div>
 
@@ -324,6 +300,11 @@ const HeroSection = () => {
                   <p className="uppercase text-xl ">Buy now </p>
                 )}
               </button>
+            </div>
+            <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
+              <p className=" text-xl gilory-semibold ">
+                <w3m-button />
+              </p>
             </div>
 
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">

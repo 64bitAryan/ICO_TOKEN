@@ -10,6 +10,7 @@ export const AffiliateViewModel = () => {
   const [affiliateAddress, setAffiliateAddress] = useState("");
 
   const inputRef = useRef(null);
+  const withdrawRef = useRef(null);
 
   const registerAffiliate = async (_address) => {
     try {
@@ -18,6 +19,19 @@ export const AffiliateViewModel = () => {
         abi: crowdesaleAbi.abi,
         functionName: "registerAsAffiliate",
         args: [_address],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const withdrawCommission = async () => {
+    console.log("withdraw commission");
+    try {
+      writeContract({
+        address: crowde_sale_address,
+        abi: crowdesaleAbi.abi,
+        functionName: "withdrawCommission",
       });
     } catch (err) {
       console.log(err);
@@ -47,6 +61,8 @@ export const AffiliateViewModel = () => {
     registerAffiliate,
     inputRef,
     affiliateAddress,
+    withdrawRef,
+    withdrawCommission,
     setAffiliateAddress,
     isValidAddress,
   };

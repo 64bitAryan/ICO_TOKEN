@@ -22,14 +22,14 @@ const HomeSection2 = () => {
           </h1>
 
           <p className="text-white mt-5 md:mt-10 text-center leading-[28px] gilory-regular md:w-[80%] mx-auto md:text-[1.375rem]">
-            Companies are already begging for it! Nomatter what business you are
-            in, the most important activity for any company issales! Because no
-            matter how attractive the product or how excellent theservice, if it
-            cannot sell, then it's the end! Companies know this, which iswhy
-            they incredibly desire our sales super machine, but they have to
-            wait a bitlonger! We are in the final stages of development, and
-            soon this amazing toolwill belong to the companies, but until then,
-            you can also make money with it!How?
+            Companies are already begging for it! No matter what business you
+            are in, the most important activity for any company is sales!
+            Because no matter how attractive the product or how excellent
+            theservice, if it cannot sell, then it's the end! Companies know
+            this, which is why they incredibly desire our sales super machine,
+            but they have to wait a bit longer! We are in the final stages of
+            development, and soon this amazing tool will belong to the
+            companies, but until then, you can also make money with it!How?
           </p>
 
           <p className="text-tiffany-blue  text-center leading-[28px] gilory-heavy md:w-[80%] mx-auto md:text-[2rem] mt-5">

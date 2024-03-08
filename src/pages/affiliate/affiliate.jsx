@@ -10,6 +10,7 @@ export const Affiliate = () => {
     affiliateAddress,
     isValidAddress,
     setAffiliateAddress,
+    withdrawCommission,
   } = AffiliateViewModel();
 
   const handleInputChange = async (event) => {
@@ -111,6 +112,14 @@ export const Affiliate = () => {
           >
             Register As Affiliate
           </button>
+
+          <button
+            onClick={withdrawCommission}
+            className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
+          >
+            Withdraw Commission
+          </button>
+
           <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">
             {" "}
             Current commission (BEP20)

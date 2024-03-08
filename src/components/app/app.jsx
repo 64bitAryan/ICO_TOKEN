@@ -6,6 +6,7 @@ import { Terms } from "../../pages/home/terms";
 import { Login } from "../../pages/home/login";
 import { Stake } from "../../pages/staking/stake";
 import { Affiliate } from "../../pages/affiliate/affiliate";
+import { logo } from "../../pages/images/logo.png";
 
 function App() {
   return (
