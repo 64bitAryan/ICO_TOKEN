@@ -3,7 +3,8 @@ import { createContext, useEffect, useState } from "react";
 import { readContract, getChainId } from "@wagmi/core";
 import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
 import USDTToken from "../artifacts/contracts/usdtToken.sol/USDTtoken.json";
-import crowdeSaleAbi from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
+import crowdeSaleAbiETH from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
+import crowdeSaleAbi from "../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
 import { getAddress } from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
@@ -102,6 +103,23 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const buyTokenUsingEth = async (ethAmount, affiliateAddress) => {
+    const amount = toWei(ethAmount);
+    if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
+    try {
+      writeContract({
+        address: crowde_sale_address,
+        abi: crowdeSaleAbi.abi,
+        functionName: "buyTokensWithEth",
+        args: [affiliateAddress],
+        value: amount,
+      });
+    } catch (err) {
+      log("Unable to buy token using eth");
+      console.log(err);
+    }
+  };
+
+  const buyTokenUsingBNB = async (ethAmount, affiliateAddress) => {
     const amount = toWei(ethAmount);
     if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
     try {
@@ -237,6 +255,7 @@ export const ApplicationProvider = ({ children }) => {
         getEthToUsdtRate,
         approveUsdt,
         buyTokenUsingEth,
+        buyTokenUsingBNB,
         getApprovedUsdtToken,
         isConfirmed,
         isPending,

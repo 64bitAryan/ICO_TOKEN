@@ -9,6 +9,7 @@ const HeroSection = () => {
   const {
     getEthToUsdtRate,
     buyTokenUsingEth,
+    buyTokenUsingBNB,
     buyTokens,
     approveUsdt,
     getApprovedUsdtToken,
@@ -97,7 +98,7 @@ const HeroSection = () => {
       else { await approveUsdt(crowde_sale_address); }
       console.log("buy using USDT");
     } else if (buyCurrency === "BNB") {
-      await buyTokenUsingEth(buyValue, affiliateAddress);
+      await buyTokenUsingBNB(buyValue, affiliateAddress);
       console.log("buy using BNB");
     } 
   };
@@ -226,7 +227,7 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col md:flex-row gap-5 justify-center w-[80%] mx-auto ">
-              <div
+              {/* <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
                   buyCurrency === "ETH" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
@@ -236,7 +237,7 @@ const HeroSection = () => {
               >
                 <img src={Ether} width={20} height={20} alt="" />
                 <p className="text-white">Ether</p>
-              </div>
+              </div> */}
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
