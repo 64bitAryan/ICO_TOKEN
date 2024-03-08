@@ -1,4 +1,4 @@
-import { mainnet, sepolia } from "wagmi/chains";
+import { mainnet, sepolia, bsc, bscTestnet } from "wagmi/chains";
 import { http, createConfig } from "wagmi";
 import {
   walletConnect,
@@ -17,7 +17,7 @@ const metadata = {
 };
 
 const config = createConfig({
-  chains: [mainnet, sepolia],
+  chains: [mainnet, sepolia, bsc, bscTestnet],
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),

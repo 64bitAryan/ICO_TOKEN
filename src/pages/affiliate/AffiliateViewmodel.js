@@ -1,10 +1,11 @@
 import { useWriteContract } from "wagmi";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { ApplicationContext } from "../../context/ApplicationContext";
 
 import crowdesaleAbi from "../../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
-import { crowde_sale_address } from "../../utils/constants";
 
 export const AffiliateViewModel = () => {
+  const { crowde_sale_address } = useContext(ApplicationContext);
   let { data: hash, writeContract } = useWriteContract();
   const [affiliateAddress, setAffiliateAddress] = useState("");
 

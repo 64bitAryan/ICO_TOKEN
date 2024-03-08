@@ -2,8 +2,6 @@ import { Binance, Ether, Logo, USDT } from "../../assets/auth";
 import { useContext, useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
-import { zeroAddress } from "../../utils/constants";
-import { crowde_sale_address } from "../../utils/constants";
 import { useParams } from "react-router-dom";
 import { isValidAddress } from "../../utils/helpers";
 
@@ -16,6 +14,8 @@ const HeroSection = () => {
     getApprovedUsdtToken,
     currentAccount,
     isConfirmed,
+    zeroAddress,
+    crowde_sale_address,
   } = useContext(ApplicationContext);
   const { address } = useParams();
   const [animateForm, setAnimateForm] = useState(false);

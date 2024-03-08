@@ -1,13 +1,9 @@
 import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
 import { createContext, useEffect, useState } from "react";
-import { readContract } from "@wagmi/core";
+import { readContract, getChainId } from "@wagmi/core";
 import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
 import crowdeSaleAbi from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
-import {
-  crowde_sale_address,
-  usdt_address,
-  zeroAddress,
-} from "../utils/constants";
+import { getAddress } from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
 import { Buffer } from "buffer";
@@ -23,10 +19,28 @@ const { ethereum } = window;
 export const ApplicationProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [chain, setChain] = useState(56);
 
   let { data: hash, isPending, writeContract } = useWriteContract();
-  let { data: trxHash, sendTransaction } = useSendTransaction();
   let { address } = useAccount();
+
+  (async () => {
+    if (window.ethereum) {
+      const c = await window.ethereum.request({ method: "eth_chainId" });
+      setChain(c);
+      console.log("Current chain ID:", chain);
+    } else {
+      setChain(56);
+    }
+  })();
+
+  let {
+    token_address,
+    crowde_sale_address,
+    staking_address,
+    usdt_address,
+    zeroAddress,
+  } = getAddress(chain);
 
   useEffect(() => {
     if (!isPending) setIsConfirmed(true);
@@ -43,7 +57,8 @@ export const ApplicationProvider = ({ children }) => {
       window.location.reload();
     });
 
-    ethereum.on("networkChanged", async () => {
+    ethereum.on("chainChanged", async () => {
+      console.log("Chain chainChanged");
       window.location.reload();
     });
   }
@@ -224,6 +239,11 @@ export const ApplicationProvider = ({ children }) => {
         getApprovedUsdtToken,
         isConfirmed,
         isPending,
+        token_address,
+        crowde_sale_address,
+        staking_address,
+        usdt_address,
+        zeroAddress,
       }}
     >
       {children}

@@ -1,10 +1,10 @@
 import { useAccount, useWriteContract } from "wagmi";
 import { readContract } from "@wagmi/core";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import { ApplicationContext } from "../../context/ApplicationContext";
 
 import tokenAbi from "../../artifacts/contracts/token.sol/Token.json";
 import stakingAbi from "../../artifacts/contracts/StakingAndDivident.sol/StakingAndDivident.json";
-import { staking_address, token_address } from "../../utils/constants";
 
 import { toWei } from "../../utils/helpers";
 import { config } from "../../config";
@@ -13,6 +13,7 @@ export const StakingViewModel = () => {
   let { data: hash, writeContract } = useWriteContract();
   let { address } = useAccount();
   const [buyValue, setBuyValue] = useState("");
+  const { staking_address, token_address } = useContext(ApplicationContext);
 
   const inputRef = useRef(null);
 
