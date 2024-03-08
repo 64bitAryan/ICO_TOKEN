@@ -19,6 +19,7 @@ const { ethereum } = window;
 // const provider = new ethers.BrowserProvider(ethereum);
 
 export const ApplicationProvider = ({ children }) => {
+  // const [chainId, setChainId] = getChainId(config);
   const [currentAccount, setCurrentAccount] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [chain, setChain] = useState(56);
@@ -244,6 +245,7 @@ export const ApplicationProvider = ({ children }) => {
   return (
     <ApplicationContext.Provider
       value={{
+        chain,
         currentAccount,
         getEstimatedReward,
         claimDivident,

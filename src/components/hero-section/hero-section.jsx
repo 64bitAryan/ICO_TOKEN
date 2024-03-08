@@ -18,7 +18,9 @@ const HeroSection = () => {
     isConfirmed,
     zeroAddress,
     crowde_sale_address,
+    chain
   } = useContext(ApplicationContext);
+
   const { address } = useParams();
   const [animateForm, setAnimateForm] = useState(false);
   const [buyCurrency, setBuyCurrency] = useState("ETH");
@@ -203,7 +205,7 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col md:flex-row gap-5 justify-center w-[80%] mx-auto ">
-              {/* <div
+              <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
                   buyCurrency === "ETH" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
@@ -213,7 +215,7 @@ const HeroSection = () => {
               >
                 <img src={Ether} width={20} height={20} alt="" />
                 <p className="text-white">Ether</p>
-              </div> */}
+              </div>
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
@@ -288,22 +290,34 @@ const HeroSection = () => {
                 depend on the network
               </p>
             </div>
-
-            <div
-              className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
-              onClick={handleBuyClick}
-            >
-              <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
-                {!hasApprovedAmont && buyCurrency === "USDT" ? (
-                  <p className="uppercase text-xl ">Approve USDT token</p>
-                ) : (
-                  <p className="uppercase text-xl ">Buy now </p>
-                )}
-              </button>
+            { (chain === "0x1" && buyCurrency === "ETH") || (chain === "0x38" && buyCurrency === "BNB") || (chain === "0x38" && buyCurrency === "USDT") ?
+              <div
+                className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
+                onClick={handleBuyClick}
+              >
+                <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
+                  {!hasApprovedAmont && buyCurrency === "USDT" ? (
+                    <p className="uppercase text-xl ">Approve USDT token</p>
+                  ) : (
+                    <p className="uppercase text-xl ">Buy now </p>
+                  )}
+                </button>
+              </div>
+            :
+              <div
+                className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
+              >
+                <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
+                    <p className="uppercase text-xl ">Change Network below </p>
+                </button>
             </div>
+            }
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className=" text-xl gilory-semibold ">
-                <w3m-button />
+                {(chain === "0x1" && buyCurrency === "ETH") || (chain === "0x38" && buyCurrency === "BNB") || (chain === "0x38" && buyCurrency === "USDT") ? 
+                  <w3m-button /> : <w3m-network-button />
+                }
+                
               </p>
             </div>
 
