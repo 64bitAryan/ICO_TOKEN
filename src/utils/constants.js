@@ -32,6 +32,13 @@ export const getAddress = (chainId) => {
 
 export const zeroAddress = "0x0000000000000000000000000000000000000000";
 
+
+export const USDT_ADDRESS_ETH = "0x2BC3b826bc3Cf8F9c454994622b491A9f9EB1488"
+export const USDT_ADDRESS_BSC = "0x8032517E6e505F94B00a2EaE573A6cbbb6402448"
+
+export const CROWDSALE_BSC = "0xDf46f605502C91c499d073f574DE25a02b16e5A1"
+export const CROWDSALE_ETH = "0x7F38AF46838888A08c5BDF2C00B5E622518e580A"
+
 // original addresses
 
 // export const token_address = "0xD79Ab7734A34c7398dfdF9919B4FA8BDb29eA462";
