@@ -96,14 +96,27 @@ const HeroSection = () => {
     await debounceHandler(val);
   };
 
-  const handleCurrChange = async (value) => {
-    setBuyValue(value);
-    if (buyCurrency === "ETH") {
-      const resp = await getEthToUsdtRate();
-      const calcUsdt = value * resp.USDT;
+  const handleCurrChange = async (curr, val) => {
+    setBuyValue(val);
+    let useApprovedBal = await getUserUsdtApprovedAmount();
+    let resp = await getEthToUsdtRate();
+    if (curr === "ETH") {
+      const calcUsdt = val * resp.ethPrice.USDT;
+      console.log(calcUsdt)
       setOutAmount(calcUsdt);
-    } else if (buyCurrency === "USDT") {
-      setOutAmount(value);
+    } else if (curr === "BNB") {
+      const calcUsdtBNB = val * resp.bnbPrice.USDT;
+      setOutAmount(calcUsdtBNB);
+    } else if (curr === "USDTBNB") {
+      setOutAmount(val);
+      /* global BigInt */
+      if (BigInt(val * 10 ** 18) <= useApprovedBal) setHasApprovedAmount(true);
+      else setHasApprovedAmount(false);
+    } else if (curr === "USDTETH") {
+      setOutAmount(val);
+      /* global BigInt */
+      if (BigInt(val * 10 ** 6) <= useApprovedBal) setHasApprovedAmountETH(true);
+      else setHasApprovedAmountETH(false);
     }
   };
 
@@ -135,9 +148,9 @@ const HeroSection = () => {
     } 
   };
 
-  const handleCurrencySwap = (curr) => {
-    setBuyCurrency(curr);
-    handleCurrChange(inputRef.current.value);
+  const handleCurrencySwap = async (curr) => {
+    await setBuyCurrency(curr);
+    await handleCurrChange(curr, inputRef.current.value);
   };
 
   return (
@@ -243,7 +256,7 @@ const HeroSection = () => {
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
-                  buyCurrency === "USDT" ? "bg-white bg-opacity-25" : ""
+                  buyCurrency === "USDTETH" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
                 onClick={() => {
                   handleCurrencySwap("USDTETH");
@@ -269,7 +282,7 @@ const HeroSection = () => {
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
-                  buyCurrency === "USDT" ? "bg-white bg-opacity-25" : ""
+                  buyCurrency === "USDTBNB" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
                 onClick={() => {
                   handleCurrencySwap("USDTBNB");
