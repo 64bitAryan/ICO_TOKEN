@@ -1,3 +1,5 @@
+import ReactPlayer from "react-player";
+
 const GoodNewsSection = () => {
   return (
     <div className="w-full h-auto z-10 mt-[-2rem] md:mt-[-5rem] pb-[5rem] bg-PrupleImg">
@@ -21,11 +23,14 @@ const GoodNewsSection = () => {
         </div>
 
         <div className="image flex-grow md:w-[90%] relative  md:p-20 flex items-center justify-center">
-          <video
-            className="rounded-xl border border-white shadow-md"
-            src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
-            controls
-          />
+        <div>
+            <ReactPlayer
+              url="https://vimeo.com/918417492"
+              height={750}
+              width={1000}
+              controls={true}
+            />
+          </div>
 
           <div className="absolute border border-white border-opacity-10 bg-white bg-opacity-10 rounded-lg md:p-10 backdrop-blur-lg h-fit md:max-w-[40rem] p-2 top-[100%] md:top-[70%]  md:left-0 md:bottom-0">
             <p className="text-white text-center tomorrow-light md:text-[1.125rem] text-[0.7rem]">
