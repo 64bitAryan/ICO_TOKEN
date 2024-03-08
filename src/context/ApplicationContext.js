@@ -77,10 +77,29 @@ export const ApplicationProvider = ({ children }) => {
     return result;
   };
 
+  const getTokenTotelSupplyETH = async () => {
+    const result = await readContract(config, {
+      address: usdt_address,
+      abi: USDTToken.abiETH,
+      functionName: "totalSupply",
+    });
+    return result;
+  };
+
   const getUserUsdtBalance = async () => {
     const result = await readContract(config, {
       address: usdt_address,
       abi: USDTToken.abi,
+      functionName: "balanceOf",
+      args: [currentAccount],
+    });
+    return result;
+  };
+
+  const getUserUsdtBalanceETH = async () => {
+    const result = await readContract(config, {
+      address: usdt_address,
+      abi: USDTToken.abiETH,
       functionName: "balanceOf",
       args: [currentAccount],
     });
@@ -103,13 +122,29 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
+  const approveUsdtETH = async (approveTo) => {
+    setIsConfirmed(false);
+    const amount = await getTokenTotelSupplyETH();
+    try {
+      writeContract({
+        address: usdt_address,
+        abi: USDTToken.abiETH,
+        functionName: "approve",
+        args: [approveTo, amount],
+      });
+    } catch (err) {
+      log("Unable to approve token");
+      console.log(err);
+    }
+  };
+
   const buyTokenUsingEth = async (ethAmount, affiliateAddress) => {
     const amount = toWei(ethAmount);
     if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
     try {
       writeContract({
         address: crowde_sale_address,
-        abi: crowdeSaleAbi.abi,
+        abi: crowdeSaleAbiETH.abi,
         functionName: "buyTokensWithEth",
         args: [affiliateAddress],
         value: amount,
@@ -211,6 +246,24 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
+  const buyTokensETH = async (usdtAmount, affiliateAddress) => {
+    const amount = usdtAmount * 10 ** 6;
+    const userAmount = await getUserUsdtBalanceETH();
+    if (userAmount < amount) return alert("insufficient user usdt funds.");
+    try {
+      writeContract({
+        address: crowde_sale_address,
+        abi: crowdeSaleAbiETH.abi,
+        functionName: "buyTokens",
+        args: [amount, affiliateAddress],
+      });
+      return hash;
+    } catch (err) {
+      log("Unable to buy tokens");
+      console.log(err);
+    }
+  };
+
   const registerAsAffiliate = async (affiliateAddress) => {
     try {
       const trx = await affiliateContract.registerAsAffiliate(affiliateAddress);
@@ -266,11 +319,13 @@ export const ApplicationProvider = ({ children }) => {
         claimDivident,
         getEstimatedDividentReward,
         buyTokens,
+        buyTokensETH,
         registerAsAffiliate,
         withdrawCommission,
         getCustomerAffiliate,
         getEthToUsdtRate,
         approveUsdt,
+        approveUsdtETH,
         buyTokenUsingEth,
         buyTokenUsingBNB,
         getApprovedUsdtToken,

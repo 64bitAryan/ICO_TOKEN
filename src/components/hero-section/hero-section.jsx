@@ -12,7 +12,9 @@ const HeroSection = () => {
     buyTokenUsingEth,
     buyTokenUsingBNB,
     buyTokens,
+    buyTokensETH,
     approveUsdt,
+    approveUsdtETH,
     getApprovedUsdtToken,
     getApprovedUsdtTokenETH,
     currentAccount,
@@ -142,10 +144,10 @@ const HeroSection = () => {
       await buyTokenUsingBNB(buyValue, affiliateAddress);
       console.log("buy using BNB");
     } else if (buyCurrency === "USDTETH") {
-      if (hasApprovedAmont) {
-        await buyTokens(buyValue, affiliateAddress);
+      if (hasApprovedAmontETH) {
+        await buyTokensETH(buyValue, affiliateAddress);
       } else {
-        await approveUsdt(crowde_sale_address);
+        await approveUsdtETH(crowde_sale_address);
       }
       console.log("buy using USDT");
     } 
