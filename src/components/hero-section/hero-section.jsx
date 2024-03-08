@@ -14,6 +14,7 @@ const HeroSection = () => {
     buyTokens,
     approveUsdt,
     getApprovedUsdtToken,
+    getApprovedUsdtTokenETH,
     currentAccount,
     isConfirmed,
     zeroAddress,
@@ -27,6 +28,7 @@ const HeroSection = () => {
   const [buyValue, setBuyValue] = useState(0);
   const [outAmount, setOutAmount] = useState(0);
   const [hasApprovedAmont, setHasApprovedAmount] = useState(false);
+  const [hasApprovedAmontETH, setHasApprovedAmountETH] = useState(false);
   const [timer, setTimer] = useState(null);
 
   const inputRef = useRef(null);
@@ -49,6 +51,11 @@ const HeroSection = () => {
     return res;
   };
 
+  const getUserUsdtApprovedAmountETH = async () => {
+    const res = await getApprovedUsdtTokenETH();
+    return res;
+  };
+
   const debounceHandler = async (val) => {
     let useApprovedBal = 0;
     let resp = 0;
@@ -58,14 +65,24 @@ const HeroSection = () => {
     const newTimer = setTimeout(async () => {
       useApprovedBal = await getUserUsdtApprovedAmount();
       resp = await getEthToUsdtRate();
+      console.log(resp)
       if (buyCurrency === "ETH") {
-        const calcUsdt = val * resp.USDT;
+        const calcUsdt = val * resp.ethPrice.USDT;
+        console.log(calcUsdt)
         setOutAmount(calcUsdt);
-      } else if (buyCurrency === "USDT") {
+      } else if (buyCurrency === "BNB") {
+        const calcUsdtBNB = val * resp.bnbPrice.USDT;
+        setOutAmount(calcUsdtBNB);
+      } else if (buyCurrency === "USDTBNB") {
         setOutAmount(val);
         /* global BigInt */
-        if (BigInt(val * 10 ** 6) <= useApprovedBal) setHasApprovedAmount(true);
+        if (BigInt(val * 10 ** 18) <= useApprovedBal) setHasApprovedAmount(true);
         else setHasApprovedAmount(false);
+      } else if (buyCurrency === "USDTETH") {
+        setOutAmount(val);
+        /* global BigInt */
+        if (BigInt(val * 10 ** 6) <= useApprovedBal) setHasApprovedAmountETH(true);
+        else setHasApprovedAmountETH(false);
       }
     }, 500);
 
@@ -98,7 +115,7 @@ const HeroSection = () => {
     if (buyCurrency === "ETH") {
       await buyTokenUsingEth(buyValue, affiliateAddress);
       console.log("buy using ETH");
-    } else if (buyCurrency === "USDT") {
+    } else if (buyCurrency === "USDTBNB") {
       if (hasApprovedAmont) {
         await buyTokens(buyValue, affiliateAddress);
       } else {
@@ -108,7 +125,14 @@ const HeroSection = () => {
     } else if (buyCurrency === "BNB") {
       await buyTokenUsingBNB(buyValue, affiliateAddress);
       console.log("buy using BNB");
-    }
+    } else if (buyCurrency === "USDTETH") {
+      if (hasApprovedAmont) {
+        await buyTokens(buyValue, affiliateAddress);
+      } else {
+        await approveUsdt(crowde_sale_address);
+      }
+      console.log("buy using USDT");
+    } 
   };
 
   const handleCurrencySwap = (curr) => {
@@ -219,6 +243,20 @@ const HeroSection = () => {
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
+                  buyCurrency === "USDT" ? "bg-white bg-opacity-25" : ""
+                }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
+                onClick={() => {
+                  handleCurrencySwap("USDTETH");
+                }}
+              >
+                <img src={USDT} width={20} height={20} alt="" />
+                <div className="flex flex-col">
+                  <p className="text-white font-bold">USDT <br/> ERC20</p>
+                </div>
+              </div>
+
+              <div
+                className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
                   buyCurrency === "BNB" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
                 onClick={() => {
@@ -234,13 +272,12 @@ const HeroSection = () => {
                   buyCurrency === "USDT" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
                 onClick={() => {
-                  handleCurrencySwap("USDT");
+                  handleCurrencySwap("USDTBNB");
                 }}
               >
                 <img src={USDT} width={20} height={20} alt="" />
                 <div className="flex flex-col">
-                  <p className="text-white font-bold">USDT</p>
-                  <p className="text-[0.8rem] text-white">ERC20</p>
+                  <p className="text-white font-bold">USDT <br/>BEP20</p>
                 </div>
               </div>
             </div>

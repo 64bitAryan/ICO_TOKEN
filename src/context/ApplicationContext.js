@@ -147,6 +147,16 @@ export const ApplicationProvider = ({ children }) => {
     return result;
   };
 
+  const getApprovedUsdtTokenETH = async () => {
+    const result = await readContract(config, {
+      address: usdt_address,
+      abi: USDTToken.abiETH,
+      functionName: "allowance",
+      args: [address, crowde_sale_address],
+    });
+    return result;
+  };
+
   // Staking & Divident functions //
   const getEstimatedReward = async (address, index) => {
     try {
@@ -236,7 +246,12 @@ export const ApplicationProvider = ({ children }) => {
       const resp = await fetch(
         "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USDT"
       );
-      return resp.json();
+      const respBNB = await fetch(
+        "https://min-api.cryptocompare.com/data/price?fsym=BNB&tsyms=USDT"
+      );
+      let usdtETH = await resp.json();
+      let usdtBNB = await respBNB.json();
+      return { "ethPrice": usdtETH, "bnbPrice": usdtBNB};
     } catch (err) {
       console.log(err);
     }
@@ -259,6 +274,7 @@ export const ApplicationProvider = ({ children }) => {
         buyTokenUsingEth,
         buyTokenUsingBNB,
         getApprovedUsdtToken,
+        getApprovedUsdtTokenETH,
         isConfirmed,
         isPending,
         token_address,
