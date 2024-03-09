@@ -1,13 +1,13 @@
 import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
 import { createContext, useEffect, useState } from "react";
 import { readContract, getChainId } from "@wagmi/core";
-import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
-import USDTToken from "../artifacts/contracts/usdtToken.sol/USDTtoken.json";
-import crowdeSaleAbiETH from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
-import crowdeSaleAbi from "../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
 import {
-  CROWDSALE_BSC,
-  CROWDSALE_ETH,
+  CROWDSALE_ABI_BSC,
+  CROWDSALE_ABI_ETH,
+  CROWDSALE_ADDRESS_BSC,
+  CROWDSALE_ADDRESS_ETH,
+  USDT_ABI_BNB,
+  USDT_ABI_ETH,
   USDT_ADDRESS_BSC,
   USDT_ADDRESS_ETH,
   getAddress,
@@ -78,7 +78,7 @@ export const ApplicationProvider = ({ children }) => {
   const getTokenTotelSupply = async () => {
     const result = await readContract(config, {
       address: USDT_ADDRESS_BSC,
-      abi: USDTToken.abi,
+      abi: USDT_ABI_BNB,
       functionName: "totalSupply",
     });
     return result;
@@ -87,7 +87,7 @@ export const ApplicationProvider = ({ children }) => {
   const getTokenTotelSupplyETH = async () => {
     const result = await readContract(config, {
       address: USDT_ADDRESS_ETH,
-      abi: USDTToken.abiETH,
+      abi: USDT_ABI_ETH,
       functionName: "totalSupply",
     });
     return result;
@@ -96,7 +96,7 @@ export const ApplicationProvider = ({ children }) => {
   const getUserUsdtBalance = async () => {
     const result = await readContract(config, {
       address: USDT_ADDRESS_BSC,
-      abi: USDTToken.abi,
+      abi: USDT_ABI_BNB,
       functionName: "balanceOf",
       args: [currentAccount],
     });
@@ -106,10 +106,11 @@ export const ApplicationProvider = ({ children }) => {
   const getUserUsdtBalanceETH = async () => {
     const result = await readContract(config, {
       address: USDT_ADDRESS_ETH,
-      abi: USDTToken.abiETH,
+      abi: USDT_ABI_ETH,
       functionName: "balanceOf",
       args: [currentAccount],
     });
+    console.log(result)
     return result;
   };
 
@@ -119,7 +120,7 @@ export const ApplicationProvider = ({ children }) => {
     try {
       writeContract({
         address: USDT_ADDRESS_BSC,
-        abi: USDTToken.abi,
+        abi: USDT_ABI_BNB,
         functionName: "approve",
         args: [approveTo, amount],
       });
@@ -135,7 +136,7 @@ export const ApplicationProvider = ({ children }) => {
     try {
       writeContract({
         address: USDT_ADDRESS_ETH,
-        abi: USDTToken.abiETH,
+        abi: USDT_ABI_ETH,
         functionName: "approve",
         args: [approveTo, amount],
       });
@@ -150,8 +151,8 @@ export const ApplicationProvider = ({ children }) => {
     if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
     try {
       writeContract({
-        address: CROWDSALE_ETH,
-        abi: crowdeSaleAbiETH.abi,
+        address: CROWDSALE_ADDRESS_ETH,
+        abi: CROWDSALE_ABI_ETH,
         functionName: "buyTokensWithEth",
         args: [affiliateAddress],
         value: amount,
@@ -170,8 +171,8 @@ export const ApplicationProvider = ({ children }) => {
     console.log(affiliateAddress)
     try {
       writeContract({
-        address: CROWDSALE_BSC,
-        abi: crowdeSaleAbi.abi,
+        address: CROWDSALE_ADDRESS_BSC,
+        abi: CROWDSALE_ABI_BSC,
         functionName: "buyTokensWithBNB",
         args: [affiliateAddress],
         value: amount,
@@ -185,9 +186,9 @@ export const ApplicationProvider = ({ children }) => {
   const getApprovedUsdtToken = async () => {
     const result = await readContract(config, {
       address: USDT_ADDRESS_BSC,
-      abi: tokenAbi.abi,
+      abi: USDT_ABI_BNB,
       functionName: "allowance",
-      args: [address, CROWDSALE_BSC],
+      args: [address, CROWDSALE_ADDRESS_BSC],
     });
     return result;
   };
@@ -196,10 +197,11 @@ export const ApplicationProvider = ({ children }) => {
     console.log("usdt_address_eth", USDT_ADDRESS_ETH);
     const result = await readContract(config, {
       address: USDT_ADDRESS_ETH,
-      abi: tokenAbi.abiETH,
+      abi: USDT_ABI_ETH,
       functionName: "allowance",
-      args: [address, CROWDSALE_ETH],
+      args: [address, CROWDSALE_ADDRESS_ETH],
     });
+    console.log(result)
     return result;
   };
 
@@ -245,8 +247,8 @@ export const ApplicationProvider = ({ children }) => {
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
       writeContract({
-        address: CROWDSALE_BSC,
-        abi: crowdeSaleAbi.abi,
+        address: CROWDSALE_ADDRESS_BSC,
+        abi: CROWDSALE_ABI_BSC,
         functionName: "buyTokens",
         args: [amount, affiliateAddress],
       });
@@ -260,11 +262,12 @@ export const ApplicationProvider = ({ children }) => {
   const buyTokensETH = async (usdtAmount, affiliateAddress) => {
     const amount = usdtAmount * 10 ** 6;
     const userAmount = await getUserUsdtBalanceETH();
+    console.log(amount, userAmount)
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
       writeContract({
-        address: CROWDSALE_ETH,
-        abi: crowdeSaleAbiETH.abi,
+        address: CROWDSALE_ADDRESS_ETH,
+        abi: CROWDSALE_ABI_ETH,
         functionName: "buyTokens",
         args: [amount, affiliateAddress],
       });
@@ -278,8 +281,8 @@ export const ApplicationProvider = ({ children }) => {
   const registerAffiliate = async (_address) => {
     try {
       writeContract({
-        address: CROWDSALE_BSC,
-        abi: crowdeSaleAbi.abi,
+        address: CROWDSALE_ADDRESS_BSC,
+        abi: CROWDSALE_ABI_BSC,
         functionName: "registerAsAffiliate",
         args: [_address],
       });

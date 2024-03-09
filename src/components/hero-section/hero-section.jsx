@@ -6,6 +6,7 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { useParams } from "react-router-dom";
 import { isValidAddress } from "../../utils/helpers";
 import CountdownTimer from "./countdown";
+import { CROWDSALE_ADDRESS_BSC, CROWDSALE_ADDRESS_ETH } from "../../utils/constants";
 
 const HeroSection = () => {
   const {
@@ -148,7 +149,7 @@ const HeroSection = () => {
       if (hasApprovedAmont) {
         await buyTokens(buyValue, affiliateAddress);
       } else {
-        await approveUsdt(crowde_sale_address);
+        await approveUsdt(CROWDSALE_ADDRESS_BSC);
       }
       console.log("buy using USDT");
     } else if (buyCurrency === "BNB") {
@@ -159,7 +160,7 @@ const HeroSection = () => {
       if (hasApprovedAmontETH) {
         await buyTokensETH(buyValue, affiliateAddress);
       } else {
-        await approveUsdtETH(crowde_sale_address);
+        await approveUsdtETH(CROWDSALE_ADDRESS_ETH);
       }
       console.log("buy using USDT");
     }
@@ -371,8 +372,9 @@ const HeroSection = () => {
                 onClick={handleBuyClick}
               >
                 <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
-                  {(!hasApprovedAmontETH && buyCurrency === "USDTETH") ||
-                  (!hasApprovedAmont && buyCurrency === "USDTBNB") ? (
+                  {(!hasApprovedAmontETH && buyCurrency === "USDTETH") || (!hasApprovedAmont && buyCurrency === "USDTBNB")
+                   ? 
+                  (
                     <p className="uppercase text-xl ">Approve USDT token</p>
                   ) : (
                     <p className="uppercase text-xl ">Buy now </p>

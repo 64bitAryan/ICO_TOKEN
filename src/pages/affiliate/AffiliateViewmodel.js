@@ -5,11 +5,11 @@ import { ethers } from "ethers";
 
 import crowdesaleAbi from "../../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
 import {
-  CROWDSALE_BSC,
-  CROWDSALE_ETH,
   provider,
   privateKey,
   provider as Provider,
+  CROWDSALE_ADDRESS_BSC,
+  CROWDSALE_ABI_BSC,
 } from "../../utils/constants";
 import { readContract } from "viem/actions";
 import { config } from "../../config";
@@ -31,16 +31,16 @@ export const AffiliateViewModel = () => {
   const wallet = new ethers.Wallet(privateKey, provider);
 
   const contract = new ethers.Contract(
-    CROWDSALE_BSC,
-    crowdesaleAbi.abi,
+    CROWDSALE_ADDRESS_BSC,
+    CROWDSALE_ABI_BSC,
     wallet
   );
 
   const registerAffiliate = async (_address) => {
     try {
       writeContract({
-        address: CROWDSALE_BSC,
-        abi: crowdesaleAbi.abi,
+        address: CROWDSALE_ADDRESS_BSC,
+        abi: CROWDSALE_ABI_BSC,
         functionName: "registerAsAffiliate",
         args: [_address],
       });
@@ -53,8 +53,8 @@ export const AffiliateViewModel = () => {
     console.log("withdraw commission");
     try {
       writeContract({
-        address: CROWDSALE_BSC,
-        abi: crowdesaleAbi.abi,
+        address: CROWDSALE_ADDRESS_BSC,
+        abi: CROWDSALE_ABI_BSC,
         functionName: "withdrawCommission",
       });
     } catch (err) {
