@@ -18,6 +18,7 @@ export const AffiliateViewModel = () => {
   const { address } = useAccount();
   const [isAffiliateRegister, setIsAffiliateRegister] = useState(false);
   const [currentCommission, setCurrentCommission] = useState(0);
+  const [accumulatedCommission, setAccumulatedCommission] = useState(0);
 
   const { currentAccount } = useContext(ApplicationContext);
   let { data: hash, writeContract } = useWriteContract();
@@ -62,10 +63,21 @@ export const AffiliateViewModel = () => {
     }
   };
 
-  const getCommisionRate = async (_address) => {
+  const getCommisionRate = async () => {
+    try {
+      const result = await contract.commissionRate();
+      setCurrentCommission(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getAccumulatedComision = async () => {
     try {
       const result = await contract.getAccumulatedCommission(address);
-      setCurrentCommission(result);
+      console.log(`Result ${result}`);
+      setAccumulatedCommission(result);
+      return result;
     } catch (err) {
       console.log(err);
     }
@@ -113,6 +125,9 @@ export const AffiliateViewModel = () => {
     isAffiliateRegister,
     getCommisionRate,
     currentCommission,
+    getAccumulatedComision,
+    accumulatedCommission,
+    setAccumulatedCommission,
     // getCommisionRate
   };
 };

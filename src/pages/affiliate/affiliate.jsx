@@ -4,6 +4,7 @@ import "./nicepage.css";
 import "./SAIB-Affiliate.css";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { AffiliateViewModel } from "./AffiliateViewmodel";
+import { toEth } from "../../utils/helpers";
 
 export const Affiliate = () => {
   const {
@@ -17,13 +18,15 @@ export const Affiliate = () => {
     isAffiliateRegister,
     getCommisionRate,
     currentCommission,
+    getAccumulatedComision,
+    accumulatedCommission,
   } = AffiliateViewModel();
 
   const [link, setLink] = useState("");
-  const [commissionRate, setCommisionRate] = useState(0);
 
   useEffect(() => {
     getIsAffiliateRegistered();
+    getAccumulatedComision();
   }, []);
 
   const { chain, currentAccount } = useContext(ApplicationContext);
@@ -149,6 +152,8 @@ export const Affiliate = () => {
               <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">
                 {" "}
                 Current commission (BEP20): {currentCommission}
+                <br />
+                Accumulated commission (BEP20): {toEth(accumulatedCommission)}
                 <span style={{ fontWeight: 700 }} />
               </p>
               <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-6">
