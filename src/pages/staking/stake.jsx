@@ -58,7 +58,7 @@ export const Stake = () => {
           </div>
           <img
             className="u-image u-image-contain u-image-default u-image-1"
-            src="images/share-text.png"
+            src="/images/share-text.png"
             alt=""
             data-image-width={6000}
             data-image-height={1088}

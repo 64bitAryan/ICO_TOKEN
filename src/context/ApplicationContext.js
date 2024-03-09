@@ -28,6 +28,7 @@ export const ApplicationProvider = ({ children }) => {
   // const [chainId, setChainId] = getChainId(config);
   const [currentAccount, setCurrentAccount] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isConfirmedETH, setIsConfirmedETH] = useState(false);
   const [chain, setChain] = useState(56);
 
   let { data: hash, isPending, writeContract } = useWriteContract();
@@ -129,7 +130,7 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const approveUsdtETH = async (approveTo) => {
-    setIsConfirmed(false);
+    setIsConfirmedETH(false);
     const amount = await getTokenTotelSupplyETH();
     try {
       writeContract({
@@ -179,7 +180,6 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const getApprovedUsdtToken = async () => {
-    console.log("usdt_address_bsc", USDT_ADDRESS_BSC);
     const result = await readContract(config, {
       address: USDT_ADDRESS_BSC,
       abi: tokenAbi.abi,
