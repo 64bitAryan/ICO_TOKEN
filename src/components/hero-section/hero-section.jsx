@@ -66,10 +66,8 @@ const HeroSection = () => {
     clearTimeout(timer);
 
     const newTimer = setTimeout(async () => {
-      
-      
       resp = await getEthToUsdtRate();
-      console.log(resp)
+      console.log(resp);
       if (buyCurrency === "ETH" && chain === "0xaa36a7") {
         const calcUsdt = val * resp.ethPrice.USDT;
         console.log(calcUsdt);
@@ -86,7 +84,7 @@ const HeroSection = () => {
         else setHasApprovedAmount(false);
       } else if (buyCurrency === "USDTETH" && chain === "0xaa36a7") {
         usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
-        console.log(usdApprovedBalETH)
+        console.log(usdApprovedBalETH);
         setOutAmount(val);
         /* global BigInt */
         if (BigInt(val * 10 ** 6) <= usdApprovedBalETH)
@@ -107,8 +105,7 @@ const HeroSection = () => {
 
   const handleCurrChange = async (curr, val) => {
     setBuyValue(val);
-    
-    
+
     let resp = await getEthToUsdtRate();
     if (curr === "ETH" && chain === "0xaa36a7") {
       const calcUsdt = val * resp.ethPrice.USDT;
@@ -358,13 +355,17 @@ const HeroSection = () => {
                 depend on the network
               </p>
             </div>
-            {(chain === "0xaa36a7" && buyCurrency === "ETH") || (chain === "0xaa36a7" && buyCurrency === "USDTETH") || (chain === "0x61" && buyCurrency === "BNB") || (chain === "0x61" && buyCurrency === "USDTBNB") ? 
+            {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
+            (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
+            (chain === "0x61" && buyCurrency === "BNB") ||
+            (chain === "0x61" && buyCurrency === "USDTBNB") ? (
               <div
-                className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
+                className="flex flex-row mx-auto mt-5 mb-5 w-[80%] justify-center items-center"
                 onClick={handleBuyClick}
               >
                 <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
-                  {(!hasApprovedAmontETH && buyCurrency === "USDTETH") || (!hasApprovedAmont && buyCurrency === "USDTBNB") ? (
+                  {(!hasApprovedAmontETH && buyCurrency === "USDTETH") ||
+                  (!hasApprovedAmont && buyCurrency === "USDTBNB") ? (
                     <p className="uppercase text-xl ">Approve USDT token</p>
                   ) : (
                     <p className="uppercase text-xl ">Buy now </p>
@@ -372,7 +373,7 @@ const HeroSection = () => {
                 </button>
               </div>
             ) : (
-              <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
+              <div className="flex flex-row mx-auto mt-5 mb-5 w-[80%] justify-center items-center">
                 <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
                   <p className="uppercase text-xl ">Change Network below </p>
                 </button>
@@ -380,10 +381,14 @@ const HeroSection = () => {
             )}
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className=" text-xl gilory-semibold ">
-                {(chain === "0xaa36a7" && buyCurrency === "ETH") || (chain === "0xaa36a7" && buyCurrency === "USDTETH") || (chain === "0x61" && buyCurrency === "BNB") || (chain === "0x61" && buyCurrency === "USDTBNB") ? 
-                  <w3m-button /> : <w3m-network-button />
-                }
-                
+                {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
+                (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
+                (chain === "0x38" && buyCurrency === "BNB") ||
+                (chain === "0x38" && buyCurrency === "USDTBNB") ? (
+                  <w3m-button />
+                ) : (
+                  <w3m-network-button />
+                )}
               </p>
             </div>
 
