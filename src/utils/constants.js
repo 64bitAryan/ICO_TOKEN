@@ -14,7 +14,7 @@ export const getAddress = (chainId) => {
       zeroAddress,
     };
   } else {
-    const token_address = "0x83524e6EBd93196DCC311864C3aADbB6EbBDf699";
+    const token_address = "0x8957E8A5dE87e950a4A0f260Aa0DBfDF77B3d38b";
     const usdt_address = "0x2BC3b826bc3Cf8F9c454994622b491A9f9EB1488";
     const crowde_sale_address = "0x7F38AF46838888A08c5BDF2C00B5E622518e580A";
     const staking_address = "0xB875ce35E94C42F6dD9b9FFa2B93e7e70513bD78";
@@ -32,12 +32,11 @@ export const getAddress = (chainId) => {
 
 export const zeroAddress = "0x0000000000000000000000000000000000000000";
 
+export const USDT_ADDRESS_ETH = "0x2BC3b826bc3Cf8F9c454994622b491A9f9EB1488";
+export const USDT_ADDRESS_BSC = "0x8032517E6e505F94B00a2EaE573A6cbbb6402448";
 
-export const USDT_ADDRESS_ETH = "0x2BC3b826bc3Cf8F9c454994622b491A9f9EB1488"
-export const USDT_ADDRESS_BSC = "0x8032517E6e505F94B00a2EaE573A6cbbb6402448"
-
-export const CROWDSALE_BSC = "0xDf46f605502C91c499d073f574DE25a02b16e5A1"
-export const CROWDSALE_ETH = "0x7F38AF46838888A08c5BDF2C00B5E622518e580A"
+export const CROWDSALE_BSC = "0xDf46f605502C91c499d073f574DE25a02b16e5A1";
+export const CROWDSALE_ETH = "0x7F38AF46838888A08c5BDF2C00B5E622518e580A";
 
 // original addresses
 

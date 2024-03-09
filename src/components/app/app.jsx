@@ -7,6 +7,7 @@ import { Login } from "../../pages/home/login";
 import { Stake } from "../../pages/staking/stake";
 import { Affiliate } from "../../pages/affiliate/affiliate";
 import { logo } from "../../pages/images/logo.png";
+import { Home as AffiliateHome } from "../../afiliate_landing/pages/home";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path="/terms" element={<PrivateRoute component={Terms} />} />
           <Route path="/login" element={<PrivateRoute component={Login} />} />
           <Route path="/stake" element={<Stake />} />
-          <Route path="/affiliate" element={<Affiliate />} />
+          <Route path="/affiliate" element={<AffiliateHome />} />
         </Routes>
       </Layout>
     </div>

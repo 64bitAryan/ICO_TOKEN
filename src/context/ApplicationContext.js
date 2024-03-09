@@ -5,7 +5,13 @@ import tokenAbi from "../artifacts/contracts/token.sol/Token.json";
 import USDTToken from "../artifacts/contracts/usdtToken.sol/USDTtoken.json";
 import crowdeSaleAbiETH from "../artifacts/contracts/CrowdsaleEth.sol/CrowdesaleEth.json";
 import crowdeSaleAbi from "../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
-import { CROWDSALE_BSC, CROWDSALE_ETH, USDT_ADDRESS_BSC, USDT_ADDRESS_ETH, getAddress } from "../utils/constants";
+import {
+  CROWDSALE_BSC,
+  CROWDSALE_ETH,
+  USDT_ADDRESS_BSC,
+  USDT_ADDRESS_ETH,
+  getAddress,
+} from "../utils/constants";
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
 import { Buffer } from "buffer";
@@ -176,7 +182,7 @@ export const ApplicationProvider = ({ children }) => {
   const getApprovedUsdtToken = async () => {
     const result = await readContract(config, {
       address: USDT_ADDRESS_BSC,
-      abi: USDTToken.abi,
+      abi: tokenAbi.abi,
       functionName: "allowance",
       args: [address, CROWDSALE_BSC],
     });
@@ -184,9 +190,10 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const getApprovedUsdtTokenETH = async () => {
+    console.log("usdt_address_eth", USDT_ADDRESS_ETH);
     const result = await readContract(config, {
       address: USDT_ADDRESS_ETH,
-      abi: USDTToken.abiETH,
+      abi: tokenAbi.abiETH,
       functionName: "allowance",
       args: [address, CROWDSALE_ETH],
     });
@@ -265,12 +272,15 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
-  const registerAsAffiliate = async (affiliateAddress) => {
+  const registerAffiliate = async (_address) => {
     try {
-      const trx = await affiliateContract.registerAsAffiliate(affiliateAddress);
-      return trx.hash;
+      writeContract({
+        address: crowde_sale_address,
+        abi: crowdeSaleAbi.abi,
+        functionName: "registerAsAffiliate",
+        args: [_address],
+      });
     } catch (err) {
-      log("Unable to register as affiliate");
       console.log(err);
     }
   };
@@ -305,7 +315,7 @@ export const ApplicationProvider = ({ children }) => {
       );
       let usdtETH = await resp.json();
       let usdtBNB = await respBNB.json();
-      return { "ethPrice": usdtETH, "bnbPrice": usdtBNB};
+      return { ethPrice: usdtETH, bnbPrice: usdtBNB };
     } catch (err) {
       console.log(err);
     }
@@ -321,7 +331,7 @@ export const ApplicationProvider = ({ children }) => {
         getEstimatedDividentReward,
         buyTokens,
         buyTokensETH,
-        registerAsAffiliate,
+        registerAffiliate,
         withdrawCommission,
         getCustomerAffiliate,
         getEthToUsdtRate,
