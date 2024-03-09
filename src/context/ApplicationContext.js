@@ -164,7 +164,10 @@ export const ApplicationProvider = ({ children }) => {
 
   const buyTokenUsingBNB = async (ethAmount, affiliateAddress) => {
     const amount = toWei(ethAmount);
-    if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
+    if (affiliateAddress === "" || undefined) {
+      affiliateAddress = zeroAddress;
+    }
+    console.log(affiliateAddress)
     try {
       writeContract({
         address: CROWDSALE_BSC,
@@ -275,7 +278,7 @@ export const ApplicationProvider = ({ children }) => {
   const registerAffiliate = async (_address) => {
     try {
       writeContract({
-        address: crowde_sale_address,
+        address: CROWDSALE_BSC,
         abi: crowdeSaleAbi.abi,
         functionName: "registerAsAffiliate",
         args: [_address],

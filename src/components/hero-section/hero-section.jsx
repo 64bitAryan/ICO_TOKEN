@@ -1,5 +1,6 @@
 import { Binance, Ether, Logo, USDT } from "../../assets/auth";
 import { useContext, useState, useRef, useEffect } from "react";
+import { AES, enc } from 'crypto-js';
 import { motion } from "framer-motion";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { useParams } from "react-router-dom";
@@ -132,8 +133,13 @@ const HeroSection = () => {
 
   const handleBuyClick = async () => {
     let affiliateAddress = zeroAddress;
-    if (address && isValidAddress(address)) {
-      affiliateAddress = address;
+    if (address) {
+      let encodedWord = enc.Base64.parse(address)
+      let decryptAddress = enc.Utf8.stringify(encodedWord)
+      console.log(decryptAddress)
+      if(await isValidAddress(decryptAddress)){
+        affiliateAddress = decryptAddress;
+      }
     }
     if (buyCurrency === "ETH") {
       await buyTokenUsingEth(buyValue, affiliateAddress);
@@ -146,6 +152,7 @@ const HeroSection = () => {
       }
       console.log("buy using USDT");
     } else if (buyCurrency === "BNB") {
+      console.log(affiliateAddress)
       await buyTokenUsingBNB(buyValue, affiliateAddress);
       console.log("buy using BNB");
     } else if (buyCurrency === "USDTETH") {

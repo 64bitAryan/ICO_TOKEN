@@ -7,6 +7,7 @@ import { EarningSection } from "../../components/earning-section";
 import { BusinessSuccess } from "../../components/business-success-section";
 import { AboutAIBoost } from "../../components/about-aiboost";
 import { FAQSection } from "../../components/faq-section";
+import './index.css';
 
 const Home = () => {
   return (

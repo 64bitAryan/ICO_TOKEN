@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AES, enc } from 'crypto-js';
 import "./nicepage.css";
 import "./SAIB-Affiliate.css";
 import { ApplicationContext } from "../../context/ApplicationContext";
@@ -13,6 +14,8 @@ export const Affiliate = () => {
     setAffiliateAddress,
     withdrawCommission,
   } = AffiliateViewModel();
+  
+  const [link, setLink] = useState("");
 
   const {
     chain,
@@ -23,6 +26,15 @@ export const Affiliate = () => {
     const val = event.target.value;
     setAffiliateAddress(val);
   };
+
+  useEffect(()=>{
+    if(currentAccount !== undefined){
+      let link = enc.Utf8.parse(currentAccount);
+      var base64 = enc.Base64.stringify(link);
+      link = "https://salesaiboost.io/" + base64;
+      setLink(link);
+    }
+  },[currentAccount])
 
   const handleRegisterClick = async (event) => {
     if (isValidAddress(affiliateAddress)) {
@@ -86,8 +98,8 @@ export const Affiliate = () => {
               <h2 className="u-custom-font u-text u-text-custom-color-4 u-text-default-lg u-text-default-xl u-text-3">
                 {" "}
                 This is your personal invitation link:&nbsp;{" "}
-                <a className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-custom-color-1 waffle-rich-text-link u-btn-1">
-                  https://salesaiboost.io/hgk5guo67mH4Bcd
+                <a href={link} target="_blank" className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-custom-color-1 waffle-rich-text-link u-btn-1">
+                  {link}
                 </a>
               </h2>
             </div>

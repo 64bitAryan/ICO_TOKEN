@@ -3,6 +3,7 @@ import { useRef, useState, useContext } from "react";
 import { ApplicationContext } from "../../context/ApplicationContext";
 
 import crowdesaleAbi from "../../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
+import { CROWDSALE_BSC } from "../../utils/constants";
 
 export const AffiliateViewModel = () => {
   const { crowde_sale_address } = useContext(ApplicationContext);
@@ -15,7 +16,7 @@ export const AffiliateViewModel = () => {
   const registerAffiliate = async (_address) => {
     try {
       writeContract({
-        address: crowde_sale_address,
+        address: CROWDSALE_BSC,
         abi: crowdesaleAbi.abi,
         functionName: "registerAsAffiliate",
         args: [_address],
