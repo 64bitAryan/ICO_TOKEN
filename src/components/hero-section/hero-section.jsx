@@ -21,7 +21,7 @@ const HeroSection = () => {
     isConfirmed,
     zeroAddress,
     crowde_sale_address,
-    chain
+    chain,
   } = useContext(ApplicationContext);
 
   const { address } = useParams();
@@ -69,10 +69,10 @@ const HeroSection = () => {
       useApprovedBal = await getUserUsdtApprovedAmount();
       usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
       resp = await getEthToUsdtRate();
-      console.log(resp)
+      console.log(resp);
       if (buyCurrency === "ETH") {
         const calcUsdt = val * resp.ethPrice.USDT;
-        console.log(calcUsdt)
+        console.log(calcUsdt);
         setOutAmount(calcUsdt);
       } else if (buyCurrency === "BNB") {
         const calcUsdtBNB = val * resp.bnbPrice.USDT;
@@ -80,12 +80,14 @@ const HeroSection = () => {
       } else if (buyCurrency === "USDTBNB") {
         setOutAmount(val);
         /* global BigInt */
-        if (BigInt(val * 10 ** 18) <= useApprovedBal) setHasApprovedAmount(true);
+        if (BigInt(val * 10 ** 18) <= useApprovedBal)
+          setHasApprovedAmount(true);
         else setHasApprovedAmount(false);
       } else if (buyCurrency === "USDTETH") {
         setOutAmount(val);
         /* global BigInt */
-        if (BigInt(val * 10 ** 6) <= usdApprovedBalETH) setHasApprovedAmountETH(true);
+        if (BigInt(val * 10 ** 6) <= usdApprovedBalETH)
+          setHasApprovedAmountETH(true);
         else setHasApprovedAmountETH(false);
       }
     }, 500);
@@ -107,7 +109,7 @@ const HeroSection = () => {
     let resp = await getEthToUsdtRate();
     if (curr === "ETH") {
       const calcUsdt = val * resp.ethPrice.USDT;
-      console.log(calcUsdt)
+      console.log(calcUsdt);
       setOutAmount(calcUsdt);
     } else if (curr === "BNB") {
       const calcUsdtBNB = val * resp.bnbPrice.USDT;
@@ -120,7 +122,8 @@ const HeroSection = () => {
     } else if (curr === "USDTETH") {
       setOutAmount(val);
       /* global BigInt */
-      if (BigInt(val * 10 ** 6) <= usdApprovedBalETH) setHasApprovedAmountETH(true);
+      if (BigInt(val * 10 ** 6) <= usdApprovedBalETH)
+        setHasApprovedAmountETH(true);
       else setHasApprovedAmountETH(false);
     }
   };
@@ -150,7 +153,7 @@ const HeroSection = () => {
         await approveUsdtETH(crowde_sale_address);
       }
       console.log("buy using USDT");
-    } 
+    }
   };
 
   const handleCurrencySwap = async (curr) => {
@@ -269,7 +272,9 @@ const HeroSection = () => {
               >
                 <img src={USDT} width={20} height={20} alt="" />
                 <div className="flex flex-col">
-                  <p className="text-white font-bold">USDT <br/> ERC20</p>
+                  <p className="text-white font-bold">
+                    USDT <br /> ERC20
+                  </p>
                 </div>
               </div>
 
@@ -295,7 +300,10 @@ const HeroSection = () => {
               >
                 <img src={USDT} width={20} height={20} alt="" />
                 <div className="flex flex-col">
-                  <p className="text-white font-bold">USDT <br/>BEP20</p>
+                  <p className="text-white font-bold">
+                    USDT <br />
+                    BEP20
+                  </p>
                 </div>
               </div>
             </div>
@@ -345,7 +353,10 @@ const HeroSection = () => {
                 depend on the network
               </p>
             </div>
-            {(chain === "0xaa36a7" && buyCurrency === "ETH") || (chain === "0xaa36a7" && buyCurrency === "USDTETH") || (chain === "0x38" && buyCurrency === "BNB") || (chain === "0x38" && buyCurrency === "USDTBNB") ? 
+            {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
+            (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
+            (chain === "0x38" && buyCurrency === "BNB") ||
+            (chain === "0x38" && buyCurrency === "USDTBNB") ? (
               <div
                 className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
                 onClick={handleBuyClick}
@@ -358,21 +369,23 @@ const HeroSection = () => {
                   )}
                 </button>
               </div>
-            :
-              <div
-                className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center"
-              >
+            ) : (
+              <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
                 <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
-                    <p className="uppercase text-xl ">Change Network below </p>
+                  <p className="uppercase text-xl ">Change Network below </p>
                 </button>
-            </div>
-            }
+              </div>
+            )}
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className=" text-xl gilory-semibold ">
-                {(chain === "0xaa36a7" && buyCurrency === "ETH") || (chain === "0xaa36a7" && buyCurrency === "USDTETH") || (chain === "0x38" && buyCurrency === "BNB") || (chain === "0x38" && buyCurrency === "USDTBNB") ? 
-                  <w3m-button /> : <w3m-network-button />
-                }
-                
+                {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
+                (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
+                (chain === "0x38" && buyCurrency === "BNB") ||
+                (chain === "0x38" && buyCurrency === "USDTBNB") ? (
+                  <w3m-button />
+                ) : (
+                  <w3m-network-button />
+                )}
               </p>
             </div>
 
