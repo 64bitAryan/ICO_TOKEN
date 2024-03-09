@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./nicepage.css";
 import "./SAIB-Affiliate.css";
+import { ApplicationContext } from "../../context/ApplicationContext";
 import { AffiliateViewModel } from "./AffiliateViewmodel";
 
 export const Affiliate = () => {
@@ -12,6 +13,11 @@ export const Affiliate = () => {
     setAffiliateAddress,
     withdrawCommission,
   } = AffiliateViewModel();
+
+  const {
+    chain,
+    currentAccount
+  } = useContext(ApplicationContext);
 
   const handleInputChange = async (event) => {
     const val = event.target.value;
@@ -52,12 +58,7 @@ export const Affiliate = () => {
             data-image-width={1557}
             data-image-height={306}
           />
-          <a
-            href="https://nicepage.com/k/exam-html-templates"
-            className="u-btn u-button-style u-custom-color-5 u-custom-font u-btn-1"
-          >
-            WALLET CONNECT{" "}
-          </a>
+          
         </div>
       </section>
       <section
@@ -75,6 +76,8 @@ export const Affiliate = () => {
             {" "}
             have a 😊smiley day today!&nbsp;
           </p>
+          {currentAccount !== undefined ? 
+          <>
           <div className="custom-expanded u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-custom-color-8 u-group u-shape-rectangle u-group-1">
             <div className="u-container-layout u-container-layout-1">
               <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1">
@@ -89,6 +92,7 @@ export const Affiliate = () => {
               </h2>
             </div>
           </div>
+          <br/>
           <p className="u-align-left u-text u-text-body-alt-color u-text-4">
             <span style={{ fontWeight: 700 }}>
               {" "}
@@ -109,101 +113,91 @@ export const Affiliate = () => {
             />
           </div>
             <button
-              onClick={() => {
-                handleRegisterClick();
-              }}
-              className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
-            >
-              Register As Affiliate
-            </button>
-              
-            <button
               onClick={withdrawCommission}
               className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
             >
               Withdraw Commission
             </button>
-          
-          <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">
-            {" "}
-            Current commission (BEP20)
-            <span style={{ fontWeight: 700 }} />
-          </p>
-          <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-6">
-            {" "}
-            Current commission (ERC20)
-            <span style={{ fontWeight: 700 }} />
-          </p>
-          <div className="data-layout-selected u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-gutter-54 u-layout-wrap u-layout-wrap-1">
-            <div className="u-layout" style={{}}>
-              <div className="u-layout-row" style={{}}>
-                <div className="u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-1">
-                  <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-2">
-                    <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-7">
-                      37.035 BNB
-                    </p>
-                    <a
-                      href="https://nicepage.com/one-page-template"
-                      className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-2"
-                    >
-                      PAYMENT{" "}
-                    </a>
+              <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">
+                {" "}
+                Current commission (BEP20)
+                <span style={{ fontWeight: 700 }} />
+              </p>
+              <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-6">
+                {" "}
+                Current commission (ERC20)
+                <span style={{ fontWeight: 700 }} />
+              </p>
+              <div className="data-layout-selected u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-gutter-54 u-layout-wrap u-layout-wrap-1">
+              <div className="u-layout" style={{}}>
+                <div className="u-layout-row" style={{}}>
+                  <div className="u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-1">
+                    <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-2">
+                      <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-7">
+                        37.035 BNB
+                      </p>
+                      <a
+                        href="https://nicepage.com/one-page-template"
+                        className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-2"
+                      >
+                        PAYMENT{" "}
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="cell-temp-clone u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-2">
-                  <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-3">
-                    <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-8">
-                      {" "}
-                      3703.5 USDT
-                    </p>
-                    <a
-                      href="https://nicepage.com/one-page-template"
-                      className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-3"
-                    >
-                      PAYMENT{" "}
-                    </a>
+                  <div className="cell-temp-clone u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-2">
+                    <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-3">
+                      <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-8">
+                        {" "}
+                        3703.5 USDT
+                      </p>
+                      <a
+                        href="https://nicepage.com/one-page-template"
+                        className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-3"
+                      >
+                        PAYMENT{" "}
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="cell-temp-clone u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-3">
-                  <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-4">
-                    <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-9">
-                      {" "}
-                      3.7035 ETH
-                    </p>
-                    <a
-                      href="https://nicepage.com/one-page-template"
-                      className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-4"
-                    >
-                      PAYMENT{" "}
-                    </a>
+                  <div className="cell-temp-clone u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-3">
+                    <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-4">
+                      <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-9">
+                        {" "}
+                        3.7035 ETH
+                      </p>
+                      <a
+                        href="https://nicepage.com/one-page-template"
+                        className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-4"
+                      >
+                        PAYMENT{" "}
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="cell-temp-clone u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-4">
-                  <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-5">
-                    <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-10">
-                      {" "}
-                      3703.5 USDT
-                    </p>
-                    <a
-                      href="https://nicepage.com/one-page-template"
-                      className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-5"
-                    >
-                      PAYMENT{" "}
-                    </a>
+                  <div className="cell-temp-clone u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-4">
+                    <div className="u-border-2 u-border-custom-color-8 u-container-layout u-container-layout-5">
+                      <p className="u-align-center u-custom-font u-text u-text-custom-color-8 u-text-10">
+                        {" "}
+                        3703.5 USDT
+                      </p>
+                      <a
+                        href="https://nicepage.com/one-page-template"
+                        className="u-border-1 u-border-custom-color-1 u-btn u-button-style u-custom-color-5 u-custom-font u-btn-5"
+                      >
+                        PAYMENT{" "}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-11">
-            {" "}
-            Total turnover (ERC20)
-          </p>
-          <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-12">
-            {" "}
-            Total turnover(BEP20)
-          </p>
-          <div className="data-layout-selected u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-gutter-54 u-layout-wrap u-layout-wrap-2">
+            <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-11">
+              {" "}
+              Total turnover (ERC20)
+            </p>
+            <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-12">
+              {" "}
+              Total turnover(BEP20)
+            </p>
+            <div className="data-layout-selected u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-gutter-54 u-layout-wrap u-layout-wrap-2">
             <div className="u-layout" style={{}}>
               <div className="u-layout-row" style={{}}>
                 <div className="u-container-style u-layout-cell u-shape-rectangle u-size-15 u-layout-cell-5">
@@ -381,8 +375,22 @@ export const Affiliate = () => {
           <p className="u-text u-text-body-alt-color u-text-default-lg u-text-default-md u-text-default-sm u-text-default-xl u-text-26">
             More &gt;&gt;{" "}
           </p>
+          </>
+          :
+           (chain === "0x61") ? 
+                  <div style={{display:"flex", justifyContent:"center", marginTop: "100px"}}><w3m-button /></div> 
+                  : <w3m-network-button />
+            }
+              
+            
+          
+          
+          
+          
         </div>
       </section>
+
+
       <section className="u-clearfix u-gradient u-section-3" id="sec-84ec">
         <div className="u-clearfix u-sheet u-sheet-1">
           <p className="u-custom-font u-text u-text-custom-color-8 u-text-default u-text-1">
