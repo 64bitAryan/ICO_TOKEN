@@ -4,9 +4,11 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 
 import crowdesaleAbi from "../../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
 import { CROWDSALE_BSC } from "../../utils/constants";
+import { readContract } from "viem/actions";
+import { config } from "../../config";
 
 export const AffiliateViewModel = () => {
-  const { crowde_sale_address } = useContext(ApplicationContext);
+  const { currentAccount } = useContext(ApplicationContext);
   let { data: hash, writeContract } = useWriteContract();
   const [affiliateAddress, setAffiliateAddress] = useState("");
 
@@ -30,7 +32,7 @@ export const AffiliateViewModel = () => {
     console.log("withdraw commission");
     try {
       writeContract({
-        address: crowde_sale_address,
+        address: CROWDSALE_BSC,
         abi: crowdesaleAbi.abi,
         functionName: "withdrawCommission",
       });
@@ -38,6 +40,20 @@ export const AffiliateViewModel = () => {
       console.log(err);
     }
   };
+
+  // const getCommisionRate = async (_address) => {
+  //   try {
+  //     const result = await readContract(config, {
+  //       address: CROWDSALE_BSC,
+  //       abi: crowdesaleAbi.abi,
+  //       functionName: "accumulatedCommission",
+  //       args: [_address],
+  //     });
+  //     return result;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   function isValidAddress(address) {
     if (!address || typeof address !== "string") {
@@ -66,5 +82,6 @@ export const AffiliateViewModel = () => {
     withdrawCommission,
     setAffiliateAddress,
     isValidAddress,
+    // getCommisionRate
   };
 };

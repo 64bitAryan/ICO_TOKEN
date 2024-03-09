@@ -1,10 +1,15 @@
 import { HeroVector, HomePageBlob, Logo } from "../../assets/auth";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { motion } from "framer-motion";
 import { isValidAddress } from "../../../utils/helpers";
 import { AffiliateViewModel } from "../../../pages/affiliate/AffiliateViewmodel";
+import { ApplicationContext } from "../../../context/ApplicationContext";
 
 const HeroSection = () => {
+  const {
+    currentAccount,
+    chain,
+  } = useContext(ApplicationContext);
   const { registerAffiliate } = AffiliateViewModel();
   const [animateForm, setAnimateForm] = useState(false);
   const [affiliateAddress, setAffiliateAddress] = useState("");
@@ -85,7 +90,8 @@ const HeroSection = () => {
                 type="text"
                 ref={inputRef}
                 onChange={handleIputChange}
-                className="btn w-[80%] mb-5 mx-auto sm:mx-0 shadow-md shadow-gradient-right md:w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white"
+                placeholder="Enter wallet address"
+                className="btn w-[80%] mb-5 mx-auto sm:mx-0 placeholder-white shadow-md shadow-gradient-right md:w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white"
               />
               <button
                 onClick={handleRegisterClick}

@@ -13,9 +13,11 @@ export const Affiliate = () => {
     isValidAddress,
     setAffiliateAddress,
     withdrawCommission,
+    // getCommisionRate
   } = AffiliateViewModel();
   
   const [link, setLink] = useState("");
+  const [commissionRate, setCommisionRate] = useState(0);
 
   const {
     chain,
@@ -28,11 +30,12 @@ export const Affiliate = () => {
   };
 
   useEffect(()=>{
-    if(currentAccount !== undefined){
+    if(currentAccount !== undefined && currentAccount !== ""){
       let link = enc.Utf8.parse(currentAccount);
       var base64 = enc.Base64.stringify(link);
       link = "https://salesaiboost.io/" + base64;
       setLink(link);
+      // setCommisionRate(await getCommisionRate(currentAccount));
     }
   },[currentAccount])
 
@@ -90,29 +93,31 @@ export const Affiliate = () => {
           </p>
           {currentAccount !== undefined ? 
           <>
-          <div className="custom-expanded u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-custom-color-8 u-group u-shape-rectangle u-group-1">
-            <div className="u-container-layout u-container-layout-1">
-              <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1">
-                <img src="images/9915984-c93b6cf0.png" alt="" />
-              </span>
-              <h2 className="u-custom-font u-text u-text-custom-color-4 u-text-default-lg u-text-default-xl u-text-3">
-                {" "}
-                This is your personal invitation link:&nbsp;{" "}
-                <a href={link} target="_blank" className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-custom-color-1 waffle-rich-text-link u-btn-1">
-                  {link}
-                </a>
-              </h2>
+            <div>
+              <div className="custom-expanded u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-custom-color-8 u-group u-shape-rectangle u-group-1">
+                <div className="u-container-layout u-container-layout-1">
+                  <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1">
+                    <img src="images/9915984-c93b6cf0.png" alt="" />
+                  </span>
+                  <h2 className="u-custom-font u-text u-text-custom-color-4 u-text-default-lg u-text-default-xl u-text-3">
+                    {" "}
+                    This is your personal invitation link:&nbsp;{" "}
+                    <a href={link} target="_blank" className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-custom-color-1 waffle-rich-text-link u-btn-1">
+                      {link}
+                    </a>
+                  </h2>
+                </div>
+              </div>
+              <br/>
+              <p className="u-align-left u-text u-text-body-alt-color u-text-4">
+                <span style={{ fontWeight: 700 }}>
+                  {" "}
+                  Number of clicks on a link:
+                </span>
+                <br />
+                122323456
+              </p>
             </div>
-          </div>
-          <br/>
-          <p className="u-align-left u-text u-text-body-alt-color u-text-4">
-            <span style={{ fontWeight: 700 }}>
-              {" "}
-              Number of clicks on a link:
-            </span>
-            <br />
-            122323456
-          </p>
           <br/>
           <div style={{display:"flex", justifyContent:"center"}}>
             <input
