@@ -1,6 +1,6 @@
 import React from "react";
 import "./nicepage.css";
-import "./SAIB-Stake.css";
+import "./SAIB-Affiliate.css";
 import { AffiliateViewModel } from "./AffiliateViewmodel";
 
 export const Affiliate = () => {
@@ -97,29 +97,33 @@ export const Affiliate = () => {
             <br />
             122323456
           </p>
-          <input
-            type="text"
-            onChange={handleInputChange}
-            ref={inputRef}
-            placeholder="Enter wallet address"
-            className="ml-6 border-white flex justify-center items-center  text-white bg-transparent p-2 border-opacity-20 border rounded-lg w-[90%]"
-          />
-          <button
-            onClick={() => {
-              handleRegisterClick();
-            }}
-            className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
-          >
-            Register As Affiliate
-          </button>
-
-          <button
-            onClick={withdrawCommission}
-            className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
-          >
-            Withdraw Commission
-          </button>
-
+          <br/>
+          <div style={{display:"flex", justifyContent:"center"}}>
+            <input
+              style={{width:"500px"}}
+              type="text"
+              onChange={handleInputChange}
+              ref={inputRef}
+              placeholder="Enter wallet address"
+              className="ml-6 border-white flex justify-center items-center  text-white bg-transparent p-2 border-opacity-20 border rounded-lg w-[90%]"
+            />
+          </div>
+            <button
+              onClick={() => {
+                handleRegisterClick();
+              }}
+              className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
+            >
+              Register As Affiliate
+            </button>
+              
+            <button
+              onClick={withdrawCommission}
+              className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
+            >
+              Withdraw Commission
+            </button>
+          
           <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">
             {" "}
             Current commission (BEP20)
