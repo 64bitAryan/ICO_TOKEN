@@ -18,7 +18,7 @@ const metadata = {
 };
 
 const config = createConfig({
-  chains: [mainnet, sepolia, bsc, bscTestnet],
+  chains: [ sepolia, bscTestnet],
   client({ chain }) {
     return createClient({ chain, transport: http() })
   },

@@ -102,7 +102,7 @@ export const Affiliate = () => {
               <div>
                 <div className="custom-expanded u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-custom-color-8 u-group u-shape-rectangle u-group-1">
                   <div className="u-container-layout u-container-layout-1">
-                    <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1">
+                    <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1" onClick={() => {navigator.clipboard.writeText(link)}}>
                       <img src="images/9915984-c93b6cf0.png" alt="" />
                     </span>
                     <h2 className="u-custom-font u-text u-text-custom-color-4 u-text-default-lg u-text-default-xl u-text-3">
