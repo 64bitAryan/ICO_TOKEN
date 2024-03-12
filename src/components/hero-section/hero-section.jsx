@@ -24,13 +24,17 @@ const HeroSection = () => {
     zeroAddress,
     crowde_sale_address,
     chain,
+    getDisperseAmount,
+    getDisperseAmountETH,
+    pendingFunction
   } = useContext(ApplicationContext);
 
   const { address } = useParams();
   const [animateForm, setAnimateForm] = useState(false);
-  const [buyCurrency, setBuyCurrency] = useState("ETH");
+  const [buyCurrency, setBuyCurrency] = useState("BNB");
   const [buyValue, setBuyValue] = useState(0);
   const [outAmount, setOutAmount] = useState(0);
+  const [isPending, setIsPending] = useState(false);
   const [hasApprovedAmont, setHasApprovedAmount] = useState(false);
   const [hasApprovedAmontETH, setHasApprovedAmountETH] = useState(false);
   const [timer, setTimer] = useState(null);
@@ -71,23 +75,27 @@ const HeroSection = () => {
       resp = await getEthToUsdtRate();
       console.log(resp);
       if (buyCurrency === "ETH" && chain === "0xaa36a7") {
-        const calcUsdt = val * resp.ethPrice.USDT;
+        let disperseAmountETH = Number(await getDisperseAmountETH());
+        const calcUsdt = val * resp.ethPrice.USDT * disperseAmountETH;
         console.log(calcUsdt);
         setOutAmount(calcUsdt);
-      } else if (buyCurrency === "BNB" && chain === "0x61") {
-        const calcUsdtBNB = val * resp.bnbPrice.USDT;
+      } else if (buyCurrency === "BNB" && chain === "0x38") {
+        let disperseAmount = Number(await getDisperseAmount());
+        const calcUsdtBNB = val * resp.bnbPrice.USDT * disperseAmount;
         setOutAmount(calcUsdtBNB);
-      } else if (buyCurrency === "USDTBNB" && chain === "0x61") {
+      } else if (buyCurrency === "USDTBNB" && chain === "0x38") {
+        let disperseAmount = Number(await getDisperseAmount());
         useApprovedBal = await getUserUsdtApprovedAmount();
-        setOutAmount(val);
+        setOutAmount(val * disperseAmount);
         /* global BigInt */
         if (BigInt(val * 10 ** 18) <= useApprovedBal)
           setHasApprovedAmount(true);
         else setHasApprovedAmount(false);
       } else if (buyCurrency === "USDTETH" && chain === "0xaa36a7") {
+        let disperseAmountETH = Number(await getDisperseAmountETH());
         usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
         console.log(usdApprovedBalETH);
-        setOutAmount(val);
+        setOutAmount(val * disperseAmountETH);
         /* global BigInt */
         if (BigInt(val * 10 ** 6) <= usdApprovedBalETH)
           setHasApprovedAmountETH(true);
@@ -107,24 +115,27 @@ const HeroSection = () => {
 
   const handleCurrChange = async (curr, val) => {
     setBuyValue(val);
-
     let resp = await getEthToUsdtRate();
     if (curr === "ETH" && chain === "0xaa36a7") {
-      const calcUsdt = val * resp.ethPrice.USDT;
+      let disperseAmountETH = Number(await getDisperseAmountETH());
+      const calcUsdt = val * resp.ethPrice.USDT * disperseAmountETH;
       console.log(calcUsdt);
       setOutAmount(calcUsdt);
-    } else if (curr === "BNB" && chain === "0x61") {
-      const calcUsdtBNB = val * resp.bnbPrice.USDT;
+    } else if (curr === "BNB" && chain === "0x38") {
+      let disperseAmount = Number(await getDisperseAmount());
+      const calcUsdtBNB = val * resp.bnbPrice.USDT * disperseAmount;
       setOutAmount(calcUsdtBNB);
-    } else if (curr === "USDTBNB" && chain === "0x61") {
+    } else if (curr === "USDTBNB" && chain === "0x38") {
+      let disperseAmount = Number(await getDisperseAmount());
       let useApprovedBal = await getUserUsdtApprovedAmount();
-      setOutAmount(val);
+      setOutAmount(val * disperseAmount);
       /* global BigInt */
       if (BigInt(val * 10 ** 18) <= useApprovedBal) setHasApprovedAmount(true);
       else setHasApprovedAmount(false);
     } else if (curr === "USDTETH" && chain === "0xaa36a7") {
+      let disperseAmountETH = Number(await getDisperseAmountETH());
       let usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
-      setOutAmount(val);
+      setOutAmount(val * disperseAmountETH);
       /* global BigInt */
       if (BigInt(val * 10 ** 6) <= usdApprovedBalETH)
         setHasApprovedAmountETH(true);
@@ -155,6 +166,9 @@ const HeroSection = () => {
     } else if (buyCurrency === "BNB") {
       console.log(affiliateAddress)
       await buyTokenUsingBNB(buyValue, affiliateAddress);
+      // console.log(isPending)
+      // console.log(hash)
+      setIsPending(isPending);
       console.log("buy using BNB");
     } else if (buyCurrency === "USDTETH") {
       if (hasApprovedAmontETH) {
@@ -260,7 +274,7 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col md:flex-row gap-5 justify-center w-[80%] mx-auto ">
-              <div
+              {/* <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
                   buyCurrency === "ETH" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
@@ -286,7 +300,7 @@ const HeroSection = () => {
                     USDT <br /> ERC20
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
@@ -365,8 +379,8 @@ const HeroSection = () => {
             </div>
             {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
             (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
-            (chain === "0x61" && buyCurrency === "BNB") ||
-            (chain === "0x61" && buyCurrency === "USDTBNB") ? (
+            (chain === "0x38" && buyCurrency === "BNB") ||
+            (chain === "0x38" && buyCurrency === "USDTBNB") ? (
               <div
                 className="flex flex-row mx-auto mt-5 mb-5 w-[80%] justify-center items-center"
                 onClick={handleBuyClick}
@@ -374,11 +388,18 @@ const HeroSection = () => {
                 <button className="btn w-full bg-tiffany-blue rounded-md p-[0.5rem] text-white hover:scale-105 transition-all ease-in-out duration-300">
                   {(!hasApprovedAmontETH && buyCurrency === "USDTETH") || (!hasApprovedAmont && buyCurrency === "USDTBNB")
                    ? 
+                  (pendingFunction.functionName === "approve" && pendingFunction.isPending) ? (
+                    <p className="uppercase text-xl ">Approving... </p>
+                  ) :
                   (
                     <p className="uppercase text-xl ">Approve USDT token</p>
+                  ) : 
+                  (pendingFunction.functionName === "buyTokensWithBNB" && pendingFunction.isPending) ? (
+                    <p className="uppercase text-xl ">Buying... </p>
                   ) : (
                     <p className="uppercase text-xl ">Buy now </p>
-                  )}
+                  )  
+                }
                 </button>
               </div>
             ) : (

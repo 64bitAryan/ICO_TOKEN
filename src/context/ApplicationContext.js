@@ -1,4 +1,4 @@
-import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteContract, useWaitForTransaction } from "wagmi";
 import { createContext, useEffect, useState } from "react";
 import { readContract, getChainId } from "@wagmi/core";
 import {
@@ -27,11 +27,13 @@ const { ethereum } = window;
 export const ApplicationProvider = ({ children }) => {
   // const [chainId, setChainId] = getChainId(config);
   const [currentAccount, setCurrentAccount] = useState("");
-  const [isConfirmed, setIsConfirmed] = useState(false);
+  // const [isConfirmed, setIsConfirmed] = useState(false);
   const [isConfirmedETH, setIsConfirmedETH] = useState(false);
+  const [pendingFunction, setPendingFunction] = useState({ functionName: "", isPending: false });
   const [chain, setChain] = useState(56);
 
-  let { data: hash, isPending, writeContract } = useWriteContract();
+  let { hash, isPending, writeContract, variables } = useWriteContract();
+  
   let { address } = useAccount();
 
   (async () => {
@@ -53,7 +55,12 @@ export const ApplicationProvider = ({ children }) => {
   } = getAddress(chain);
 
   useEffect(() => {
-    if (!isPending) setIsConfirmed(true);
+    if(variables){
+      setPendingFunction({
+        "functionName": variables.functionName,
+        "isPending": isPending,
+      })
+    }
   }, [isPending]);
 
   let affiliateContract, stakingContract;
@@ -115,15 +122,16 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const approveUsdt = async (approveTo) => {
-    setIsConfirmed(false);
+    // setIsConfirmed(false);
     const amount = await getTokenTotelSupply();
     try {
-      writeContract({
+      await writeContract({
         address: USDT_ADDRESS_BSC,
         abi: USDT_ABI_BNB,
         functionName: "approve",
         args: [approveTo, amount],
       });
+      await getApprovedUsdtToken();
     } catch (err) {
       log("Unable to approve token");
       console.log(err);
@@ -134,12 +142,13 @@ export const ApplicationProvider = ({ children }) => {
     setIsConfirmedETH(false);
     const amount = await getTokenTotelSupplyETH();
     try {
-      writeContract({
+      await writeContract({
         address: USDT_ADDRESS_ETH,
         abi: USDT_ABI_ETH,
         functionName: "approve",
         args: [approveTo, amount],
       });
+      await getApprovedUsdtTokenETH();
     } catch (err) {
       log("Unable to approve token");
       console.log(err);
@@ -181,6 +190,26 @@ export const ApplicationProvider = ({ children }) => {
       log("Unable to buy token using eth");
       console.log(err);
     }
+  };
+
+  const getDisperseAmount = async () => {
+    const result = await readContract(config, {
+      address: CROWDSALE_ADDRESS_BSC,
+      abi: CROWDSALE_ABI_BSC,
+      functionName: "disperseAmount",
+      args: [],
+    });
+    return result;
+  };
+
+  const getDisperseAmountETH = async () => {
+    const result = await readContract(config, {
+      address: CROWDSALE_ADDRESS_ETH,
+      abi: CROWDSALE_ABI_ETH,
+      functionName: "disperseAmount",
+      args: [],
+    });
+    return result;
   };
 
   const getApprovedUsdtToken = async () => {
@@ -347,7 +376,10 @@ export const ApplicationProvider = ({ children }) => {
         buyTokenUsingBNB,
         getApprovedUsdtToken,
         getApprovedUsdtTokenETH,
-        isConfirmed,
+        getDisperseAmount,
+        getDisperseAmountETH,
+        pendingFunction,
+        // isConfirmed,
         isPending,
         token_address,
         crowde_sale_address,

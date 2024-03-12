@@ -409,7 +409,7 @@ export const Affiliate = () => {
                 More &gt;&gt;{" "}
               </p>
             </>
-          ) : chain === "0x61" ? (
+          ) : chain === "0x38" ? (
             <div
               style={{
                 display: "flex",
