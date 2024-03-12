@@ -97,11 +97,11 @@ export const Affiliate = () => {
             {" "}
             have a 😊smiley day today!&nbsp;
           </p>
+          <div className="mycontainer">
           {currentAccount !== undefined ? (
             <>
               <div>
                 <div className="custom-expanded u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-custom-color-8 u-group u-shape-rectangle u-group-1">
-                  <div className="u-container-layout u-container-layout-1">
                     <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1" onClick={() => {navigator.clipboard.writeText(link)}}>
                       <img src="images/9915984-c93b6cf0.png" alt="" />
                     </span>
@@ -120,35 +120,31 @@ export const Affiliate = () => {
                         <div>not available, need to register</div>
                       )}
                     </h2>
-                  </div>
                 </div>
-                <br />
-                <p className="u-align-left u-text u-text-body-alt-color u-text-4">
+                <p className="w-full u-align-center u-text u-text-body-alt-color">
                   <span style={{ fontWeight: 700 }}>
                     {" "}
-                    Number of clicks on a link:
+                    Number of clicks on a link: &nbsp;
                   </span>
-                  <br />
                   122323456
                 </p>
               </div>
-              <br />
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <input
-                  style={{ width: "500px" }}
-                  type="text"
-                  onChange={handleInputChange}
-                  ref={inputRef}
-                  placeholder="Enter wallet address"
-                  className="ml-6 border-white flex justify-center items-center  text-white bg-transparent p-2 border-opacity-20 border rounded-lg w-[90%]"
-                />
+              
+              <div className="withdrawBox card bg-white bg-opacity-5 mx-auto rounded-3xl md:min-h-[10rem] border border-[#4a386a] backdrop-blur-sm scale-100 transition ease-in-out duration-500 delay-300">
+                  <input
+                    type="text"
+                    onChange={handleInputChange}
+                    ref={inputRef}
+                    placeholder="Enter wallet address"
+                    className="w-full border-white flex justify-center items-center  text-white bg-transparent p-3 border-opacity-20 border rounded-lg mb-3 h-16"
+                  />
+                <button
+                  onClick={withdrawCommission}
+                  className="btn w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white "
+                >
+                  <p className="uppercase mb-0 mt-0  text-xl ">Withdraw Commission</p>
+                </button>
               </div>
-              <button
-                onClick={withdrawCommission}
-                className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-1"
-              >
-                Withdraw Commission
-              </button>
               <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">
                 {" "}
                 Current commission (BEP20): {currentCommission}
@@ -422,69 +418,75 @@ export const Affiliate = () => {
           ) : (
             <w3m-network-button />
           )}
+          </div>
         </div>
       </section>
 
       <section className="u-clearfix u-gradient u-section-3" id="sec-84ec">
         <div className="u-clearfix u-sheet u-sheet-1">
-          <p className="u-custom-font u-text u-text-custom-color-8 u-text-default u-text-1">
-            FOLLOW US:{" "}
-          </p>
-          <div className="u-social-icons u-spacing-48 u-social-icons-1">
-            <a
-              className="u-social-url"
-              target="_blank"
-              data-type="Telegram"
-              title="Telegram"
-              href=""
-            >
-              <span className="u-file-icon u-icon u-social-icon u-social-telegram u-text-white u-icon-1">
-                <img src="images/2582606-b1aef137.png" alt="" />
-              </span>
-            </a>
-            <a
-              className="u-social-url"
-              title="facebook"
-              target="_blank"
-              href="https://facebook.com/name"
-            >
-              <span className="u-file-icon u-icon u-social-facebook u-social-icon u-text-white u-icon-2">
-                <img src="images/160154-6d5eb078.png" alt="" />
-              </span>
-            </a>
-            <a
-              className="u-social-url"
-              title="twitter"
-              target="_blank"
-              href="https://twitter.com/name"
-            >
-              <span className="u-file-icon u-icon u-social-icon u-social-twitter u-text-white u-icon-3">
-                <img src="images/5968958-356aaac6.png" alt="" />
-              </span>
-            </a>
-            <a
-              className="u-social-url"
-              target="_blank"
-              data-type="Telegram"
-              title="Telegram"
-              href=""
-            >
-              <span className="u-file-icon u-icon u-social-icon u-social-telegram u-text-white u-icon-4">
-                <img src="images/2582606-b1aef137.png" alt="" />
-              </span>
-            </a>
-            <a
-              className="u-social-url"
-              target="_blank"
-              data-type="YouTube"
-              title="YouTube"
-              href=""
-            >
-              <span className="u-file-icon u-icon u-social-icon u-social-youtube u-text-white u-icon-5">
-                <img src="images/1077046-4b2d40ef.png" alt="" />
-              </span>
-            </a>
+          <div className="sm-bottom">
+            <p className="u-custom-font u-text u-text-custom-color-8 u-text-default u-text-1">
+              FOLLOW US:{" "}
+            </p>
+            <div className="u-social-icons u-spacing-48 u-social-icons-1">
+              <a
+                className="u-social-url"
+                target="_blank"
+                data-type="Telegram"
+                title="Telegram"
+                href=""
+              >
+                <span className="u-file-icon u-icon u-social-icon u-social-telegram u-text-white u-icon-1">
+                  <img src="images/2582606-b1aef137.png" alt="" />
+                </span>
+              </a>
+              <a
+                className="u-social-url"
+                title="facebook"
+                target="_blank"
+                href="https://facebook.com/name"
+              >
+                <span className="u-file-icon u-icon u-social-facebook u-social-icon u-text-white u-icon-2">
+                  <img src="images/160154-6d5eb078.png" alt="" />
+                </span>
+              </a>
+              <a
+                className="u-social-url"
+                title="twitter"
+                target="_blank"
+                href="https://twitter.com/name"
+              >
+                <span className="u-file-icon u-icon u-social-icon u-social-twitter u-text-white u-icon-3">
+                  <img src="images/5968958-356aaac6.png" alt="" />
+                </span>
+              </a>
+              <a
+                className="u-social-url"
+                target="_blank"
+                data-type="Telegram"
+                title="Telegram"
+                href=""
+              >
+                <span className="u-file-icon u-icon u-social-icon u-social-telegram u-text-white u-icon-4">
+                  <img src="images/2582606-b1aef137.png" alt="" />
+                </span>
+              </a>
+              <a
+                className="u-social-url"
+                target="_blank"
+                data-type="YouTube"
+                title="YouTube"
+                href=""
+              >
+                <span className="u-file-icon u-icon u-social-icon u-social-youtube u-text-white u-icon-5">
+                  <img src="images/1077046-4b2d40ef.png" alt="" />
+                </span>
+              </a>
+            </div>
           </div>
+          <div className="footxt">
+            
+          
           <p className="u-align-center-lg u-align-center-xl u-align-left-md u-align-left-sm u-align-left-xs u-custom-font u-hidden-xs u-text u-text-custom-color-3 u-text-2">
             Videos for interested parties
           </p>
@@ -504,31 +506,37 @@ export const Affiliate = () => {
             {" "}
             Closed channel for affiliate partners
           </p>
+          </div>
+
+          <div className="fooBtm">
           <p className="u-align-center-xs u-custom-font u-text u-text-custom-color-3 u-text-default u-text-7">
             {" "}
             Grow your digital wealth!
           </p>
-          <a
-            href="SAIB-Stake.html#sec-98a7"
-            className="u-btn u-btn-round u-button-style u-custom-color-8 u-custom-font u-radius u-text-custom-color-4 u-btn-1"
-          >
-            {" "}
-            BUY SAIB TOKEN
-          </a>
-          <a
-            href="SAIB-Stake.html#sec-98a7"
-            className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-2"
-          >
-            {" "}
-            staking SAIB tokens
-          </a>
+          <div className="fooBtns">
+            <a
+              href="SAIB-Stake.html#sec-98a7"
+              className="u-btn u-btn-round u-button-style u-custom-color-8 u-custom-font u-radius u-text-custom-color-4 u-btn-1"
+            >
+              {" "}
+              BUY SAIB TOKEN
+            </a>
+            <a
+              href="SAIB-Stake.html#sec-98a7"
+              className="u-btn u-btn-round u-button-style u-custom-color-5 u-custom-font u-radius u-btn-2"
+            >
+              {" "}
+              staking SAIB tokens
+            </a>
+          </div>
+          </div>
+          
         </div>
       </section>
-      <footer
+      {/* <footer
         className="u-align-center u-clearfix u-custom-color-7 u-footer u-footer"
         id="sec-9343"
       >
-        <div className="u-clearfix u-sheet u-sheet-1">
           <a
             href="https://nicepage.com/c/pricing-website-templates"
             className="u-border-1 u-border-custom-color-3 u-border-hover-custom-color-5 u-btn u-button-style u-none u-text-hover-white u-btn-1"
@@ -538,7 +546,19 @@ export const Affiliate = () => {
           <p className="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-small-text u-text u-text-variant u-text-1">
             ©Copyright SalesAiBoost 2024&nbsp;
           </p>
-        </div>
+      </footer> */}
+      <footer className="u-align-center u-custom-color-7 u-footer u-footer footerBx" id="sec-9343" >
+          
+          <p className="">
+            ©Copyright SalesAiBoost 2024&nbsp;
+          </p>
+
+          <a
+            href="https://nicepage.com/c/pricing-website-templates"
+            className="u-border-1 u-border-custom-color-3 u-border-hover-custom-color-5 u-btn u-button-style u-none u-text-hover-white "
+          >
+            WHITE PAPER{" "}
+          </a>
       </footer>
     </>
   );

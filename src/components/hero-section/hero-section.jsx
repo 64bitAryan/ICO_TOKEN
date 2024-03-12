@@ -74,7 +74,7 @@ const HeroSection = () => {
     const newTimer = setTimeout(async () => {
       resp = await getEthToUsdtRate();
       console.log(resp);
-      if (buyCurrency === "ETH" && chain === "0x1") {
+      if (buyCurrency === "ETH" && chain === "0xaa36a7") {
         let disperseAmountETH = Number(await getDisperseAmountETH());
         const calcUsdt = val * resp.ethPrice.USDT * disperseAmountETH;
         console.log(calcUsdt);
@@ -91,7 +91,7 @@ const HeroSection = () => {
         if (BigInt(val * 10 ** 18) <= useApprovedBal)
           setHasApprovedAmount(true);
         else setHasApprovedAmount(false);
-      } else if (buyCurrency === "USDTETH" && chain === "0x1") {
+      } else if (buyCurrency === "USDTETH" && chain === "0xaa36a7") {
         let disperseAmountETH = Number(await getDisperseAmountETH());
         usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
         console.log(usdApprovedBalETH);
@@ -116,7 +116,7 @@ const HeroSection = () => {
   const handleCurrChange = async (curr, val) => {
     setBuyValue(val);
     let resp = await getEthToUsdtRate();
-    if (curr === "ETH" && chain === "0x1") {
+    if (curr === "ETH" && chain === "0xaa36a7") {
       let disperseAmountETH = Number(await getDisperseAmountETH());
       const calcUsdt = val * resp.ethPrice.USDT * disperseAmountETH;
       console.log(calcUsdt);
@@ -132,7 +132,7 @@ const HeroSection = () => {
       /* global BigInt */
       if (BigInt(val * 10 ** 18) <= useApprovedBal) setHasApprovedAmount(true);
       else setHasApprovedAmount(false);
-    } else if (curr === "USDTETH" && chain === "0x1") {
+    } else if (curr === "USDTETH" && chain === "0xaa36a7") {
       let disperseAmountETH = Number(await getDisperseAmountETH());
       let usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
       setOutAmount(val * disperseAmountETH);
@@ -274,8 +274,7 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col md:flex-row gap-5 justify-center w-[80%] mx-auto ">
-
-            <div
+              {/* <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
                   buyCurrency === "ETH" ? "bg-white bg-opacity-25" : ""
                 }  border-white border px-8 py-3 border-opacity-20 cursor-pointer`}
@@ -301,7 +300,7 @@ const HeroSection = () => {
                     USDT <br /> ERC20
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               <div
                 className={`rounded-xl justify-center items-center gap-x-2 flex flex-row ${
@@ -378,8 +377,8 @@ const HeroSection = () => {
                 depend on the network
               </p>
             </div>
-            {(chain === "0x1" && buyCurrency === "ETH") ||
-            (chain === "0x1" && buyCurrency === "USDTETH") ||
+            {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
+            (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
             (chain === "0x38" && buyCurrency === "BNB") ||
             (chain === "0x38" && buyCurrency === "USDTBNB") ? (
               <div
@@ -412,8 +411,8 @@ const HeroSection = () => {
             )}
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className=" text-xl gilory-semibold ">
-                {(chain === "0x1" && buyCurrency === "ETH") ||
-                (chain === "0x1" && buyCurrency === "USDTETH") ||
+                {(chain === "0xaa36a7" && buyCurrency === "ETH") ||
+                (chain === "0xaa36a7" && buyCurrency === "USDTETH") ||
                 (chain === "0x38" && buyCurrency === "BNB") ||
                 (chain === "0x38" && buyCurrency === "USDTBNB") ? (
                   <w3m-button />

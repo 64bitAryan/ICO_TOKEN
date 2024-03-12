@@ -1738,3 +1738,27 @@
   font-weight: 400;
   src: url(../fonts/Gilroy-ExtraBold.otf);
 }
+
+
+.mycontainer {margin: 0px auto; max-width: 1300px;}
+.mycontainer .u-group-1 {margin: 70px auto 30px; position: relative; display: flex; align-items: center; justify-content: center; padding: 15px 40px;}
+.mycontainer .u-group-1 h2 {font-size: 16px; line-height: 1.5;}
+.mycontainer .u-group-1 .u-file-icon {position: absolute; right: 15px; top: calc(50% - 10px); margin: 0;}
+.mycontainer .u-group-1 .u-text-3 {margin: 0;}
+.withdrawBox {width: 700px; padding: 30px; margin-top: 70px; max-width: calc(100% - 20px);} 
+.sm-bottom {display: flex; flex-flow: column; margin-bottom: 90px;}
+
+.footxt {text-align: center;}
+.fooBtns {display: flex; justify-content: center; width: 100%;}
+.fooBtns .u-btn-1 {margin: 0 15px;}
+.fooBtns .u-btn-2 {margin: 0 15px; }
+/* .footxt .u-text-2 {margin-top: 0; margin: 0; width: 100%;}
+.footxt .u-text-3 {margin-top: 0; margin: 0; width: 100%;}
+.footxt .u-text-4 {margin-top: 0; margin: 0; width: 100%;}
+.footxt .u-text-5 {margin-top: 0; margin: 0; width: 100%;}
+.footxt .u-text-6 {margin-top: 0; margin: 0; width: 100%;} */
+.u-sheet .footxt p {margin: 10px 0; width: 100%;}
+
+.fooBtm {}
+.fooBtm .u-text-7 {margin: 83px auto 20px;}
+.footerBx {display: flex; align-items: center; justify-content: space-between; padding: 40px 40px 0;}
