@@ -18,7 +18,7 @@ const metadata = {
 };
 
 const config = createConfig({
-  chains: [ bsc ],
+  chains: [ bsc, mainnet ],
   client({ chain }) {
     return createClient({ chain, transport: http() })
   },
