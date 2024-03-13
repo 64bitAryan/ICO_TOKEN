@@ -1,6 +1,7 @@
-import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteContract, useWaitForTransaction } from "wagmi";
+import { ethers } from "ethers";
+import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
 import { createContext, useEffect, useState } from "react";
-import { readContract, getChainId } from "@wagmi/core";
+import { readContract, getChainId, waitForTransaction } from "@wagmi/core";
 import {
   CROWDSALE_ABI_BSC,
   CROWDSALE_ABI_ETH,
@@ -15,6 +16,7 @@ import {
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
 import { Buffer } from "buffer";
+import { provider as Provider } from "../../utils/constants"
 
 window.Buffer = Buffer;
 
@@ -22,18 +24,17 @@ export const ApplicationContext = createContext();
 
 const { ethereum } = window;
 
-// const provider = new ethers.BrowserProvider(ethereum);
-
 export const ApplicationProvider = ({ children }) => {
   // const [chainId, setChainId] = getChainId(config);
   const [currentAccount, setCurrentAccount] = useState("");
   // const [isConfirmed, setIsConfirmed] = useState(false);
   const [isConfirmedETH, setIsConfirmedETH] = useState(false);
+  const [isTransactionCompleated, setIsTransactionCompleated] = useState(false);
   const [pendingFunction, setPendingFunction] = useState({ functionName: "", isPending: false });
   const [chain, setChain] = useState(56);
 
   let { hash, isPending, writeContract, variables } = useWriteContract();
-  
+
   let { address } = useAccount();
 
   (async () => {
@@ -55,7 +56,7 @@ export const ApplicationProvider = ({ children }) => {
   } = getAddress(chain);
 
   useEffect(() => {
-    if(variables){
+    if (variables) {
       setPendingFunction({
         "functionName": variables.functionName,
         "isPending": isPending,
@@ -78,6 +79,13 @@ export const ApplicationProvider = ({ children }) => {
       console.log("Chain chainChanged");
       window.location.reload();
     });
+  }
+
+  const waitForTransactionReceipt = async (_hash) => {
+    setIsTransactionCompleated(false)
+    const result = await waitForTransaction(_hash)
+    setIsTransactionCompleated(true)
+    return result.status
   }
 
   // Token functions //
@@ -122,7 +130,6 @@ export const ApplicationProvider = ({ children }) => {
   };
 
   const approveUsdt = async (approveTo) => {
-    // setIsConfirmed(false);
     const amount = await getTokenTotelSupply();
     try {
       await writeContract({
@@ -166,6 +173,8 @@ export const ApplicationProvider = ({ children }) => {
         args: [affiliateAddress],
         value: amount,
       });
+      // Waiting for transaction receipt
+      await waitForTransactionReceipt(hash)
     } catch (err) {
       log("Unable to buy token using eth");
       console.log(err);
@@ -186,6 +195,7 @@ export const ApplicationProvider = ({ children }) => {
         args: [affiliateAddress],
         value: amount,
       });
+      await waitForTransactionReceipt(hash)
     } catch (err) {
       log("Unable to buy token using eth");
       console.log(err);
@@ -234,39 +244,6 @@ export const ApplicationProvider = ({ children }) => {
     return result;
   };
 
-  // Staking & Divident functions //
-  const getEstimatedReward = async (address, index) => {
-    try {
-      const reward = await stakingContract.calculateReward(address, index);
-      return reward;
-    } catch (err) {
-      log("Unable to get estimated reward");
-      console.log(err);
-    }
-  };
-
-  const claimDivident = async (index) => {
-    try {
-      const trx = await stakingContract.claimDivident(index);
-      return trx.hash;
-    } catch (err) {
-      log("Unable to claim divident");
-      console.log(err);
-    }
-  };
-
-  const getEstimatedDividentReward = async (address, index) => {
-    try {
-      const reward = await stakingContract.calculateDividentReward(
-        address,
-        index
-      );
-      return reward;
-    } catch (err) {
-      log("Unable to get estimated divident reward");
-      console.log(err);
-    }
-  };
 
   // CrowdeSale & Affiliate functions //
 
@@ -300,6 +277,7 @@ export const ApplicationProvider = ({ children }) => {
         functionName: "buyTokens",
         args: [amount, affiliateAddress],
       });
+      await waitForTransactionReceipt(hash)
       return hash;
     } catch (err) {
       log("Unable to buy tokens");
@@ -316,26 +294,6 @@ export const ApplicationProvider = ({ children }) => {
         args: [_address],
       });
     } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const withdrawCommission = async () => {
-    try {
-      const trx = await affiliateContract.withdrawCommission();
-      return trx.hash;
-    } catch (err) {
-      log("Unable to withdraw commission");
-      console.log(err);
-    }
-  };
-
-  const getCustomerAffiliate = async (address) => {
-    try {
-      const affiliate = await affiliateContract.getAffiliate(address);
-      return affiliate;
-    } catch (err) {
-      log("Unable to get customer affiliate");
       console.log(err);
     }
   };
@@ -361,14 +319,9 @@ export const ApplicationProvider = ({ children }) => {
       value={{
         chain,
         currentAccount,
-        getEstimatedReward,
-        claimDivident,
-        getEstimatedDividentReward,
         buyTokens,
         buyTokensETH,
         registerAffiliate,
-        withdrawCommission,
-        getCustomerAffiliate,
         getEthToUsdtRate,
         approveUsdt,
         approveUsdtETH,
@@ -379,7 +332,6 @@ export const ApplicationProvider = ({ children }) => {
         getDisperseAmount,
         getDisperseAmountETH,
         pendingFunction,
-        // isConfirmed,
         isPending,
         token_address,
         crowde_sale_address,
