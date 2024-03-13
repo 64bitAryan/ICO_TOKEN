@@ -1,4 +1,4 @@
-.u-section-1 {
+ .u-section-1 {
   background-image: none;
 }
 
@@ -11,7 +11,7 @@
   height: 71px;
   margin: 21px auto;
 } .u-section-2 {
-  background-image: url("../images/saib_slide_green22.png");
+  background-image: url("images/saib_slide_green22.png");
   background-position: 50% 50%;
 }
 
@@ -723,15 +723,15 @@
   font-family: 'MonumentExtended-Ultrabold';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/MonumentExtended-Ultrabold.otf);
+  src: url(fonts/MonumentExtended-Ultrabold.otf);
 }@font-face {
   font-family: 'Gilroy-Light';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/Gilroy-Light.otf);
+  src: url(fonts/Gilroy-Light.otf);
 }@font-face {
   font-family: 'Gilroy-ExtraBold';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/Gilroy-ExtraBold.otf);
+  src: url(fonts/Gilroy-ExtraBold.otf);
 }
