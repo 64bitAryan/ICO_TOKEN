@@ -45,7 +45,7 @@ const AdvantageSection = () => {
             </p>
 
             <p className="text-white text-center text-[1rem] tomorrow-light">
-              SAiB provides youwith the following additional advantages!
+              SAiB provides you with the following additional advantages!
             </p>
           </div>
         </SwiperSlide>
@@ -53,12 +53,12 @@ const AdvantageSection = () => {
         <SwiperSlide>
           <div className="card bg-purple-card w-fit mx-auto rounded-xl p-2 md:min-h-[10rem] border border-[#4a386a] backdrop-blur-sm">
             <p className="text-white text-center monument-regular text-[1rem] p-2">
-              Access to the sales superintelligence system
+              Access to the sales super intelligence system
             </p>
 
             <p className="text-white text-center text-[1rem] tomorrow-light">
-              Renting orpurchasing the sales super system is possible only with
-              SAiB tokens for thebiggest companies.
+              Renting or purchasing the sales super system is possible only with
+              SAiB tokens for the biggest companies.
             </p>
           </div>
         </SwiperSlide>
@@ -70,8 +70,8 @@ const AdvantageSection = () => {
             </p>
 
             <p className="text-white text-center text-[1rem] tomorrow-light">
-              Users can vote withtheir SAiB tokens on issues affecting the
-              development and growth of theecosystem
+              Users can vote with their SAiB tokens on issues affecting the
+              development and growth of the ecosystem
             </p>
           </div>
         </SwiperSlide>
@@ -83,7 +83,7 @@ const AdvantageSection = () => {
             </p>
 
             <p className="text-white text-center text-[1rem] tomorrow-light">
-              SAiB tokens ensurecontinuous participation for Users in the
+              SAiB tokens ensure continuous participation for Users in the
               ecosystem's profits
             </p>
           </div>
@@ -96,7 +96,7 @@ const AdvantageSection = () => {
             </p>
 
             <p className="text-white text-center text-[1rem] tomorrow-light">
-              Users can staketheir SAiB tokens to earn rewards.
+              Users can stake their SAiB tokens to earn rewards.
             </p>
           </div>
         </SwiperSlide>
@@ -108,7 +108,7 @@ const AdvantageSection = () => {
             </p>
 
             <p className="text-white text-center text-[1rem] tomorrow-light">
-              Users can purchase goodsand services with their SAiB tokens from
+              Users can purchase good sand services with their SAiB tokens from
               merchants who accept SAiB.
             </p>
           </div>

@@ -49,7 +49,7 @@ const AboutAIBoost = () => {
               />
               <p className="text-white text-center gilory-regular md:text-[1.25rem]">
                 Despite all technological advancements, we find it incredible
-                that over 90% of direct salespeople still do not use artificial
+                that over 90% of direct sales people still do not use artificial
                 intelligence for lead generation.
               </p>
             </div>
@@ -117,7 +117,7 @@ const AboutAIBoost = () => {
                 </b>
                 No more endless and failure-filled hunts for leads. With
                 SalesAiBoost, buyers automatically arrive hour by hour, while
-                salespeople do not need to be programmers or marketing experts.
+                sales people do not need to be programmers or marketing experts.
                 A single platform, working strategy, 2-3 clicks, and customers
                 flood in.
               </p>

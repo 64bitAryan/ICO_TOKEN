@@ -208,11 +208,11 @@ const HeroSection = () => {
             </h1>
 
             <h1 class="text-center md:text-left md:leading-[58px] bg-gradient-to-r w-full  from-gradient-left to-gradient-right text-transparent bg-clip-text md:text-[3rem] monument-bold">
-              with the power of AI
+              with the power of SAiB
             </h1>
 
             <p className="text-white text-center md:text-left mt-5 md:w-[90%] mr-auto md:leading-[28px] gilory-regular  md:text-[1.375rem]">
-              We have created the most importnt tool for-every business, a
+              We have created the most important tool for-every business, a
               revenue-generating super intelligence, But now you can profit from
               it too! This opportunity is open to everyone for a very limited
               time!!!!
@@ -230,7 +230,7 @@ const HeroSection = () => {
             </div>
 
             <p className="md:mr-auto mt-8 md:leading-[58px] text-white md:text-[2rem] monument-bold">
-              1 ICO = $0.000039
+              1 SAiB = $0.000039
             </p>
           </motion.div>
         </div>
@@ -245,7 +245,7 @@ const HeroSection = () => {
           >
             <div className="bg-gradient-to-r from-[#6F38C0] to-[#C289F4] rounded-tl-3xl rounded-tr-3xl pb-2">
               <p className="text-center  md:leading-[58px] text-white md:text-[1.3rem] pt-5 pb-5 monument-regular">
-                Purchase $AIB Token
+                Purchase SAiB Token
               </p>
 
               <CountdownTimer targetDate={targetDate} />
@@ -267,7 +267,7 @@ const HeroSection = () => {
               <div className="border border-b-white opacity-20 w-[30%]"></div>
               <div>
                 <p className="text-center  md:leading-[58px] text-white md:text-[1rem] gilory-regular">
-                  1 ICO = $0.000039
+                  1 SAiB = $0.000039
                 </p>
               </div>
               <div className="border border-b-white opacity-20 w-[30%]"></div>
@@ -361,7 +361,7 @@ const HeroSection = () => {
 
               <div className="flex flex-col w-full">
                 <label className="text-left  md:leading-[58px] text-white md:text-[1rem] gilory-regular">
-                  Amount in ICO you receive
+                  Amount in SAiB you receive
                 </label>
 
                 <input
@@ -374,7 +374,7 @@ const HeroSection = () => {
 
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className="text-center  text-white md:text-[1rem] gilory-regular">
-                0.15 E TH is reserved for gas. The actual Amount used will
+                0.15 ETH is reserved for gas. The actual Amount used will
                 depend on the network
               </p>
             </div>
@@ -425,7 +425,7 @@ const HeroSection = () => {
 
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className="text-center  text-white md:text-[1rem] gilory-regular">
-                Listing Price: $0.0000336
+                Listing Price: $0.000039
               </p>
             </div>
           </div>

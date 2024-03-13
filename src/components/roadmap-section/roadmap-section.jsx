@@ -32,13 +32,13 @@ const RoadMapSection = () => {
                         <ul className="list-disc pl-5 mt-4">
                           <li>
                             <p className="text-white  text-[1rem] tomorrow-light">
-                              SAiB provides youwith the following additional
+                              SAiB provides you with the following additional
                               advantages!
                             </p>
                           </li>
                           <li>
                             <p className="text-white  text-[1rem] tomorrow-light">
-                              SAiB provides youwith the following additional
+                              SAiB provides you with the following additional
                               advantages!
                             </p>
                           </li>
@@ -172,6 +172,11 @@ const RoadMapSection = () => {
                           <li>
                             <p className="text-white  text-[1rem] tomorrow-light">
                               Development of SalesAiBoost mobile application
+                            </p>
+                          </li>
+                          <li>
+                            <p className="text-white  text-[1rem] tomorrow-light">
+                              SAiB tokens are listed on the major stock exchanges.
                             </p>
                           </li>
                         </ul>

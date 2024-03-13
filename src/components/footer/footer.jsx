@@ -1,4 +1,6 @@
 import { Logo, RoboImg } from "../../assets/auth";
+import Pdf from '../../assets/documents/SalesAIBoost-English.pdf';
+
 const Footer = () => {
   return (
     <div className="bg-blue-dark w-full h-auto pb-20">
@@ -7,66 +9,39 @@ const Footer = () => {
           <div className="flex flex-col col-span-2 gap-2">
             <img src={Logo} width={200} height={200} alt="" />
             <p className="text-[#d7cceb] gilory-regular text-[1rem]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore.
+              We have created the most crucial tool
+              forevery business, a revenue-generating super intelligence, but now you too canprofit
+              from it! This opportunity is open to everyone for a very limitedtime!!!!
             </p>
           </div>
 
           <div className="flex flex-col gap-y-3  md:mx-auto pt-5 md:pt-0">
             <p className="text-white gilory-semibold mb-3 ">Company</p>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Marketing Creativity
-            </a>
-
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Our Projects
-            </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Partners
-            </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Clients
+            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer" href={Pdf} target = "_blank">
+              Whitepaper
             </a>
           </div>
 
           <div className="flex flex-col gap-y-3  md:mx-auto pt-5 md:pt-0">
             <p className="text-white gilory-semibold mb-3">Support</p>
             <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Help Center
-            </a>
-            <a
-              href="/terms"
-              className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer"
-            >
-              Terms of Service
-            </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Legal
+              hello@salesaiboost.io
             </a>
             <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
               Privacy Policy
-            </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Status
             </a>
           </div>
 
           <div className="flex flex-col gap-y-3  md:mx-auto pt-5 md:pt-0">
             <p className="text-white gilory-semibold mb-3">Follow Us</p>
             <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Facebook
+              Telegram
             </a>
             <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Twitter
+              X(Twitter)
             </a>
             <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Dribble
-            </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Instagram
-            </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
-              Linkedin
+            Facebook
             </a>
           </div>
 

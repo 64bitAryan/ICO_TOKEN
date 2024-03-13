@@ -11,8 +11,8 @@ import {
 const projectId = "4eb352e58e206ddcfa9ab440659f4b73";
 
 const metadata = {
-  name: "ICO_TOKEN",
-  description: "ICO TOKEN",
+  name: "SAiB_TOKEN",
+  description: "SAiB TOKEN",
   url: "https://ICOTOKEN.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };

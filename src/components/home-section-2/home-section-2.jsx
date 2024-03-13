@@ -25,11 +25,11 @@ const HomeSection2 = () => {
             Companies are already begging for it! No matter what business you
             are in, the most important activity for any company is sales!
             Because no matter how attractive the product or how excellent
-            theservice, if it cannot sell, then it's the end! Companies know
+            the service, if it cannot sell, then it's the end! Companies know
             this, which is why they incredibly desire our sales super machine,
             but they have to wait a bit longer! We are in the final stages of
             development, and soon this amazing tool will belong to the
-            companies, but until then, you can also make money with it!How?
+            companies, but until then, you can also make money with it! How?
           </p>
 
           <p className="text-tiffany-blue  text-center leading-[28px] gilory-heavy md:w-[80%] mx-auto md:text-[2rem] mt-5">

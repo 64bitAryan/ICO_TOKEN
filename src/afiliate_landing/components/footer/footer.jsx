@@ -24,7 +24,7 @@ const Footer = () => {
       </div>
 
       <p className="text-white text-center gilory-regular pb-5">
-        ©2024 ICO TOKEN. All rights reserved
+        ©2024 SAiB TOKEN. All rights reserved
       </p>
     </div>
   );

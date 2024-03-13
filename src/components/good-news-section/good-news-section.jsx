@@ -32,7 +32,7 @@ const GoodNewsSection = () => {
             />
           </div>
 
-          <div className="absolute border border-white border-opacity-10 bg-white bg-opacity-10 rounded-lg md:p-10 backdrop-blur-lg h-fit md:max-w-[40rem] p-2 top-[100%] md:top-[70%]  md:left-0 md:bottom-0">
+          <div className="absolute border border-white border-opacity-10 bg-white bg-opacity-10 rounded-lg md:p-10 backdrop-blur-lg h-fit md:max-w-[40rem] p-2 top-[100%] md:top-[90%]  md:left-[30%] md:bottom-0">
             <p className="text-white text-center tomorrow-light md:text-[1.125rem] text-[0.7rem]">
               As mentioned above, companies are practically begging for it. But
               they have to wait until the final development phase is completed!
