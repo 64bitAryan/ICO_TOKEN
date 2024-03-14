@@ -21,8 +21,8 @@ function App() {
           <Route path="/terms" element={<PrivateRoute component={Terms} />} />
           <Route path="/login" element={<PrivateRoute component={Login} />} />
           <Route path="/stake" element={<Stake />} />
-          <Route path="/affiliate" element={<AffiliateHome />} />
-          <Route path="/affiliatePartner" element={<Affiliate />} />
+          <Route path="/affiliate-connection" element={<AffiliateHome />} />
+          <Route path="/partner-dashboard" element={<Affiliate />} />
         </Routes>
       </Layout>
     </div>

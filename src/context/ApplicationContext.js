@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
 import { createContext, useEffect, useState } from "react";
-import { readContract, getChainId, waitForTransaction } from "@wagmi/core";
+import { readContract, getChainId, waitForTransactionReceipt } from "@wagmi/core";
 import {
   CROWDSALE_ABI_BSC,
   CROWDSALE_ABI_ETH,
@@ -16,7 +16,9 @@ import {
 import { toWei, log } from "../utils/helpers";
 import { config } from "../config";
 import { Buffer } from "buffer";
-import { provider as Provider } from "../../utils/constants"
+import { provider as Provider } from "../utils/constants"
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 window.Buffer = Buffer;
 
@@ -31,9 +33,10 @@ export const ApplicationProvider = ({ children }) => {
   const [isConfirmedETH, setIsConfirmedETH] = useState(false);
   const [isTransactionCompleated, setIsTransactionCompleated] = useState(false);
   const [pendingFunction, setPendingFunction] = useState({ functionName: "", isPending: false });
+  const [successMessage, setSuccessMessage] = useState("");
   const [chain, setChain] = useState(56);
 
-  let { hash, isPending, writeContract, variables } = useWriteContract();
+  let { data: hash, isPending, writeContract, variables, status } = useWriteContract();
 
   let { address } = useAccount();
 
@@ -54,6 +57,10 @@ export const ApplicationProvider = ({ children }) => {
     usdt_address,
     zeroAddress,
   } = getAddress(chain);
+
+  useEffect(()=>{
+    console.log(status)
+  },[status])
 
   useEffect(() => {
     if (variables) {
@@ -81,9 +88,32 @@ export const ApplicationProvider = ({ children }) => {
     });
   }
 
-  const waitForTransactionReceipt = async (_hash) => {
+  useEffect(()=>{
+    console.log(hash)
+    if(hash){
+    async function getReceipt(){
+      const result = await waitForTransactionReceipt(config,{
+        hash: hash,
+      })
+      console.log(result)
+      if(result.status){
+        iziToast.success({
+          title: 'Succss',
+          message: successMessage,
+          position:"topRight"
+      });
+      }
+    }
+    getReceipt()
+  }
+  },[hash])
+
+  const waitForTransactionReceiptInternal = async (_hash) => {
+    console.log(_hash)
     setIsTransactionCompleated(false)
-    const result = await waitForTransaction(_hash)
+    const result = await waitForTransactionReceipt(config,{
+      hash: _hash,
+    })
     setIsTransactionCompleated(true)
     return result.status
   }
@@ -132,6 +162,7 @@ export const ApplicationProvider = ({ children }) => {
   const approveUsdt = async (approveTo) => {
     const amount = await getTokenTotelSupply();
     try {
+      setSuccessMessage("Token Transfer Approved Successfully!");
       await writeContract({
         address: USDT_ADDRESS_BSC,
         abi: USDT_ABI_BNB,
@@ -149,6 +180,7 @@ export const ApplicationProvider = ({ children }) => {
     setIsConfirmedETH(false);
     const amount = await getTokenTotelSupplyETH();
     try {
+      setSuccessMessage("Token Transfer Approved Successfully!");
       await writeContract({
         address: USDT_ADDRESS_ETH,
         abi: USDT_ABI_ETH,
@@ -166,6 +198,7 @@ export const ApplicationProvider = ({ children }) => {
     const amount = toWei(ethAmount);
     if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
     try {
+      setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_ETH,
         abi: CROWDSALE_ABI_ETH,
@@ -173,8 +206,6 @@ export const ApplicationProvider = ({ children }) => {
         args: [affiliateAddress],
         value: amount,
       });
-      // Waiting for transaction receipt
-      await waitForTransactionReceipt(hash)
     } catch (err) {
       log("Unable to buy token using eth");
       console.log(err);
@@ -188,6 +219,7 @@ export const ApplicationProvider = ({ children }) => {
     }
     console.log(affiliateAddress)
     try {
+      setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
         abi: CROWDSALE_ABI_BSC,
@@ -195,7 +227,6 @@ export const ApplicationProvider = ({ children }) => {
         args: [affiliateAddress],
         value: amount,
       });
-      await waitForTransactionReceipt(hash)
     } catch (err) {
       log("Unable to buy token using eth");
       console.log(err);
@@ -252,13 +283,13 @@ export const ApplicationProvider = ({ children }) => {
     const userAmount = await getUserUsdtBalance();
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
+      setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
         abi: CROWDSALE_ABI_BSC,
         functionName: "buyTokens",
         args: [amount, affiliateAddress],
       });
-      return hash;
     } catch (err) {
       log("Unable to buy tokens");
       console.log(err);
@@ -271,14 +302,13 @@ export const ApplicationProvider = ({ children }) => {
     console.log(amount, userAmount)
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
+      setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_ETH,
         abi: CROWDSALE_ABI_ETH,
         functionName: "buyTokens",
         args: [amount, affiliateAddress],
       });
-      await waitForTransactionReceipt(hash)
-      return hash;
     } catch (err) {
       log("Unable to buy tokens");
       console.log(err);

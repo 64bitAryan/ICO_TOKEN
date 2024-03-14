@@ -34,13 +34,13 @@ const Footer = () => {
 
           <div className="flex flex-col gap-y-3  md:mx-auto pt-5 md:pt-0">
             <p className="text-white gilory-semibold mb-3">Follow Us</p>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
+            <a href="https://t.me/+VR3jDS0Lxu0zOWRk" target="_blank" className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
               Telegram
             </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
+            <a href="https://twitter.com/salesaiboost" target="_blank" className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
               X(Twitter)
             </a>
-            <a className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
+            <a href="https://www.facebook.com/salesaiboost" target="_blank" className="text-[#d7cceb] gilory-regular mb-1 no-underline cursor-pointer">
             Facebook
             </a>
           </div>

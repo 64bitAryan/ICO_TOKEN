@@ -1,5 +1,6 @@
 import { useAccount, useWriteContract } from "wagmi";
-import { useRef, useState, useContext } from "react";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { useRef, useState, useContext, useEffect } from "react";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { ethers } from "ethers";
 
@@ -11,6 +12,8 @@ import {
   CROWDSALE_ADDRESS_BSC,
   CROWDSALE_ABI_BSC,
 } from "../../utils/constants";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 import { readContract } from "viem/actions";
 import { config } from "../../config";
 
@@ -19,9 +22,10 @@ export const AffiliateViewModel = () => {
   const [isAffiliateRegister, setIsAffiliateRegister] = useState(false);
   const [currentCommission, setCurrentCommission] = useState(0);
   const [accumulatedCommission, setAccumulatedCommission] = useState(0);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const { currentAccount } = useContext(ApplicationContext);
-  let { data: hash, writeContract } = useWriteContract();
+  let { data: hash, isPending, writeContract, variables, status } = useWriteContract();
   const [affiliateAddress, setAffiliateAddress] = useState("");
 
   const inputRef = useRef(null);
@@ -37,8 +41,29 @@ export const AffiliateViewModel = () => {
     wallet
   );
 
+  useEffect(()=>{
+    console.log(hash)
+    if(hash){
+    async function getReceipt(){
+      const result = await waitForTransactionReceipt(config,{
+        hash: hash,
+      })
+      console.log(result)
+      if(result.status){
+        iziToast.success({
+          title: 'Succss',
+          message: successMessage,
+          position:"topRight"
+      });
+      }
+    }
+    getReceipt()
+  }
+  },[hash])
+
   const registerAffiliate = async (_address) => {
     try {
+      setSuccessMessage("Affiliate Registered Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
         abi: CROWDSALE_ABI_BSC,
@@ -53,6 +78,7 @@ export const AffiliateViewModel = () => {
   const withdrawCommission = async () => {
     console.log("withdraw commission");
     try {
+      setSuccessMessage("Commission Withdraw Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
         abi: CROWDSALE_ABI_BSC,
