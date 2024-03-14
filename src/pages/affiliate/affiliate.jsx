@@ -162,7 +162,7 @@ export const Affiliate = () => {
               </p>
               
             </>
-          ) : chain === "0x38" ? (
+          ) : chain === 56 ? (
             <div
               style={{
                 display: "flex",

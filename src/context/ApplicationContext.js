@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useAccount, useSendTransaction, useWriteContract } from "wagmi";
+import { useAccount, useSendTransaction, useWriteContract, useChainId } from "wagmi";
 import { createContext, useEffect, useState } from "react";
 import { readContract, getChainId, waitForTransactionReceipt } from "@wagmi/core";
 import {
@@ -37,20 +37,28 @@ export const ApplicationProvider = ({ children }) => {
   const [approveBtnText, setApproveBtnText] = useState("Approve USDT token");
   const [buyBtnText, setBuyBtnText] = useState("Buy Now");
   const [chain, setChain] = useState(56);
+  const chainId = useChainId({
+    config, 
+  })
 
   let { data: hash, isPending, writeContract, variables, status } = useWriteContract();
 
   let { address } = useAccount();
 
-  (async () => {
-    if (window.ethereum) {
-      const c = await window.ethereum.request({ method: "eth_chainId" });
-      setChain(c);
-      console.log("Current chain ID:", chain);
-    } else {
-      setChain(56);
-    }
-  })();
+  // (async () => {
+  //   if (window.ethereum) {
+  //     const c = await window.ethereum.request({ method: "eth_chainId" });
+  //     setChain(c);
+  //     console.log("Current chain ID:", chain);
+  //   } else {
+  //     setChain(56);
+  //   }
+  // })();
+
+  useEffect(()=>{
+    console.log(chainId)
+    setChain(chainId);
+  },[chainId])
 
   let {
     token_address,

@@ -76,16 +76,16 @@ const HeroSection = () => {
     const newTimer = setTimeout(async () => {
       resp = await getEthToUsdtRate();
       console.log(resp);
-      if (buyCurrency === "ETH" && chain === "0x1") {
+      if (buyCurrency === "ETH" && chain === 1) {
         let disperseAmountETH = Number(await getDisperseAmountETH());
         const calcUsdt = val * resp.ethPrice.USDT * disperseAmountETH;
         console.log(calcUsdt);
         setOutAmount(calcUsdt);
-      } else if (buyCurrency === "BNB" && chain === "0x38") {
+      } else if (buyCurrency === "BNB" && chain === 56) {
         let disperseAmount = Number(await getDisperseAmount());
         const calcUsdtBNB = val * resp.bnbPrice.USDT * disperseAmount;
         setOutAmount(calcUsdtBNB);
-      } else if (buyCurrency === "USDTBNB" && chain === "0x38") {
+      } else if (buyCurrency === "USDTBNB" && chain === 56) {
         let disperseAmount = Number(await getDisperseAmount());
         useApprovedBal = await getUserUsdtApprovedAmount();
         setOutAmount(val * disperseAmount);
@@ -93,7 +93,7 @@ const HeroSection = () => {
         if (BigInt(val * 10 ** 18) <= useApprovedBal)
           setHasApprovedAmount(true);
         else setHasApprovedAmount(false);
-      } else if (buyCurrency === "USDTETH" && chain === "0x1") {
+      } else if (buyCurrency === "USDTETH" && chain === 1) {
         let disperseAmountETH = Number(await getDisperseAmountETH());
         usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
         console.log(usdApprovedBalETH);
@@ -118,23 +118,23 @@ const HeroSection = () => {
   const handleCurrChange = async (curr, val) => {
     setBuyValue(val);
     let resp = await getEthToUsdtRate();
-    if (curr === "ETH" && chain === "0x1") {
+    if (curr === "ETH" && chain === 1) {
       let disperseAmountETH = Number(await getDisperseAmountETH());
       const calcUsdt = val * resp.ethPrice.USDT * disperseAmountETH;
       console.log(calcUsdt);
       setOutAmount(calcUsdt);
-    } else if (curr === "BNB" && chain === "0x38") {
+    } else if (curr === "BNB" && chain === 56) {
       let disperseAmount = Number(await getDisperseAmount());
       const calcUsdtBNB = val * resp.bnbPrice.USDT * disperseAmount;
       setOutAmount(calcUsdtBNB);
-    } else if (curr === "USDTBNB" && chain === "0x38") {
+    } else if (curr === "USDTBNB" && chain === 56) {
       let disperseAmount = Number(await getDisperseAmount());
       let useApprovedBal = await getUserUsdtApprovedAmount();
       setOutAmount(val * disperseAmount);
       /* global BigInt */
       if (BigInt(val * 10 ** 18) <= useApprovedBal) setHasApprovedAmount(true);
       else setHasApprovedAmount(false);
-    } else if (curr === "USDTETH" && chain === "0x1") {
+    } else if (curr === "USDTETH" && chain === 1) {
       let disperseAmountETH = Number(await getDisperseAmountETH());
       let usdApprovedBalETH = await getUserUsdtApprovedAmountETH();
       setOutAmount(val * disperseAmountETH);
@@ -380,10 +380,10 @@ const HeroSection = () => {
                 depend on the network
               </p>
             </div>
-            {(chain === "0x1" && buyCurrency === "ETH") ||
-            (chain === "0x1" && buyCurrency === "USDTETH") ||
-            (chain === "0x38" && buyCurrency === "BNB") ||
-            (chain === "0x38" && buyCurrency === "USDTBNB") ? (
+            {(chain === 1 && buyCurrency === "ETH") ||
+            (chain === 1 && buyCurrency === "USDTETH") ||
+            (chain === 56 && buyCurrency === "BNB") ||
+            (chain === 56 && buyCurrency === "USDTBNB") ? (
               <div
                 className="flex flex-row mx-auto mt-5 mb-5 w-[80%] justify-center items-center"
                 onClick={handleBuyClick}
@@ -414,10 +414,10 @@ const HeroSection = () => {
             )}
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
               <p className=" text-xl gilory-semibold ">
-                {(chain === "0x1" && buyCurrency === "ETH") ||
-                (chain === "0x1" && buyCurrency === "USDTETH") ||
-                (chain === "0x38" && buyCurrency === "BNB") ||
-                (chain === "0x38" && buyCurrency === "USDTBNB") ? (
+                {(chain === 1 && buyCurrency === "ETH") ||
+                (chain === 1 && buyCurrency === "USDTETH") ||
+                (chain === 56 && buyCurrency === "BNB") ||
+                (chain === 56 && buyCurrency === "USDTBNB") ? (
                   <w3m-button />
                 ) : (
                   <w3m-network-button />
