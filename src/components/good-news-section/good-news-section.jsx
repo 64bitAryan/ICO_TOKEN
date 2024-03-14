@@ -22,8 +22,8 @@ const GoodNewsSection = () => {
           </div>
         </div>
 
-        <div className="image flex-grow md:w-[90%] relative  md:p-20 flex items-center justify-center">
-          <div>
+        <div className="image flex-grow md:w-[90%] relative max-w-full md:p-20 flex items-center justify-center">
+          <div className="videoContainer max-w-full">
             <ReactPlayer
               url="https://vimeo.com/918417492"
               height={750}

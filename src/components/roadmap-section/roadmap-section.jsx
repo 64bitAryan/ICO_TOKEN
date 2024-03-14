@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const RoadMapSection = () => {
   return (
     <div className=" w-full pt-10 h-auto md:pt-20 md:pb-20 pb-10">
@@ -237,7 +238,9 @@ const RoadMapSection = () => {
 
       <div className="flex flex-row mx-auto mt-5 mb-5 w-[80%] md:w-[40%] justify-center items-center">
         <button className="btn w-full bg-tiffany-blue gilory-semibold hover:scale-105 transition-all ease-in-out duration-300 rounded-md p-5 text-white ">
-          <p className="uppercase text-xl ">Stake my $AIB tokens </p>
+          <p className="uppercase text-xl ">
+            <Link to="/stake" className="btn btn-primary">Stake my SAiB tokens </Link>
+          </p>
         </button>
       </div>
     </div>
