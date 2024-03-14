@@ -26,7 +26,9 @@ const HeroSection = () => {
     chain,
     getDisperseAmount,
     getDisperseAmountETH,
-    pendingFunction
+    pendingFunction,
+    approveBtnText,
+    buyBtnText
   } = useContext(ApplicationContext);
 
   const { address } = useParams();
@@ -393,12 +395,12 @@ const HeroSection = () => {
                     <p className="uppercase text-xl ">Approving... </p>
                   ) :
                   (
-                    <p className="uppercase text-xl ">Approve USDT token</p>
+                    <p className="uppercase text-xl ">{approveBtnText}</p>
                   ) : 
                   (pendingFunction.functionName === "buyTokensWithBNB" && pendingFunction.isPending) ? (
                     <p className="uppercase text-xl ">Buying... </p>
                   ) : (
-                    <p className="uppercase text-xl ">Buy now </p>
+                    <p className="uppercase text-xl ">{buyBtnText}</p>
                   )  
                 }
                 </button>

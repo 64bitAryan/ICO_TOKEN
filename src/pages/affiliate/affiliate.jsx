@@ -20,6 +20,7 @@ export const Affiliate = () => {
     currentCommission,
     getAccumulatedComision,
     accumulatedCommission,
+    withdrawBtnText
   } = AffiliateViewModel();
 
   const [link, setLink] = useState("");
@@ -144,7 +145,7 @@ export const Affiliate = () => {
                   onClick={withdrawCommission}
                   className="btn w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white "
                 >
-                  <p className="uppercase mb-0 mt-0  text-xl ">Withdraw Commission</p>
+                  <p className="uppercase mb-0 mt-0  text-xl ">{withdrawBtnText}</p>
                 </button>
               </div>
               <p className="u-custom-font u-text u-text-body-alt-color u-text-default u-text-5">

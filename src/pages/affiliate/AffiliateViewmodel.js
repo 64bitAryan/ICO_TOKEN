@@ -23,6 +23,8 @@ export const AffiliateViewModel = () => {
   const [currentCommission, setCurrentCommission] = useState(0);
   const [accumulatedCommission, setAccumulatedCommission] = useState(0);
   const [successMessage, setSuccessMessage] = useState("");
+  const [registerAffiliateBtnText, setRegisterAffiliateBtnText] = useState("Register Now!");
+  const [withdrawBtnText, setWithdrawBtnText] = useState("Withdraw Commission");
 
   const { currentAccount } = useContext(ApplicationContext);
   let { data: hash, isPending, writeContract, variables, status } = useWriteContract();
@@ -54,8 +56,10 @@ export const AffiliateViewModel = () => {
           title: 'Succss',
           message: successMessage,
           position:"topRight"
-      });
+        }); 
       }
+      setRegisterAffiliateBtnText("Register Now!")
+      setWithdrawBtnText("Withdraw Commission")
     }
     getReceipt()
   }
@@ -63,6 +67,7 @@ export const AffiliateViewModel = () => {
 
   const registerAffiliate = async (_address) => {
     try {
+      setRegisterAffiliateBtnText("Registering....")
       setSuccessMessage("Affiliate Registered Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
@@ -78,6 +83,7 @@ export const AffiliateViewModel = () => {
   const withdrawCommission = async () => {
     console.log("withdraw commission");
     try {
+      setWithdrawBtnText("Withdrawing....")
       setSuccessMessage("Commission Withdraw Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
@@ -154,6 +160,8 @@ export const AffiliateViewModel = () => {
     getAccumulatedComision,
     accumulatedCommission,
     setAccumulatedCommission,
+    registerAffiliateBtnText,
+    withdrawBtnText
     // getCommisionRate
   };
 };

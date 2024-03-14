@@ -10,7 +10,7 @@ const HeroSection = () => {
     currentAccount,
     chain,
   } = useContext(ApplicationContext);
-  const { registerAffiliate } = AffiliateViewModel();
+  const { registerAffiliate, registerAffiliateBtnText } = AffiliateViewModel();
   const [animateForm, setAnimateForm] = useState(false);
   const [affiliateAddress, setAffiliateAddress] = useState("");
   const inputRef = useRef();
@@ -98,7 +98,7 @@ const HeroSection = () => {
                 className="btn w-[80%] mb-5 mx-auto sm:mx-0 shadow-md shadow-gradient-right md:w-full bg-gradient-to-r  hover:scale-105 transition-all ease-in-out duration-300 hover:from-gradient-right hover:to-gradient-left   from-gradient-left to-gradient-right rounded-lg p-[0.5rem] text-white "
               >
                 <p className="text-sm md:text-xl gilory-semibold uppercase">
-                  Register Now!{" "}
+                  {registerAffiliateBtnText}{" "}
                 </p>
               </button>
               <w3m-button />

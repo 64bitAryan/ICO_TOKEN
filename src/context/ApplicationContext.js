@@ -34,6 +34,8 @@ export const ApplicationProvider = ({ children }) => {
   const [isTransactionCompleated, setIsTransactionCompleated] = useState(false);
   const [pendingFunction, setPendingFunction] = useState({ functionName: "", isPending: false });
   const [successMessage, setSuccessMessage] = useState("");
+  const [approveBtnText, setApproveBtnText] = useState("Approve USDT token");
+  const [buyBtnText, setBuyBtnText] = useState("Buy Now");
   const [chain, setChain] = useState(56);
 
   let { data: hash, isPending, writeContract, variables, status } = useWriteContract();
@@ -101,22 +103,14 @@ export const ApplicationProvider = ({ children }) => {
           title: 'Succss',
           message: successMessage,
           position:"topRight"
-      });
+        });
       }
+      setBuyBtnText("Buy Now")
+      setApproveBtnText("Approve USDT token")
     }
     getReceipt()
   }
   },[hash])
-
-  const waitForTransactionReceiptInternal = async (_hash) => {
-    console.log(_hash)
-    setIsTransactionCompleated(false)
-    const result = await waitForTransactionReceipt(config,{
-      hash: _hash,
-    })
-    setIsTransactionCompleated(true)
-    return result.status
-  }
 
   // Token functions //
 
@@ -162,6 +156,7 @@ export const ApplicationProvider = ({ children }) => {
   const approveUsdt = async (approveTo) => {
     const amount = await getTokenTotelSupply();
     try {
+      setApproveBtnText("Approving...");
       setSuccessMessage("Token Transfer Approved Successfully!");
       await writeContract({
         address: USDT_ADDRESS_BSC,
@@ -180,6 +175,7 @@ export const ApplicationProvider = ({ children }) => {
     setIsConfirmedETH(false);
     const amount = await getTokenTotelSupplyETH();
     try {
+      setApproveBtnText("Approving...");
       setSuccessMessage("Token Transfer Approved Successfully!");
       await writeContract({
         address: USDT_ADDRESS_ETH,
@@ -198,6 +194,7 @@ export const ApplicationProvider = ({ children }) => {
     const amount = toWei(ethAmount);
     if (affiliateAddress === "" || undefined) affiliateAddress = zeroAddress;
     try {
+      setBuyBtnText("Buying...")
       setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_ETH,
@@ -219,6 +216,7 @@ export const ApplicationProvider = ({ children }) => {
     }
     console.log(affiliateAddress)
     try {
+      setBuyBtnText("Buying...")
       setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
@@ -283,6 +281,7 @@ export const ApplicationProvider = ({ children }) => {
     const userAmount = await getUserUsdtBalance();
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
+      setBuyBtnText("Buying...")
       setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_BSC,
@@ -302,6 +301,7 @@ export const ApplicationProvider = ({ children }) => {
     console.log(amount, userAmount)
     if (userAmount < amount) return alert("insufficient user usdt funds.");
     try {
+      setBuyBtnText("Buying...")
       setSuccessMessage("Token Purchased Successfully!");
       writeContract({
         address: CROWDSALE_ADDRESS_ETH,
@@ -368,6 +368,8 @@ export const ApplicationProvider = ({ children }) => {
         staking_address,
         usdt_address,
         zeroAddress,
+        approveBtnText,
+        buyBtnText
       }}
     >
       {children}
