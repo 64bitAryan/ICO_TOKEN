@@ -36,7 +36,7 @@ const SolutionSection = () => {
         </div>
 
         <div className="image flex-grow md:w-[50%] flex items-center justify-center">
-          <img src={RoboImg} alt="Solution" className="w-[60%] h-fit" />
+          <img src={RoboImg} alt="Solution" className="w-[60%] robotImg"  />
         </div>
       </div>
     </div>
