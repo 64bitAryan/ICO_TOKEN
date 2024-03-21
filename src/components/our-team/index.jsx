@@ -5,7 +5,7 @@ const OurTeam = () => {
     return (
         <section className="u-align-center u-clearfix u-custom-color-9 u-section-1 founderList" id="carousel_2911">
             <h2 className="u-custom-font u-text u-text-default u-text-white u-text-1"> Meet The SalesAiBoost Team</h2>
-            <p className="u-text u-text-default-lg u-text-default-md u-text-default-xl u-text-2">
+            <p className="u-text u-text-default-lg u-text-white u-text-default-md u-text-default-xl u-text-2">
                 <span style={{ fontWeight: 700 }}>We believe in you and know that with SalesAiBoost, anyone can build a huge business.</span> For us, only the maximum is acceptable to ourselves.&nbsp;<br/>We work every day to help you build your business as quickly and easily as possible with SalesAiBoost.
             </p>
             <div className="u-list u-list-1">
