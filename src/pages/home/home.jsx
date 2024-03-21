@@ -6,6 +6,7 @@ import { ProblemSection } from "../../components/problem-section";
 import { SolutionSection } from "../../components/solution-section";
 import { HeroSection } from "../../components/hero-section";
 import { RoadMapSection } from "../../components/roadmap-section";
+import { OurTeam } from "../../components/our-team";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <GoodNewsSection />
       <AttentionSection />
       <AdvantageSection />
+      <OurTeam />
       <RoadMapSection />
     </div>
   );

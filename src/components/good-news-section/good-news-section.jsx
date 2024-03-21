@@ -11,14 +11,15 @@ const GoodNewsSection = () => {
             </h1>
 
             <p className="text-white  md:mt-8 w-[80%] mx-auto text-center leading-[28px] gilory-regular md:text-[1.375rem]">
-              We have created this incredibly efficient sales super
-              intelligence! Only 2 companies have been given the opportunity to
-              test the system live!
+            We have created this incredibly effective sales superintelligence! Only 2 companies have been given the opportunity to test it live! The results are already amazing!
             </p>
 
             <p className="text-white font-bold md:mt-2 w-[80%] mx-auto text-center leading-[28px] gilory-regular md:text-[1.375rem]">
-              The results are incredible! Here's the video!
+              In this video we show you how you can benefit from this incredible technological paradigm shift NOW!
             </p>
+            {/* <p className="text-white font-bold md:mt-2 w-[80%] mx-auto text-center leading-[28px] gilory-regular md:text-[1.375rem]">
+              The results are incredible! Here's the video!
+            </p> */}
           </div>
         </div>
 
@@ -32,7 +33,7 @@ const GoodNewsSection = () => {
             />
           </div>
 
-          <div className="absolute border border-white border-opacity-10 bg-white bg-opacity-10 rounded-lg md:p-10 backdrop-blur-lg h-fit md:max-w-[40rem] p-2 top-[100%] md:top-[90%]  md:left-[30%] md:bottom-0">
+          <div className="absolute border border-white border-opacity-10 bg-white bg-opacity-10 rounded-lg md:p-10 backdrop-blur-lg h-fit md:max-w-[40rem] p-2 top-[100%] md:top-[90%] md:bottom-0">
             <p className="text-white text-center tomorrow-light md:text-[1.125rem] text-[0.7rem]">
               As mentioned above, companies are practically begging for it. But
               they have to wait until the final development phase is completed!

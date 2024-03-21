@@ -28,8 +28,10 @@ export const Stake = () => {
       <meta property="og:type" content="website" />
       <link rel="canonical" href="/" />
       <meta data-intl-tel-input-cdn-path="intlTelInput/" />
+
+      <div class="stakePage">
       <section
-        className="u-clearfix u-custom-color-2 u-sectionStake-1"
+        className="u-clearfix u-custom-color-2 u-sectionStake-1 "
         id="sec-7e15"
       >
         <div className="u-clearfix u-sheetStake u-valign-middle u-sheetStake-1">
@@ -49,8 +51,9 @@ export const Stake = () => {
         data-image-height={3375}
       >
         <div className="u-clearfix u-sheetStake u-sheetStake-1">
+          <div className="u-clearfix u-sheet u-sheet-1">
           <div className="u-container-style u-custom-color-8 u-group u-shape-rectangle u-groupStake-1">
-            <div className="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-xl u-containerStake-layout-1">
+            <div className="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-xl u-containerStake-layout-1 stake-boxtop">
               <h2 className="u-text u-text-custom-color-4 u-text-default u-textStake-1">
                 {" "}
                 $AIB STAKE
@@ -65,12 +68,6 @@ export const Stake = () => {
             data-image-height={1088}
           />
           <h1 className="u-align-center u-custom-font u-hidden-sm u-hidden-xs u-text u-text-custom-color-3 u-textStake-2">
-            {" "}
-            in the global revenue
-            <br />
-            of SalesAiBoost
-          </h1>
-          <h1 className="u-hidden-lg u-hidden-md u-hidden-xl u-text u-text-default-sm u-text-default-xs u-text-white u-textStake-3">
             {" "}
             in the global revenue
             <br />
@@ -141,10 +138,11 @@ export const Stake = () => {
               </div>
             </div>
           </div>
+          </div>
         </div>
       </section>
       <section className="u-clearfix u-gradient u-sectionStake-3" id="sec-84ec">
-        <div className="u-clearfix u-sheetStake u-valign-middle-xs u-sheetStake-1">
+        <div className="u-clearfix u-sheet u-valign-middle-xs u-sheet-1">
           <img
             className="u-image u-image-contain u-image-default u-preserve-proportions u-imageStake-1"
             src="images/Nevtelenterv-2024-03-06T184400.649.png"
@@ -230,21 +228,22 @@ export const Stake = () => {
         </div>
       </section>
       <footer
-        className="u-align-center u-clearfix u-custom-color-7 u-footer u-footer"
+        className="u-clearfix u-custom-color-7 u-footer u-footer"
         id="sec-9343"
       >
-        <div className="u-clearfix u-sheetStake u-sheetStake-1">
+        <div className="u-clearfix u-sheet u-sheet-1">
           <a
             href={Pdf} target = "_blank"
-            className="u-border-1 u-border-custom-color-3 u-border-hover-custom-color-5 u-btn u-button-style u-none u-text-hover-white u-btnStake-1"
+            className="u-border-1 u-border-custom-color-3 u-border-hover-custom-color-5 u-btn u-button-style u-none u-text-hover-white u-btn-1"
           >
             WHITE PAPER
           </a>
-          <p className="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-small-text u-text u-text-variant u-textStake-1">
+          <p className="u-align-center-xs u-align-left-lg u-align-left-md u-align-left-sm u-align-left-xl u-small-text u-text u-text-variant u-text-1">
             ©Copyright SalesAiBoost 2024&nbsp;
           </p>
         </div>
       </footer>
+      </div>
     </>
   );
 };

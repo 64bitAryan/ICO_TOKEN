@@ -1,7 +1,7 @@
 import { Explaimation } from "../../assets/auth";
 const AttentionSection = () => {
   return (
-    <div className="mt-[40rem] md:mt-[84rem]  w-full h-auto pt-[5rem]">
+    <div className="mt-[40rem] md:mt-[72rem]  w-full h-auto pt-[5rem]">
       <div className="flex flex-col ">
         <img src={Explaimation} className="md:w-[20%] w-[50%] mx-auto mb-20" />
 

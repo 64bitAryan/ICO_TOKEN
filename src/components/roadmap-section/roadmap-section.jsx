@@ -237,11 +237,11 @@ const RoadMapSection = () => {
       </div>
 
       <div className="flex flex-row mx-auto mt-5 mb-5 w-[80%] md:w-[40%] justify-center items-center">
-        <button className="btn w-full bg-tiffany-blue gilory-semibold hover:scale-105 transition-all ease-in-out duration-300 rounded-md p-5 text-white ">
+        <Link to="/stake" className="btn btn-primary text-center w-full bg-tiffany-blue gilory-semibold hover:scale-105 transition-all ease-in-out duration-300 rounded-md p-5 text-white hover:text-white">
           <p className="uppercase text-xl ">
-            <Link to="/stake" className="btn btn-primary">Stake my SAiB tokens </Link>
+            Stake my SAiB tokens
           </p>
-        </button>
+        </Link>
       </div>
     </div>
   );
