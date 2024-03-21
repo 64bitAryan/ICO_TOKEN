@@ -1741,7 +1741,7 @@
 
 
 .mycontainer {margin: 0px auto; max-width: 1300px;}
-.mycontainer .u-group-1 {margin: 70px auto 30px; position: relative; display: flex; align-items: center; justify-content: center; padding: 15px 40px;}
+.mycontainer .u-group-1 {margin: 70px auto 30px; position: relative; display: flex; align-items: center; justify-content: center; padding: 15px 50px;}
 .mycontainer .u-group-1 h2 {font-size: 16px; line-height: 1.5;}
 .mycontainer .u-group-1 .u-file-icon {position: absolute; right: 15px; top: calc(50% - 10px); margin: 0;}
 .mycontainer .u-group-1 .u-text-3 {margin: 0;}

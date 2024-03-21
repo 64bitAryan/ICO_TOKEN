@@ -375,10 +375,16 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-row mx-auto mt-5 mb-5  w-[80%] justify-center items-center">
-              <p className="text-center  text-white md:text-[1rem] gilory-regular">
-                0.15 ETH is reserved for gas. The actual Amount used will
+              {buyCurrency === "ETH" || buyCurrency === "USDTETH" ?
+                <p className="text-center  text-white md:text-[1rem] gilory-regular">
+                  0.015 ETH is reserved for gas. The actual Amount used will
+                  depend on the network
+                </p> : 
+                <p className="text-center  text-white md:text-[1rem] gilory-regular">
+                0.015 BNB is reserved for gas. The actual Amount used will
                 depend on the network
               </p>
+              }
             </div>
             {(chain === 1 && buyCurrency === "ETH") ||
             (chain === 1 && buyCurrency === "USDTETH") ||
