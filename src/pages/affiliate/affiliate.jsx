@@ -5,8 +5,6 @@ import "./SAIB-Affiliate.css";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { AffiliateViewModel } from "./AffiliateViewmodel";
 import { toEth } from "../../utils/helpers";
-import iziToast from "izitoast";
-import CopyToClipboard from "react-copy-to-clipboard";
 
 export const Affiliate = () => {
   const {
@@ -105,22 +103,19 @@ export const Affiliate = () => {
             <>
               <div>
                 <div className="custom-expanded u-align-left-md u-align-left-sm u-align-left-xs u-container-style u-custom-color-8 u-group u-shape-rectangle u-group-1">
-                    <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1" style={{cursor: "pointer"}} onClick={() => {navigator.clipboard.writeText(link)}}>
-                    <CopyToClipboard text={link} onCopy={() => { iziToast.success({ message: "Copied!", position: "topRight"})}}>
+                    <span className="u-file-icon u-icon u-text-custom-color-4 u-icon-1" onClick={() => {navigator.clipboard.writeText(link)}}>
                       <img src="images/9915984-c93b6cf0.png" alt="" />
-                    </CopyToClipboard>
-                      
                     </span>
                     <h2 className="u-custom-font u-text u-text-custom-color-4 u-text-default-lg u-text-default-xl u-text-3">
                       {" "}
-                      This is your personal invitation link:&nbsp;{" "}<br/>
+                      This is your personal invitation link:&nbsp;{" "}
                       {isAffiliateRegister ? (
                         <a
                           href={link}
                           target="_blank"
                           className="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-custom-color-1 waffle-rich-text-link u-btn-1"
                         >
-                          {link} 
+                          {link}
                         </a>
                       ) : (
                         <div>not available, need to register</div>

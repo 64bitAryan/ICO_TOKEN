@@ -1,10 +1,8 @@
 import { useAccount, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useRef, useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { ethers } from "ethers";
-
 
 import crowdesaleAbi from "../../artifacts/contracts/Crowdsale.sol/Crowdesale.json";
 import {
@@ -20,7 +18,6 @@ import { readContract } from "viem/actions";
 import { config } from "../../config";
 
 export const AffiliateViewModel = () => {
-  const navigate = useNavigate();
   const { address } = useAccount();
   const [isAffiliateRegister, setIsAffiliateRegister] = useState(false);
   const [currentCommission, setCurrentCommission] = useState(0);
@@ -59,10 +56,7 @@ export const AffiliateViewModel = () => {
           title: 'Succss',
           message: successMessage,
           position:"topRight"
-        });
-        if(registerAffiliateBtnText === "Registering...."){
-          navigate('/partner-dashboard')
-        } 
+        }); 
       }
       setRegisterAffiliateBtnText("Register Now!")
       setWithdrawBtnText("Withdraw Commission")
